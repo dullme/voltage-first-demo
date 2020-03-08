@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateProjectsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('projects', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('client_id')->unsigned()->comment('客户表ID');
+            $table->string('name')->comment('项目名称');
+            $table->string('no')->nullable()->comment('订单编号');
+            $table->timestamp('client_delivery_time')->nullable()->comment('客户要求到货时间');
+            $table->timestamp('po_date')->nullable()->comment('客户下单日期');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('projects');
+    }
+}
