@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Client;
 use App\Project;
+use Encore\Admin\Admin;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -62,6 +63,13 @@ class ProjectController extends AdminController
      */
     protected function detail($id)
     {
+//        Admin::script(<<<EOF
+//        const app = new Vue({
+//        el: '#app'
+//    });
+//EOF
+//        );
+
         $project = Project::with(['poFactory' => function($query){
             $query->with(['batches' => function($query){
                 $query->withTrashed();

@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8cf2ea23-7469-48af-b876-fd17efebcc2d" name="Default Changelist" comment="" />
+    <list default="true" id="8cf2ea23-7469-48af-b876-fd17efebcc2d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/components/ProgressComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Admin/Controllers/PoFactoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Admin/Controllers/PoFactoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Admin/Controllers/ProjectController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Admin/Controllers/ProjectController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_03_04_082907_create_batches_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_03_04_082907_create_batches_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/admin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/admin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/project/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/project/show.blade.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,6 +23,16 @@
     <execution>
       <executable />
     </execution>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Vue Single File Component" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -122,6 +143,7 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1YkECSKcE0ZE4Niq7YlfGK8GLAq" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -129,6 +151,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/public/vendor" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -164,6 +187,7 @@
       <workItem from="1583478065548" duration="2551000" />
       <workItem from="1583480720270" duration="7000" />
       <workItem from="1583480740774" duration="4894000" />
+      <workItem from="1583716289555" duration="9433000" />
     </task>
     <servers />
   </component>
@@ -175,17 +199,33 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="360" y="45" key="#Inspections/0.0.1920.1080@0.0.1920.1080" timestamp="1583480648415" />
+    <state x="573" y="194" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1583725981788">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="573" y="194" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1583725981788" />
+    <state x="192" y="97" key="DiffContextDialog" timestamp="1583722864085">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="192" y="97" key="DiffContextDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1583722864085" />
+    <state x="701" y="450" key="NewPhpFileDialog" timestamp="1583725165575">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="701" y="450" key="NewPhpFileDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1583725165575" />
+    <state x="682" y="122" key="RollbackChangesDialog" timestamp="1583722865217">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="682" y="122" key="RollbackChangesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1583722865217" />
     <state x="274" y="4" key="SettingsEditor" timestamp="1583480760732">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="274" y="4" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1583480760732" />
-    <state width="791" height="600" key="SwitcherDM" timestamp="1583482437525">
+    <state width="791" height="600" key="SwitcherDM" timestamp="1583726331469">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="791" height="600" key="SwitcherDM/0.0.1920.1080@0.0.1920.1080" timestamp="1583482437525" />
-    <state x="364" y="130" width="1192" height="820" key="find.popup" timestamp="1583479958501">
+    <state width="791" height="600" key="SwitcherDM/0.0.1920.1080@0.0.1920.1080" timestamp="1583726331469" />
+    <state x="364" y="130" width="1192" height="820" key="find.popup" timestamp="1583723837279">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="364" y="130" width="1192" height="820" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1583479958501" />
+    <state x="364" y="130" width="1192" height="820" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1583723837279" />
   </component>
 </project>

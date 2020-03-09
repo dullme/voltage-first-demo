@@ -253,7 +253,7 @@
                                             </div>
 
                                             <div class="form-group  ">
-                                                <label class="col-sm-4 asterisk control-label">B/L</label>
+                                                <label class="col-sm-4 control-label">B/L</label>
                                                 <div class="col-sm-7">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><i
@@ -356,7 +356,7 @@
                                                             <span class="input-group-addon"><i
                                                                     class="fa fa-calendar"></i></span>
                                                             <input type="text" name="etd_port" placeholder="ETD Port"
-                                                                   class="form-control estimated-datetime-picker" disabled>
+                                                                   class="form-control estimated-datetime-picker" readonly="readonly">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -368,7 +368,7 @@
                                                             <span class="input-group-addon"><i
                                                                     class="fa fa-calendar"></i></span>
                                                             <input type="text" name="eta_port" placeholder="ETA Port"
-                                                                   class="form-control estimated-datetime-picker" disabled>
+                                                                   class="form-control estimated-datetime-picker" readonly="readonly">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -381,7 +381,7 @@
                                                                     class="fa fa-calendar"></i></span>
                                                             <input type="text" name="eta_job_site"
                                                                    placeholder="ETA Job Site"
-                                                                   class="form-control estimated-datetime-picker" disabled>
+                                                                   class="form-control estimated-datetime-picker" readonly="readonly">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -413,7 +413,7 @@
                                                             <span class="input-group-addon"><i
                                                                     class="fa fa-calendar"></i></span>
                                                             <input type="text" name="atd_port" placeholder="ATD Port"
-                                                                   class="form-control actual-datetime-picker">
+                                                                   class="form-control actual-datetime-picker" readonly="readonly">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -425,7 +425,7 @@
                                                             <span class="input-group-addon"><i
                                                                     class="fa fa-calendar"></i></span>
                                                             <input type="text" name="ata_port" placeholder="ATA Port"
-                                                                   class="form-control actual-datetime-picker">
+                                                                   class="form-control actual-datetime-picker" readonly="readonly">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -438,7 +438,7 @@
                                                                     class="fa fa-calendar"></i></span>
                                                             <input type="text" name="ata_job_site"
                                                                    placeholder="ATA Job Site"
-                                                                   class="form-control actual-datetime-picker">
+                                                                   class="form-control actual-datetime-picker" readonly="readonly">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -507,7 +507,7 @@
                                             </div>
 
                                             <div class="form-group  ">
-                                                <label class="col-sm-4 asterisk control-label">B/L</label>
+                                                <label class="col-sm-4 control-label">B/L</label>
                                                 <div class="col-sm-7">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><i
@@ -610,7 +610,7 @@
                                                             <span class="input-group-addon"><i
                                                                     class="fa fa-calendar"></i></span>
                                                             <input type="text" name="etd_port" placeholder="ETD Port"
-                                                                   class="form-control estimated-datetime-picker">
+                                                                   class="form-control estimated-datetime-picker" readonly="readonly">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -622,7 +622,7 @@
                                                             <span class="input-group-addon"><i
                                                                     class="fa fa-calendar"></i></span>
                                                             <input type="text" name="eta_port" placeholder="ETA Port"
-                                                                   class="form-control estimated-datetime-picker">
+                                                                   class="form-control estimated-datetime-picker" readonly="readonly">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -635,7 +635,7 @@
                                                                     class="fa fa-calendar"></i></span>
                                                             <input type="text" name="eta_job_site"
                                                                    placeholder="ETA Job Site"
-                                                                   class="form-control estimated-datetime-picker">
+                                                                   class="form-control estimated-datetime-picker" readonly="readonly">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -667,7 +667,7 @@
                                                             <span class="input-group-addon"><i
                                                                     class="fa fa-calendar"></i></span>
                                                             <input type="text" name="atd_port" placeholder="ATD Port"
-                                                                   class="form-control actual-datetime-picker">
+                                                                   class="form-control actual-datetime-picker" readonly="readonly">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -679,7 +679,7 @@
                                                             <span class="input-group-addon"><i
                                                                     class="fa fa-calendar"></i></span>
                                                             <input type="text" name="ata_port" placeholder="ATA Port"
-                                                                   class="form-control actual-datetime-picker">
+                                                                   class="form-control actual-datetime-picker" readonly="readonly">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -692,7 +692,7 @@
                                                                     class="fa fa-calendar"></i></span>
                                                             <input type="text" name="ata_job_site"
                                                                    placeholder="ATA Job Site"
-                                                                   class="form-control actual-datetime-picker">
+                                                                   class="form-control actual-datetime-picker" readonly="readonly">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -751,7 +751,7 @@
     </div>
 </div>
 
-<script src="{{ asset('/vendor/date-js/date-zh-CN.js') }}"></script>
+{{--<progress-line></progress-line>--}}
 <script>
     $(function () {
         $('.estimated-datetime-picker').datetimepicker({
@@ -765,51 +765,109 @@
             'maxDate': Date.today()
         });
 
+        //1
         $("input[name='estimated_production_completion']").on('dp.change', (e) => {
             if(e.currentTarget.value){
                 $("input[name='etd_port']").data("DateTimePicker").minDate(e.currentTarget.value)
                 $("input[name='etd_port']").val('')
-                $("input[name='etd_port']").prop('disabled', false);
-                $("input[name='eta_port']").prop('disabled', true);
-                $("input[name='eta_job_site']").prop('disabled', true);
+                $("input[name='etd_port']").attr("readonly", false);
+                $("input[name='eta_port']").attr("readonly", true);
+                $("input[name='eta_job_site']").attr("readonly", true);
             }else{
                 $("input[name='etd_port']").val('')
-                $("input[name='etd_port']").prop('disabled', true);
+                $("input[name='etd_port']").attr("readonly", true);
             }
         });
 
+
+        //a1
+        $("input[name='actual_production_completion']").on('dp.change', (e) => {
+            if(e.currentTarget.value){
+                $("input[name='atd_port']").data("DateTimePicker").minDate(e.currentTarget.value)
+                $("input[name='atd_port']").val('')
+                $("input[name='atd_port']").attr("readonly", false);
+                $("input[name='ata_port']").attr("readonly", true);
+                $("input[name='ata_job_site']").attr("readonly", true);
+            }else{
+                $("input[name='atd_port']").val('')
+                $("input[name='atd_port']").attr("readonly", true);
+            }
+        });
+
+        //2
         $("input[name='etd_port']").on('dp.change', (e) => {
             if(e.currentTarget.value){
-                $("input[name='estimated_production_completion']").prop('disabled', true);
+                $("input[name='estimated_production_completion']").attr("readonly", true);
                 $("input[name='eta_port']").data("DateTimePicker").minDate(e.currentTarget.value);
                 $("input[name='eta_port']").val('')
-                $("input[name='eta_port']").prop('disabled', false);
-                $("input[name='eta_job_site']").prop('disabled', true);
+                $("input[name='eta_port']").attr("readonly", false);
+                $("input[name='eta_job_site']").attr("readonly", true);
             }else{
-                $("input[name='estimated_production_completion']").prop('disabled', false);
+                $("input[name='estimated_production_completion']").attr("readonly", false);
                 $("input[name='eta_port']").val('')
-                $("input[name='eta_port']").prop('disabled', true);
+                $("input[name='eta_port']").attr("readonly", true);
             }
         });
 
+
+        //a2
+        $("input[name='atd_port']").on('dp.change', (e) => {
+            if(e.currentTarget.value){
+                $("input[name='actual_production_completion']").attr("readonly", true);
+                $("input[name='ata_port']").data("DateTimePicker").minDate(e.currentTarget.value);
+                $("input[name='ata_port']").val('')
+                $("input[name='ata_port']").attr("readonly", false);
+                $("input[name='ata_job_site']").attr("readonly", true);
+            }else{
+                $("input[name='actual_production_completion']").attr("readonly", false);
+                $("input[name='ata_port']").val('')
+                $("input[name='ata_port']").attr("readonly", true);
+            }
+        });
+
+        //3
         $("input[name='eta_port']").on('dp.change', (e) => {
             if(e.currentTarget.value){
                 $("input[name='eta_job_site']").data("DateTimePicker").minDate(e.currentTarget.value);
                 $("input[name='eta_job_site']").val('')
-                $("input[name='eta_job_site']").prop('disabled', false);
-                $("input[name='etd_port']").prop('disabled', true);
+                $("input[name='eta_job_site']").attr("readonly", false);
+                $("input[name='etd_port']").attr("readonly", true);
             }else{
                 $("input[name='eta_job_site']").val('')
-                $("input[name='etd_port']").prop('disabled', false);
-                $("input[name='eta_job_site']").prop('disabled', true);
+                $("input[name='etd_port']").attr("readonly", false);
+                $("input[name='eta_job_site']").attr("readonly", true);
             }
         });
 
+        //a3
+        $("input[name='ata_port']").on('dp.change', (e) => {
+            if(e.currentTarget.value){
+                $("input[name='ata_job_site']").data("DateTimePicker").minDate(e.currentTarget.value);
+                $("input[name='ata_job_site']").val('')
+                $("input[name='ata_job_site']").attr("readonly", false);
+                $("input[name='atd_port']").attr("readonly", true);
+            }else{
+                $("input[name='ata_job_site']").val('')
+                $("input[name='atd_port']").attr("readonly", false);
+                $("input[name='ata_job_site']").attr("readonly", true);
+            }
+        });
+
+        //4
         $("input[name='eta_job_site']").on('dp.change', (e) => {
             if(e.currentTarget.value){
-                $("input[name='eta_port']").prop('disabled', true);
+                $("input[name='eta_port']").attr("readonly", true);
             }else{
-                $("input[name='eta_port']").prop('disabled', false);
+                $("input[name='eta_port']").attr("readonly", false);
+            }
+        });
+
+        //a4
+        $("input[name='ata_job_site']").on('dp.change', (e) => {
+            if(e.currentTarget.value){
+                $("input[name='ata_port']").attr("readonly", true);
+            }else{
+                $("input[name='ata_port']").attr("readonly", false);
             }
         });
     })
@@ -854,6 +912,7 @@
         $.each(t, function () {
             data[this.name] = this.value;
         });
+
         let factory_can_submit = true
         if (factory_can_submit) {
             let factory_can_submit = false
@@ -967,27 +1026,69 @@
 
                 if (response.data.data.estimated_production_completion) {
                     $("#factory-edit-form input[name='estimated_production_completion']").val(response.data.data.estimated_production_completion.substr(0, 10))
+                    $("#factory-edit-form input[name='etd_port']").attr('readonly', false)
+                } else {
+                    $("#factory-edit-form input[name='etd_port']").attr('readonly', true)
                 }
                 if (response.data.data.etd_port) {
                     $("#factory-edit-form input[name='etd_port']").val(response.data.data.etd_port.substr(0, 10))
+                    $("#factory-edit-form input[name='estimated_production_completion']").attr('readonly', true)
+                    $("#factory-edit-form input[name='eta_port']").attr('readonly', false)
+                } else {
+                    $("#factory-edit-form input[name='estimated_production_completion']").attr('readonly', false)
+                    $("#factory-edit-form input[name='eta_port']").attr('readonly', true)
                 }
                 if (response.data.data.eta_port) {
                     $("#factory-edit-form input[name='eta_port']").val(response.data.data.eta_port.substr(0, 10))
+                    $("#factory-edit-form input[name='estimated_production_completion']").attr('readonly', true)
+                    $("#factory-edit-form input[name='etd_port']").attr('readonly', true)
+                    $("#factory-edit-form input[name='eta_job_site']").attr('readonly', false)
+                } else {
+                    $("#factory-edit-form input[name='etd_port']").attr('readonly', false)
+                    $("#factory-edit-form input[name='eta_job_site']").attr('readonly', true)
                 }
                 if (response.data.data.eta_job_site) {
                     $("#factory-edit-form input[name='eta_job_site']").val(response.data.data.eta_job_site.substr(0, 10))
+                    $("#factory-edit-form input[name='estimated_production_completion']").attr('readonly', true)
+                    $("#factory-edit-form input[name='etd_port']").attr('readonly', true)
+                    $("#factory-edit-form input[name='eta_port']").attr('readonly', true)
+                    $("#factory-edit-form input[name='eta_job_site']").attr('readonly', false)
+                }else{
+                    $("#factory-edit-form input[name='eta_port']").attr('readonly', false)
                 }
+
+
                 if (response.data.data.actual_production_completion) {
-                    $("#factory-edit-form input[name='actual_production_completion']").val(response.data.data.actual_production_completion.substr(0, 10))
+                    $("#factory-edit-form input[name='actual_production_completion']").val(response.data.data.estimated_production_completion.substr(0, 10))
+                    $("#factory-edit-form input[name='atd_port']").attr('readonly', false)
+                } else {
+                    $("#factory-edit-form input[name='atd_port']").attr('readonly', true)
                 }
                 if (response.data.data.atd_port) {
                     $("#factory-edit-form input[name='atd_port']").val(response.data.data.atd_port.substr(0, 10))
+                    $("#factory-edit-form input[name='actual_production_completion']").attr('readonly', true)
+                    $("#factory-edit-form input[name='ata_port']").attr('readonly', false)
+                } else {
+                    $("#factory-edit-form input[name='actual_production_completion']").attr('readonly', false)
+                    $("#factory-edit-form input[name='ata_port']").attr('readonly', true)
                 }
                 if (response.data.data.ata_port) {
                     $("#factory-edit-form input[name='ata_port']").val(response.data.data.ata_port.substr(0, 10))
+                    $("#factory-edit-form input[name='actual_production_completion']").attr('readonly', true)
+                    $("#factory-edit-form input[name='atd_port']").attr('readonly', true)
+                    $("#factory-edit-form input[name='ata_job_site']").attr('readonly', false)
+                } else {
+                    $("#factory-edit-form input[name='atd_port']").attr('readonly', false)
+                    $("#factory-edit-form input[name='ata_job_site']").attr('readonly', true)
                 }
                 if (response.data.data.ata_job_site) {
                     $("#factory-edit-form input[name='ata_job_site']").val(response.data.data.ata_job_site.substr(0, 10))
+                    $("#factory-edit-form input[name='actual_production_completion']").attr('readonly', true)
+                    $("#factory-edit-form input[name='atd_port']").attr('readonly', true)
+                    $("#factory-edit-form input[name='ata_port']").attr('readonly', true)
+                    $("#factory-edit-form input[name='ata_job_site']").attr('readonly', false)
+                }else{
+                    $("#factory-edit-form input[name='ata_port']").attr('readonly', false)
                 }
 
                 $('#edit-batch-submit').attr('data-batch-id', response.data.data.id)

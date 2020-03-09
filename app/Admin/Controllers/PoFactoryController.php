@@ -33,7 +33,8 @@ class PoFactoryController extends ResponseController
             'po_factory_id'                   => 'required',
             'name'                            => 'required',
             'carrier'                         => 'nullable',
-            'b_l'                             => 'required|unique:batches',
+//            'b_l'                             => 'required|unique:batches',
+            'b_l'                             => 'nullable',
             'shipping_method'                 => 'nullable',
             'vessel'                          => 'nullable',
             'container_no'                    => 'nullable',
@@ -56,9 +57,9 @@ class PoFactoryController extends ResponseController
 
         $data = $validator->validated();
 
-        if ($data['ata_job_site']) {
+        if (isset($data['ata_job_site']) && $data['ata_job_site']) {
             $data['status'] = BatchStatus::Finished;
-        } else if ($data['actual_production_completion']) {
+        } else if (isset($data['actual_production_completion']) && $data['actual_production_completion']) {
             $data['status'] = BatchStatus::Shipping;
         } else {
             $data['status'] = BatchStatus::InProduction;
@@ -126,8 +127,8 @@ class PoFactoryController extends ResponseController
             'name'                            => 'required',
             'carrier'                         => 'nullable',
             'b_l'                             => [
-                'required',
-                Rule::unique('batches')->ignore($id),
+                'nullable',
+//                Rule::unique('batches')->ignore($id),
             ],
             'shipping_method'                 => 'nullable',
             'vessel'                          => 'nullable',
@@ -151,9 +152,9 @@ class PoFactoryController extends ResponseController
 
         $data = $validator->validated();
 
-        if ($data['ata_job_site']) {
+        if (isset($data['ata_job_site']) && $data['ata_job_site']) {
             $data['status'] = BatchStatus::Finished;
-        } else if ($data['actual_production_completion']) {
+        } else if (isset($data['actual_production_completion']) && $data['actual_production_completion']) {
             $data['status'] = BatchStatus::Shipping;
         } else {
             $data['status'] = BatchStatus::InProduction;

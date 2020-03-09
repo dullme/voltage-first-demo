@@ -7,3 +7,6 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+
+Vue.component('progress-line', require('./components/ProgressComponent').default);
+
