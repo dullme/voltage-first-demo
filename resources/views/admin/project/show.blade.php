@@ -1024,71 +1024,81 @@
                 $("#factory-edit-form input[name='remarks']").val(response.data.data.remarks)
                 $("#factory-edit-form select[name='shipping_method']").val(response.data.data.shipping_method)
 
-                if (response.data.data.estimated_production_completion) {
+                //epc
+                if(response.data.data.estimated_production_completion){
                     $("#factory-edit-form input[name='estimated_production_completion']").val(response.data.data.estimated_production_completion.substr(0, 10))
-                    $("#factory-edit-form input[name='etd_port']").attr('readonly', false)
-                } else {
-                    $("#factory-edit-form input[name='etd_port']").attr('readonly', true)
                 }
-                if (response.data.data.etd_port) {
+
+                //etd port
+                if(response.data.data.etd_port){
                     $("#factory-edit-form input[name='etd_port']").val(response.data.data.etd_port.substr(0, 10))
                     $("#factory-edit-form input[name='estimated_production_completion']").attr('readonly', true)
-                    $("#factory-edit-form input[name='eta_port']").attr('readonly', false)
-                } else {
+                }else{
                     $("#factory-edit-form input[name='estimated_production_completion']").attr('readonly', false)
+                }
+
+                if(response.data.data.estimated_production_completion && !response.data.data.eta_port){
+                    $("#factory-edit-form input[name='etd_port']").attr('readonly', false)
+                }else{
+                    $("#factory-edit-form input[name='etd_port']").attr('readonly', true)
+                }
+
+                if(response.data.data.etd_port && !response.data.data.eta_job_site){
+                    $("#factory-edit-form input[name='eta_port']").attr('readonly', false)
+                }else{
                     $("#factory-edit-form input[name='eta_port']").attr('readonly', true)
                 }
-                if (response.data.data.eta_port) {
+
+                //eta port
+                if(response.data.data.eta_port){
                     $("#factory-edit-form input[name='eta_port']").val(response.data.data.eta_port.substr(0, 10))
-                    $("#factory-edit-form input[name='estimated_production_completion']").attr('readonly', true)
-                    $("#factory-edit-form input[name='etd_port']").attr('readonly', true)
                     $("#factory-edit-form input[name='eta_job_site']").attr('readonly', false)
-                } else {
-                    $("#factory-edit-form input[name='etd_port']").attr('readonly', false)
+                }else{
                     $("#factory-edit-form input[name='eta_job_site']").attr('readonly', true)
                 }
-                if (response.data.data.eta_job_site) {
+
+                //eta job site
+                if(response.data.data.eta_job_site){
                     $("#factory-edit-form input[name='eta_job_site']").val(response.data.data.eta_job_site.substr(0, 10))
-                    $("#factory-edit-form input[name='estimated_production_completion']").attr('readonly', true)
-                    $("#factory-edit-form input[name='etd_port']").attr('readonly', true)
-                    $("#factory-edit-form input[name='eta_port']").attr('readonly', true)
-                    $("#factory-edit-form input[name='eta_job_site']").attr('readonly', false)
-                }else{
-                    $("#factory-edit-form input[name='eta_port']").attr('readonly', false)
                 }
 
 
-                if (response.data.data.actual_production_completion) {
-                    $("#factory-edit-form input[name='actual_production_completion']").val(response.data.data.estimated_production_completion.substr(0, 10))
-                    $("#factory-edit-form input[name='atd_port']").attr('readonly', false)
-                } else {
-                    $("#factory-edit-form input[name='atd_port']").attr('readonly', true)
+                //apc
+                if(response.data.data.actual_production_completion){
+                    $("#factory-edit-form input[name='actual_production_completion']").val(response.data.data.actual_production_completion.substr(0, 10))
                 }
-                if (response.data.data.atd_port) {
+
+                //atd port
+                if(response.data.data.atd_port){
                     $("#factory-edit-form input[name='atd_port']").val(response.data.data.atd_port.substr(0, 10))
                     $("#factory-edit-form input[name='actual_production_completion']").attr('readonly', true)
-                    $("#factory-edit-form input[name='ata_port']").attr('readonly', false)
-                } else {
+                }else{
                     $("#factory-edit-form input[name='actual_production_completion']").attr('readonly', false)
-                    $("#factory-edit-form input[name='ata_port']").attr('readonly', true)
                 }
-                if (response.data.data.ata_port) {
-                    $("#factory-edit-form input[name='ata_port']").val(response.data.data.ata_port.substr(0, 10))
-                    $("#factory-edit-form input[name='actual_production_completion']").attr('readonly', true)
-                    $("#factory-edit-form input[name='atd_port']").attr('readonly', true)
-                    $("#factory-edit-form input[name='ata_job_site']").attr('readonly', false)
-                } else {
+
+                if(response.data.data.actual_production_completion && !response.data.data.ata_port){
                     $("#factory-edit-form input[name='atd_port']").attr('readonly', false)
-                    $("#factory-edit-form input[name='ata_job_site']").attr('readonly', true)
-                }
-                if (response.data.data.ata_job_site) {
-                    $("#factory-edit-form input[name='ata_job_site']").val(response.data.data.ata_job_site.substr(0, 10))
-                    $("#factory-edit-form input[name='actual_production_completion']").attr('readonly', true)
+                }else{
                     $("#factory-edit-form input[name='atd_port']").attr('readonly', true)
+                }
+
+                if(response.data.data.atd_port && !response.data.data.ata_job_site){
+                    $("#factory-edit-form input[name='ata_port']").attr('readonly', false)
+                }else{
                     $("#factory-edit-form input[name='ata_port']").attr('readonly', true)
+                }
+
+                //ata port
+                if(response.data.data.ata_port){
+                    $("#factory-edit-form input[name='ata_port']").val(response.data.data.ata_port.substr(0, 10))
                     $("#factory-edit-form input[name='ata_job_site']").attr('readonly', false)
                 }else{
-                    $("#factory-edit-form input[name='ata_port']").attr('readonly', false)
+                    $("#factory-edit-form input[name='ata_job_site']").attr('readonly', true)
+                }
+
+                //ata job site
+                if(response.data.data.ata_job_site){
+                    $("#factory-edit-form input[name='ata_job_site']").val(response.data.data.ata_job_site.substr(0, 10))
                 }
 
                 $('#edit-batch-submit').attr('data-batch-id', response.data.data.id)
