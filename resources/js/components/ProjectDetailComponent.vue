@@ -423,8 +423,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
+
                                                 <div class="col-md-6">
                                                     <div class="form-group  ">
                                                         <label class="col-sm-4 control-label">Sequence</label>
@@ -484,7 +484,7 @@
                                         <div class="row">
 
                                             <div class="col-md-12">
-                                                <div class="col-md-6">
+                                                <div class="col-md-6 estimated">
                                                     <div
                                                         style="background-color: #EEEEEE;padding: 25px;border-radius: 4px;margin-bottom: 20px;">
                                                         <div class="form-group  ">
@@ -498,7 +498,9 @@
                                                                 class="fa fa-calendar"></i></span>
                                                                     <input type="text" name="estimated_production_completion"
                                                                            placeholder="Estimated Production Completion"
-                                                                           class="form-control datetime-picker">
+                                                                           class="form-control datetime-picker"
+                                                                           v-model="shipment_form.estimated_production_completion"
+                                                                           :readonly="shipment_form.etd_port ? true : false">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -510,7 +512,9 @@
                                                             <span class="input-group-addon"><i
                                                                 class="fa fa-calendar"></i></span>
                                                                     <input type="text" name="etd_port" placeholder="ETD Port"
-                                                                           class="form-control datetime-picker">
+                                                                           class="form-control datetime-picker"
+                                                                           v-model="shipment_form.etd_port"
+                                                                           :readonly="!!!shipment_form.estimated_production_completion || shipment_form.eta_port ? true : false">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -522,7 +526,9 @@
                                                             <span class="input-group-addon"><i
                                                                 class="fa fa-calendar"></i></span>
                                                                     <input type="text" name="eta_port" placeholder="ETA Port"
-                                                                           class="form-control datetime-picker">
+                                                                           class="form-control datetime-picker"
+                                                                           v-model="shipment_form.eta_port"
+                                                                           :readonly="!!!shipment_form.etd_port || shipment_form.eta_job_site ? true : false">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -535,13 +541,15 @@
                                                                 class="fa fa-calendar"></i></span>
                                                                     <input type="text" name="eta_job_site"
                                                                            placeholder="ETA Job Site"
-                                                                           class="form-control datetime-picker">
+                                                                           class="form-control datetime-picker"
+                                                                           v-model="shipment_form.eta_job_site"
+                                                                           :readonly="!!!shipment_form.eta_port ? true : false">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-6 actual">
                                                     <div
                                                         style="background-color: #EEEEEE;padding: 25px;border-radius: 4px;margin-bottom: 20px">
                                                         <div class="form-group  ">
@@ -555,7 +563,9 @@
                                                                 class="fa fa-calendar"></i></span>
                                                                     <input type="text" name="actual_production_completion"
                                                                            placeholder="Actual Production Completion"
-                                                                           class="form-control datetime-picker">
+                                                                           class="form-control datetime-picker"
+                                                                           v-model="shipment_form.actual_production_completion"
+                                                                           :readonly="shipment_form.atd_port ? true : false">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -567,7 +577,9 @@
                                                             <span class="input-group-addon"><i
                                                                 class="fa fa-calendar"></i></span>
                                                                     <input type="text" name="atd_port" placeholder="ATD Port"
-                                                                           class="form-control datetime-picker">
+                                                                           class="form-control datetime-picker"
+                                                                           v-model="shipment_form.atd_port"
+                                                                           :readonly="!!!shipment_form.actual_production_completion || shipment_form.ata_port ? true : false">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -579,7 +591,9 @@
                                                             <span class="input-group-addon"><i
                                                                 class="fa fa-calendar"></i></span>
                                                                     <input type="text" name="ata_port" placeholder="ATA Port"
-                                                                           class="form-control datetime-picker">
+                                                                           class="form-control datetime-picker"
+                                                                           v-model="shipment_form.ata_port"
+                                                                           :readonly="!!!shipment_form.atd_port || shipment_form.ata_job_site ? true : false">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -592,7 +606,9 @@
                                                                 class="fa fa-calendar"></i></span>
                                                                     <input type="text" name="ata_job_site"
                                                                            placeholder="ATA Job Site"
-                                                                           class="form-control datetime-picker">
+                                                                           class="form-control datetime-picker"
+                                                                           v-model="shipment_form.ata_job_site"
+                                                                           :readonly="!!!shipment_form.ata_port ? true : false">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -638,7 +654,7 @@
 
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <div class="col-md-6">
+                                                <div class="col-md-6 estimated">
                                                     <div class="form-group  ">
                                                         <label class="col-sm-4 asterisk control-label">Shipment #</label>
                                                         <div class="col-sm-7">
@@ -702,8 +718,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
+
                                                 <div class="col-md-6">
                                                     <div class="form-group  ">
                                                         <label class="col-sm-4 control-label">Sequence</label>
@@ -763,7 +779,7 @@
                                         <div class="row">
 
                                             <div class="col-md-12">
-                                                <div class="col-md-6">
+                                                <div class="col-md-6 estimated">
                                                     <div
                                                         style="background-color: #EEEEEE;padding: 25px;border-radius: 4px;margin-bottom: 20px;">
                                                         <div class="form-group  ">
@@ -775,9 +791,11 @@
                                                                 <div class="input-group">
                                                             <span class="input-group-addon"><i
                                                                 class="fa fa-calendar"></i></span>
-                                                                    <input type="text" name="estimated_production_completion" v-model="shipment_edit_form.estimated_production_completion"
+                                                                    <input type="text" name="estimated_production_completion"
                                                                            placeholder="Estimated Production Completion"
-                                                                           class="form-control datetime-picker">
+                                                                           class="form-control datetime-picker"
+                                                                           v-model="shipment_edit_form.estimated_production_completion"
+                                                                           :readonly="shipment_edit_form.etd_port ? true : false">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -788,8 +806,10 @@
                                                                 <div class="input-group">
                                                             <span class="input-group-addon"><i
                                                                 class="fa fa-calendar"></i></span>
-                                                                    <input type="text" name="etd_port" placeholder="ETD Port" v-model="shipment_edit_form.etd_port"
-                                                                           class="form-control datetime-picker">
+                                                                    <input type="text" name="etd_port" placeholder="ETD Port"
+                                                                           class="form-control datetime-picker"
+                                                                           v-model="shipment_edit_form.etd_port"
+                                                                           :readonly="!!!shipment_edit_form.estimated_production_completion || shipment_edit_form.eta_port ? true : false">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -800,8 +820,10 @@
                                                                 <div class="input-group">
                                                             <span class="input-group-addon"><i
                                                                 class="fa fa-calendar"></i></span>
-                                                                    <input type="text" name="eta_port" placeholder="ETA Port" v-model="shipment_edit_form.eta_port"
-                                                                           class="form-control datetime-picker">
+                                                                    <input type="text" name="eta_port" placeholder="ETA Port"
+                                                                           class="form-control datetime-picker"
+                                                                           v-model="shipment_edit_form.eta_port"
+                                                                           :readonly="!!!shipment_edit_form.etd_port || shipment_edit_form.eta_job_site ? true : false">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -812,15 +834,17 @@
                                                                 <div class="input-group">
                                                             <span class="input-group-addon"><i
                                                                 class="fa fa-calendar"></i></span>
-                                                                    <input type="text" name="eta_job_site" v-model="shipment_edit_form.eta_job_site"
+                                                                    <input type="text" name="eta_job_site"
                                                                            placeholder="ETA Job Site"
-                                                                           class="form-control datetime-picker">
+                                                                           class="form-control datetime-picker"
+                                                                           v-model="shipment_edit_form.eta_job_site"
+                                                                           :readonly="!!!shipment_edit_form.eta_port ? true : false">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-6 actual">
                                                     <div
                                                         style="background-color: #EEEEEE;padding: 25px;border-radius: 4px;margin-bottom: 20px">
                                                         <div class="form-group  ">
@@ -832,9 +856,11 @@
                                                                 <div class="input-group">
                                                             <span class="input-group-addon"><i
                                                                 class="fa fa-calendar"></i></span>
-                                                                    <input type="text" name="actual_production_completion" v-model="shipment_edit_form.actual_production_completion"
+                                                                    <input type="text" name="actual_production_completion"
                                                                            placeholder="Actual Production Completion"
-                                                                           class="form-control datetime-picker">
+                                                                           class="form-control datetime-picker"
+                                                                           v-model="shipment_edit_form.actual_production_completion"
+                                                                           :readonly="shipment_edit_form.atd_port ? true : false">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -845,8 +871,10 @@
                                                                 <div class="input-group">
                                                             <span class="input-group-addon"><i
                                                                 class="fa fa-calendar"></i></span>
-                                                                    <input type="text" name="atd_port" placeholder="ATD Port" v-model="shipment_edit_form.atd_port"
-                                                                           class="form-control datetime-picker">
+                                                                    <input type="text" name="atd_port" placeholder="ATD Port"
+                                                                           class="form-control datetime-picker"
+                                                                           v-model="shipment_edit_form.atd_port"
+                                                                           :readonly="!!!shipment_edit_form.actual_production_completion || shipment_edit_form.ata_port ? true : false">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -857,8 +885,10 @@
                                                                 <div class="input-group">
                                                             <span class="input-group-addon"><i
                                                                 class="fa fa-calendar"></i></span>
-                                                                    <input type="text" name="ata_port" placeholder="ATA Port" v-model="shipment_edit_form.ata_port"
-                                                                           class="form-control datetime-picker">
+                                                                    <input type="text" name="ata_port" placeholder="ATA Port"
+                                                                           class="form-control datetime-picker"
+                                                                           v-model="shipment_edit_form.ata_port"
+                                                                           :readonly="!!!shipment_edit_form.atd_port || shipment_edit_form.ata_job_site ? true : false">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -869,9 +899,11 @@
                                                                 <div class="input-group">
                                                             <span class="input-group-addon"><i
                                                                 class="fa fa-calendar"></i></span>
-                                                                    <input type="text" name="ata_job_site" v-model="shipment_edit_form.ata_job_site"
+                                                                    <input type="text" name="ata_job_site"
                                                                            placeholder="ATA Job Site"
-                                                                           class="form-control datetime-picker">
+                                                                           class="form-control datetime-picker"
+                                                                           v-model="shipment_edit_form.ata_job_site"
+                                                                           :readonly="!!!shipment_edit_form.ata_port ? true : false">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1047,14 +1079,18 @@
             this.project_name = project.name
             this.client = project.client
             this.po_clients = project.po_clients
-
-            console.log(project)
         },
 
         mounted() {
-            $('.datetime-picker').datetimepicker({
+            $('.estimated .datetime-picker').datetimepicker({
                 'format': 'YYYY-MM-DD',
                 'allowInputToggle': true
+            });
+
+            $('.actual .datetime-picker').datetimepicker({
+                'format': 'YYYY-MM-DD',
+                'allowInputToggle': true,
+                'maxDate': Date.today()
             });
 
             $('#poClient .datetime-picker').on('dp.change', (e) => {
@@ -1071,6 +1107,92 @@
 
             $('#editShipment .datetime-picker').on('dp.change', (e) => {
                 this.shipment_edit_form[e.target.name] = e.currentTarget.value
+            })
+
+            //addShipment
+            $('#addShipment input[name="estimated_production_completion"]').on('dp.change', (e) => {
+                if(e.currentTarget.value) {
+                    $("#addShipment input[name='etd_port']").data("DateTimePicker").minDate(e.currentTarget.value)
+                    this.shipment_form.etd_port = '';
+                }
+            })
+
+            $('#addShipment input[name="etd_port"]').on('dp.change', (e) => {
+                if(e.currentTarget.value) {
+                    $("#addShipment input[name='eta_port']").data("DateTimePicker").minDate(e.currentTarget.value)
+                    this.shipment_form.eta_port = '';
+                }
+            })
+
+            $('#addShipment input[name="eta_port"]').on('dp.change', (e) => {
+                if(e.currentTarget.value){
+                    $("#addShipment input[name='eta_job_site']").data("DateTimePicker").minDate(e.currentTarget.value)
+                    this.shipment_form.eta_job_site = '';
+                }
+            })
+
+            $('#addShipment input[name="actual_production_completion"]').on('dp.change', (e) => {
+                if(e.currentTarget.value) {
+                    $("#addShipment input[name='atd_port']").data("DateTimePicker").minDate(e.currentTarget.value)
+                    this.shipment_form.atd_port = '';
+                }
+            })
+
+            $('#addShipment input[name="atd_port"]').on('dp.change', (e) => {
+                if(e.currentTarget.value) {
+                    $("#addShipment input[name='ata_port']").data("DateTimePicker").minDate(e.currentTarget.value)
+                    this.shipment_form.ata_port = '';
+                }
+            })
+
+            $('#addShipment input[name="ata_port"]').on('dp.change', (e) => {
+                if(e.currentTarget.value) {
+                    $("#addShipment input[name='ata_job_site']").data("DateTimePicker").minDate(e.currentTarget.value)
+                    this.shipment_form.ata_job_site = '';
+                }
+            })
+
+            //editShipment
+            $('#editShipment input[name="estimated_production_completion"]').on('dp.change', (e) => {
+                if(e.currentTarget.value) {
+                    $("#editShipment input[name='etd_port']").data("DateTimePicker").minDate(e.currentTarget.value)
+                    this.shipment_edit_form.etd_port = '';
+                }
+            })
+
+            $('#editShipment input[name="etd_port"]').on('dp.change', (e) => {
+                if(e.currentTarget.value) {
+                    $("#editShipment input[name='eta_port']").data("DateTimePicker").minDate(e.currentTarget.value)
+                    this.shipment_edit_form.eta_port = '';
+                }
+            })
+
+            $('#editShipment input[name="eta_port"]').on('dp.change', (e) => {
+                if(e.currentTarget.value) {
+                    $("#editShipment input[name='eta_job_site']").data("DateTimePicker").minDate(e.currentTarget.value)
+                    this.shipment_edit_form.eta_job_site = '';
+                }
+            })
+
+            $('#editShipment input[name="actual_production_completion"]').on('dp.change', (e) => {
+                if(e.currentTarget.value) {
+                    $("#editShipment input[name='atd_port']").data("DateTimePicker").minDate(e.currentTarget.value)
+                    this.shipment_edit_form.atd_port = '';
+                }
+            })
+
+            $('#editShipment input[name="atd_port"]').on('dp.change', (e) => {
+                if(e.currentTarget.value) {
+                    $("#editShipment input[name='ata_port']").data("DateTimePicker").minDate(e.currentTarget.value)
+                    this.shipment_edit_form.ata_port = '';
+                }
+            })
+
+            $('#editShipment input[name="ata_port"]').on('dp.change', (e) => {
+                if(e.currentTarget.value) {
+                    $("#editShipment input[name='ata_job_site']").data("DateTimePicker").minDate(e.currentTarget.value)
+                    this.shipment_edit_form.ata_job_site = '';
+                }
             })
 
         },
@@ -1292,7 +1414,7 @@
                         container_no: response.data.data.container_no,
                         remarks: response.data.data.remarks,
                         shipping_method: response.data.data.shipping_method,
-                        estimated_production_completion: response.data.data.estimated_production_completion,
+                        estimated_production_completion:response.data.data.estimated_production_completion,
                         etd_port: response.data.data.etd_port,
                         eta_port: response.data.data.eta_port,
                         eta_job_site: response.data.data.eta_job_site,
@@ -1301,6 +1423,38 @@
                         ata_port: response.data.data.ata_port,
                         ata_job_site: response.data.data.ata_job_site,
                     }
+
+                    if(response.data.data.estimated_production_completion){
+                        $("#editShipment input[name='etd_port']").data("DateTimePicker").minDate(response.data.data.estimated_production_completion)
+                        this.shipment_edit_form.etd_port = response.data.data.etd_port ? response.data.data.etd_port : '';
+                    }
+
+                    if(response.data.data.etd_port){
+                        $("#editShipment input[name='eta_port']").data("DateTimePicker").minDate(response.data.data.etd_port)
+                        this.shipment_edit_form.eta_port = response.data.data.eta_port ? response.data.data.eta_port : '';
+                    }
+
+                    if(response.data.data.eta_port){
+                        $("#editShipment input[name='eta_job_site']").data("DateTimePicker").minDate(response.data.data.eta_job_site)
+                        this.shipment_edit_form.eta_job_site = response.data.data.eta_job_site ? response.data.data.eta_job_site : '';
+                    }
+
+                    if(response.data.data.actual_production_completion){
+                        $("#editShipment input[name='atd_port']").data("DateTimePicker").minDate(response.data.data.actual_production_completion)
+                        this.shipment_edit_form.atd_port = response.data.data.atd_port ? response.data.data.atd_port : '';
+                    }
+
+                    if(response.data.data.atd_port){
+                        $("#editShipment input[name='ata_port']").data("DateTimePicker").minDate(response.data.data.atd_port)
+                        this.shipment_edit_form.ata_port = response.data.data.ata_port ? response.data.data.ata_port : '';
+                    }
+
+                    if(response.data.data.ata_port){
+                        $("#editShipment input[name='ata_job_site']").data("DateTimePicker").minDate(response.data.data.ata_job_site)
+                        this.shipment_edit_form.ata_job_site = response.data.data.ata_job_site ? response.data.data.ata_job_site : '';
+                    }
+
+
 
                     let shipping_method = this.inArray(response.data.data.shipping_method, [
                         'Regular Ocean Shipping',

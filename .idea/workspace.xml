@@ -2,23 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8cf2ea23-7469-48af-b876-fd17efebcc2d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Admin/Controllers/PoClientController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/ProjectDetailComponent.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/project/detail.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Admin/Controllers/PoFactoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Admin/Controllers/PoFactoryController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Admin/Controllers/ProjectController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Admin/Controllers/ProjectController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Admin/routes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Admin/routes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Batch.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Batch.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/PoFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/PoFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Project.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Project.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_03_04_022128_create_projects_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_03_04_022128_create_projects_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_03_04_063848_create_po_factories_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_03_04_063848_create_po_factories_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_03_04_082907_create_batches_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_03_04_082907_create_batches_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/ProgressComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/ProgressComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/project/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/project/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/ProjectDetailComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/ProjectDetailComponent.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,7 +186,7 @@
       <workItem from="1583805878495" duration="1179000" />
       <workItem from="1583817250578" duration="13998000" />
       <workItem from="1583889177231" duration="8672000" />
-      <workItem from="1583975429822" duration="14119000" />
+      <workItem from="1583975429822" duration="24422000" />
     </task>
     <servers />
   </component>
@@ -232,10 +218,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="274" y="4" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1583480760732" />
-    <state width="791" height="600" key="SwitcherDM" timestamp="1583994431087">
+    <state width="791" height="600" key="SwitcherDM" timestamp="1583998698389">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="791" height="600" key="SwitcherDM/0.0.1920.1080@0.0.1920.1080" timestamp="1583994431087" />
+    <state width="791" height="600" key="SwitcherDM/0.0.1920.1080@0.0.1920.1080" timestamp="1583998698389" />
     <state width="791" height="600" key="SwitcherDM/0.23.1920.979@0.23.1920.979" timestamp="1583821698796" />
     <state width="791" height="600" key="SwitcherDM/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1583897837041" />
     <state x="364" y="130" width="1192" height="820" key="find.popup" timestamp="1583991001135">

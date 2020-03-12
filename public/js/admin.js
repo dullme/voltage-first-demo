@@ -2877,6 +2877,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/vendor/date-js/date-zh-CN.js");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2955,14 +2987,18 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
     this.project_name = project.name;
     this.client = project.client;
     this.po_clients = project.po_clients;
-    console.log(project);
   },
   mounted: function mounted() {
     var _this = this;
 
-    $('.datetime-picker').datetimepicker({
+    $('.estimated .datetime-picker').datetimepicker({
       'format': 'YYYY-MM-DD',
       'allowInputToggle': true
+    });
+    $('.actual .datetime-picker').datetimepicker({
+      'format': 'YYYY-MM-DD',
+      'allowInputToggle': true,
+      'maxDate': Date.today()
     });
     $('#poClient .datetime-picker').on('dp.change', function (e) {
       _this.po_client_form[e.target.name] = e.currentTarget.value;
@@ -2975,6 +3011,80 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
     });
     $('#editShipment .datetime-picker').on('dp.change', function (e) {
       _this.shipment_edit_form[e.target.name] = e.currentTarget.value;
+    }); //addShipment
+
+    $('#addShipment input[name="estimated_production_completion"]').on('dp.change', function (e) {
+      if (e.currentTarget.value) {
+        $("#addShipment input[name='etd_port']").data("DateTimePicker").minDate(e.currentTarget.value);
+        _this.shipment_form.etd_port = '';
+      }
+    });
+    $('#addShipment input[name="etd_port"]').on('dp.change', function (e) {
+      if (e.currentTarget.value) {
+        $("#addShipment input[name='eta_port']").data("DateTimePicker").minDate(e.currentTarget.value);
+        _this.shipment_form.eta_port = '';
+      }
+    });
+    $('#addShipment input[name="eta_port"]').on('dp.change', function (e) {
+      if (e.currentTarget.value) {
+        $("#addShipment input[name='eta_job_site']").data("DateTimePicker").minDate(e.currentTarget.value);
+        _this.shipment_form.eta_job_site = '';
+      }
+    });
+    $('#addShipment input[name="actual_production_completion"]').on('dp.change', function (e) {
+      if (e.currentTarget.value) {
+        $("#addShipment input[name='atd_port']").data("DateTimePicker").minDate(e.currentTarget.value);
+        _this.shipment_form.atd_port = '';
+      }
+    });
+    $('#addShipment input[name="atd_port"]').on('dp.change', function (e) {
+      if (e.currentTarget.value) {
+        $("#addShipment input[name='ata_port']").data("DateTimePicker").minDate(e.currentTarget.value);
+        _this.shipment_form.ata_port = '';
+      }
+    });
+    $('#addShipment input[name="ata_port"]').on('dp.change', function (e) {
+      if (e.currentTarget.value) {
+        $("#addShipment input[name='ata_job_site']").data("DateTimePicker").minDate(e.currentTarget.value);
+        _this.shipment_form.ata_job_site = '';
+      }
+    }); //editShipment
+
+    $('#editShipment input[name="estimated_production_completion"]').on('dp.change', function (e) {
+      if (e.currentTarget.value) {
+        $("#editShipment input[name='etd_port']").data("DateTimePicker").minDate(e.currentTarget.value);
+        _this.shipment_edit_form.etd_port = '';
+      }
+    });
+    $('#editShipment input[name="etd_port"]').on('dp.change', function (e) {
+      if (e.currentTarget.value) {
+        $("#editShipment input[name='eta_port']").data("DateTimePicker").minDate(e.currentTarget.value);
+        _this.shipment_edit_form.eta_port = '';
+      }
+    });
+    $('#editShipment input[name="eta_port"]').on('dp.change', function (e) {
+      if (e.currentTarget.value) {
+        $("#editShipment input[name='eta_job_site']").data("DateTimePicker").minDate(e.currentTarget.value);
+        _this.shipment_edit_form.eta_job_site = '';
+      }
+    });
+    $('#editShipment input[name="actual_production_completion"]').on('dp.change', function (e) {
+      if (e.currentTarget.value) {
+        $("#editShipment input[name='atd_port']").data("DateTimePicker").minDate(e.currentTarget.value);
+        _this.shipment_edit_form.atd_port = '';
+      }
+    });
+    $('#editShipment input[name="atd_port"]').on('dp.change', function (e) {
+      if (e.currentTarget.value) {
+        $("#editShipment input[name='ata_port']").data("DateTimePicker").minDate(e.currentTarget.value);
+        _this.shipment_edit_form.ata_port = '';
+      }
+    });
+    $('#editShipment input[name="ata_port"]').on('dp.change', function (e) {
+      if (e.currentTarget.value) {
+        $("#editShipment input[name='ata_job_site']").data("DateTimePicker").minDate(e.currentTarget.value);
+        _this.shipment_edit_form.ata_job_site = '';
+      }
     });
   },
   methods: {
@@ -3167,6 +3277,36 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
           ata_port: response.data.data.ata_port,
           ata_job_site: response.data.data.ata_job_site
         };
+
+        if (response.data.data.estimated_production_completion) {
+          $("#editShipment input[name='etd_port']").data("DateTimePicker").minDate(response.data.data.estimated_production_completion);
+          _this3.shipment_edit_form.etd_port = response.data.data.etd_port ? response.data.data.etd_port : '';
+        }
+
+        if (response.data.data.etd_port) {
+          $("#editShipment input[name='eta_port']").data("DateTimePicker").minDate(response.data.data.etd_port);
+          _this3.shipment_edit_form.eta_port = response.data.data.eta_port ? response.data.data.eta_port : '';
+        }
+
+        if (response.data.data.eta_port) {
+          $("#editShipment input[name='eta_job_site']").data("DateTimePicker").minDate(response.data.data.eta_job_site);
+          _this3.shipment_edit_form.eta_job_site = response.data.data.eta_job_site ? response.data.data.eta_job_site : '';
+        }
+
+        if (response.data.data.actual_production_completion) {
+          $("#editShipment input[name='atd_port']").data("DateTimePicker").minDate(response.data.data.actual_production_completion);
+          _this3.shipment_edit_form.atd_port = response.data.data.atd_port ? response.data.data.atd_port : '';
+        }
+
+        if (response.data.data.atd_port) {
+          $("#editShipment input[name='ata_port']").data("DateTimePicker").minDate(response.data.data.atd_port);
+          _this3.shipment_edit_form.ata_port = response.data.data.ata_port ? response.data.data.ata_port : '';
+        }
+
+        if (response.data.data.ata_port) {
+          $("#editShipment input[name='ata_job_site']").data("DateTimePicker").minDate(response.data.data.ata_job_site);
+          _this3.shipment_edit_form.ata_job_site = response.data.data.ata_job_site ? response.data.data.ata_job_site : '';
+        }
 
         var shipping_method = _this3.inArray(response.data.data.shipping_method, ['Regular Ocean Shipping', 'Fast Ocean Shipping', 'Expedited', 'Ocean+Rail+Truck', 'Ocean+Flatbed', 'Air Freight']);
 
@@ -23009,7 +23149,473 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(23)
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-md-12" }, [
+                        _c("div", { staticClass: "col-md-6 estimated" }, [
+                          _c(
+                            "div",
+                            {
+                              staticStyle: {
+                                "background-color": "#EEEEEE",
+                                padding: "25px",
+                                "border-radius": "4px",
+                                "margin-bottom": "20px"
+                              }
+                            },
+                            [
+                              _c("div", { staticClass: "form-group  " }, [
+                                _vm._m(23),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-sm-7" }, [
+                                  _c("div", { staticClass: "input-group" }, [
+                                    _vm._m(24),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value:
+                                            _vm.shipment_form
+                                              .estimated_production_completion,
+                                          expression:
+                                            "shipment_form.estimated_production_completion"
+                                        }
+                                      ],
+                                      staticClass:
+                                        "form-control datetime-picker",
+                                      attrs: {
+                                        type: "text",
+                                        name: "estimated_production_completion",
+                                        placeholder:
+                                          "Estimated Production Completion",
+                                        readonly: _vm.shipment_form.etd_port
+                                          ? true
+                                          : false
+                                      },
+                                      domProps: {
+                                        value:
+                                          _vm.shipment_form
+                                            .estimated_production_completion
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.shipment_form,
+                                            "estimated_production_completion",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "form-group  " }, [
+                                _c(
+                                  "label",
+                                  { staticClass: "col-sm-4 control-label" },
+                                  [_vm._v("ETD Port")]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-sm-7" }, [
+                                  _c("div", { staticClass: "input-group" }, [
+                                    _vm._m(25),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.shipment_form.etd_port,
+                                          expression: "shipment_form.etd_port"
+                                        }
+                                      ],
+                                      staticClass:
+                                        "form-control datetime-picker",
+                                      attrs: {
+                                        type: "text",
+                                        name: "etd_port",
+                                        placeholder: "ETD Port",
+                                        readonly:
+                                          !!!_vm.shipment_form
+                                            .estimated_production_completion ||
+                                          _vm.shipment_form.eta_port
+                                            ? true
+                                            : false
+                                      },
+                                      domProps: {
+                                        value: _vm.shipment_form.etd_port
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.shipment_form,
+                                            "etd_port",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "form-group  " }, [
+                                _c(
+                                  "label",
+                                  { staticClass: "col-sm-4 control-label" },
+                                  [_vm._v("ETA Port")]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-sm-7" }, [
+                                  _c("div", { staticClass: "input-group" }, [
+                                    _vm._m(26),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.shipment_form.eta_port,
+                                          expression: "shipment_form.eta_port"
+                                        }
+                                      ],
+                                      staticClass:
+                                        "form-control datetime-picker",
+                                      attrs: {
+                                        type: "text",
+                                        name: "eta_port",
+                                        placeholder: "ETA Port",
+                                        readonly:
+                                          !!!_vm.shipment_form.etd_port ||
+                                          _vm.shipment_form.eta_job_site
+                                            ? true
+                                            : false
+                                      },
+                                      domProps: {
+                                        value: _vm.shipment_form.eta_port
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.shipment_form,
+                                            "eta_port",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "form-group",
+                                  staticStyle: { "margin-bottom": "0" }
+                                },
+                                [
+                                  _c(
+                                    "label",
+                                    { staticClass: "col-sm-4 control-label" },
+                                    [_vm._v("ETA Job Site")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-sm-7" }, [
+                                    _c("div", { staticClass: "input-group" }, [
+                                      _vm._m(27),
+                                      _vm._v(" "),
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value:
+                                              _vm.shipment_form.eta_job_site,
+                                            expression:
+                                              "shipment_form.eta_job_site"
+                                          }
+                                        ],
+                                        staticClass:
+                                          "form-control datetime-picker",
+                                        attrs: {
+                                          type: "text",
+                                          name: "eta_job_site",
+                                          placeholder: "ETA Job Site",
+                                          readonly: !!!_vm.shipment_form
+                                            .eta_port
+                                            ? true
+                                            : false
+                                        },
+                                        domProps: {
+                                          value: _vm.shipment_form.eta_job_site
+                                        },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              _vm.shipment_form,
+                                              "eta_job_site",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ])
+                                  ])
+                                ]
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6 actual" }, [
+                          _c(
+                            "div",
+                            {
+                              staticStyle: {
+                                "background-color": "#EEEEEE",
+                                padding: "25px",
+                                "border-radius": "4px",
+                                "margin-bottom": "20px"
+                              }
+                            },
+                            [
+                              _c("div", { staticClass: "form-group  " }, [
+                                _vm._m(28),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-sm-7" }, [
+                                  _c("div", { staticClass: "input-group" }, [
+                                    _vm._m(29),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value:
+                                            _vm.shipment_form
+                                              .actual_production_completion,
+                                          expression:
+                                            "shipment_form.actual_production_completion"
+                                        }
+                                      ],
+                                      staticClass:
+                                        "form-control datetime-picker",
+                                      attrs: {
+                                        type: "text",
+                                        name: "actual_production_completion",
+                                        placeholder:
+                                          "Actual Production Completion",
+                                        readonly: _vm.shipment_form.atd_port
+                                          ? true
+                                          : false
+                                      },
+                                      domProps: {
+                                        value:
+                                          _vm.shipment_form
+                                            .actual_production_completion
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.shipment_form,
+                                            "actual_production_completion",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "form-group  " }, [
+                                _c(
+                                  "label",
+                                  { staticClass: "col-sm-4 control-label" },
+                                  [_vm._v("ATD Port")]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-sm-7" }, [
+                                  _c("div", { staticClass: "input-group" }, [
+                                    _vm._m(30),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.shipment_form.atd_port,
+                                          expression: "shipment_form.atd_port"
+                                        }
+                                      ],
+                                      staticClass:
+                                        "form-control datetime-picker",
+                                      attrs: {
+                                        type: "text",
+                                        name: "atd_port",
+                                        placeholder: "ATD Port",
+                                        readonly:
+                                          !!!_vm.shipment_form
+                                            .actual_production_completion ||
+                                          _vm.shipment_form.ata_port
+                                            ? true
+                                            : false
+                                      },
+                                      domProps: {
+                                        value: _vm.shipment_form.atd_port
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.shipment_form,
+                                            "atd_port",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "form-group  " }, [
+                                _c(
+                                  "label",
+                                  { staticClass: "col-sm-4 control-label" },
+                                  [_vm._v("ATA Port")]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-sm-7" }, [
+                                  _c("div", { staticClass: "input-group" }, [
+                                    _vm._m(31),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.shipment_form.ata_port,
+                                          expression: "shipment_form.ata_port"
+                                        }
+                                      ],
+                                      staticClass:
+                                        "form-control datetime-picker",
+                                      attrs: {
+                                        type: "text",
+                                        name: "ata_port",
+                                        placeholder: "ATA Port",
+                                        readonly:
+                                          !!!_vm.shipment_form.atd_port ||
+                                          _vm.shipment_form.ata_job_site
+                                            ? true
+                                            : false
+                                      },
+                                      domProps: {
+                                        value: _vm.shipment_form.ata_port
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.shipment_form,
+                                            "ata_port",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "form-group",
+                                  staticStyle: { "margin-bottom": "0" }
+                                },
+                                [
+                                  _c(
+                                    "label",
+                                    { staticClass: "col-sm-4 control-label" },
+                                    [_vm._v("ATA Job Site")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-sm-7" }, [
+                                    _c("div", { staticClass: "input-group" }, [
+                                      _vm._m(32),
+                                      _vm._v(" "),
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value:
+                                              _vm.shipment_form.ata_job_site,
+                                            expression:
+                                              "shipment_form.ata_job_site"
+                                          }
+                                        ],
+                                        staticClass:
+                                          "form-control datetime-picker",
+                                        attrs: {
+                                          type: "text",
+                                          name: "ata_job_site",
+                                          placeholder: "ATA Job Site",
+                                          readonly: !!!_vm.shipment_form
+                                            .ata_port
+                                            ? true
+                                            : false
+                                        },
+                                        domProps: {
+                                          value: _vm.shipment_form.ata_job_site
+                                        },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              _vm.shipment_form,
+                                              "ata_job_site",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ])
+                                  ])
+                                ]
+                              )
+                            ]
+                          )
+                        ])
+                      ])
+                    ])
                   ])
                 ])
               ])
@@ -23043,7 +23649,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "editShipment" } }, [
       _c("div", { staticClass: "modal-dialog modal-lg" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(24),
+          _vm._m(33),
           _vm._v(" "),
           _c("form", { staticClass: "form-horizontal" }, [
             _c("div", { staticClass: "modal-body" }, [
@@ -23052,7 +23658,7 @@ var render = function() {
                   _c("div", { staticClass: "col-md-12" }, [
                     _c("div", { staticClass: "row" }, [
                       _c("div", { staticClass: "col-md-12" }, [
-                        _c("div", { staticClass: "col-md-6" }, [
+                        _c("div", { staticClass: "col-md-6 estimated" }, [
                           _c("div", { staticClass: "form-group  " }, [
                             _c(
                               "label",
@@ -23064,7 +23670,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(25),
+                                _vm._m(34),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -23109,7 +23715,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(26),
+                                _vm._m(35),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -23154,7 +23760,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(27),
+                                _vm._m(36),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -23191,7 +23797,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group  " }, [
-                            _vm._m(28),
+                            _vm._m(37),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c(
@@ -23295,7 +23901,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(29),
+                                    _vm._m(38),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -23421,7 +24027,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(30),
+                                _vm._m(39),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -23466,7 +24072,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(31),
+                                _vm._m(40),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -23513,7 +24119,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(32),
+                                _vm._m(41),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -23554,7 +24160,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "row" }, [
                       _c("div", { staticClass: "col-md-12" }, [
-                        _c("div", { staticClass: "col-md-6" }, [
+                        _c("div", { staticClass: "col-md-6 estimated" }, [
                           _c(
                             "div",
                             {
@@ -23567,11 +24173,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(33),
+                                _vm._m(42),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(34),
+                                    _vm._m(43),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -23591,7 +24197,11 @@ var render = function() {
                                         type: "text",
                                         name: "estimated_production_completion",
                                         placeholder:
-                                          "Estimated Production Completion"
+                                          "Estimated Production Completion",
+                                        readonly: _vm.shipment_edit_form
+                                          .etd_port
+                                          ? true
+                                          : false
                                       },
                                       domProps: {
                                         value:
@@ -23624,7 +24234,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(35),
+                                    _vm._m(44),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -23642,7 +24252,13 @@ var render = function() {
                                       attrs: {
                                         type: "text",
                                         name: "etd_port",
-                                        placeholder: "ETD Port"
+                                        placeholder: "ETD Port",
+                                        readonly:
+                                          !!!_vm.shipment_edit_form
+                                            .estimated_production_completion ||
+                                          _vm.shipment_edit_form.eta_port
+                                            ? true
+                                            : false
                                       },
                                       domProps: {
                                         value: _vm.shipment_edit_form.etd_port
@@ -23673,7 +24289,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(36),
+                                    _vm._m(45),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -23691,7 +24307,12 @@ var render = function() {
                                       attrs: {
                                         type: "text",
                                         name: "eta_port",
-                                        placeholder: "ETA Port"
+                                        placeholder: "ETA Port",
+                                        readonly:
+                                          !!!_vm.shipment_edit_form.etd_port ||
+                                          _vm.shipment_edit_form.eta_job_site
+                                            ? true
+                                            : false
                                       },
                                       domProps: {
                                         value: _vm.shipment_edit_form.eta_port
@@ -23728,7 +24349,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(37),
+                                      _vm._m(46),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -23747,7 +24368,11 @@ var render = function() {
                                         attrs: {
                                           type: "text",
                                           name: "eta_job_site",
-                                          placeholder: "ETA Job Site"
+                                          placeholder: "ETA Job Site",
+                                          readonly: !!!_vm.shipment_edit_form
+                                            .eta_port
+                                            ? true
+                                            : false
                                         },
                                         domProps: {
                                           value:
@@ -23774,7 +24399,7 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "col-md-6" }, [
+                        _c("div", { staticClass: "col-md-6 actual" }, [
                           _c(
                             "div",
                             {
@@ -23787,11 +24412,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(38),
+                                _vm._m(47),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(39),
+                                    _vm._m(48),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -23811,7 +24436,11 @@ var render = function() {
                                         type: "text",
                                         name: "actual_production_completion",
                                         placeholder:
-                                          "Actual Production Completion"
+                                          "Actual Production Completion",
+                                        readonly: _vm.shipment_edit_form
+                                          .atd_port
+                                          ? true
+                                          : false
                                       },
                                       domProps: {
                                         value:
@@ -23844,7 +24473,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(40),
+                                    _vm._m(49),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -23862,7 +24491,13 @@ var render = function() {
                                       attrs: {
                                         type: "text",
                                         name: "atd_port",
-                                        placeholder: "ATD Port"
+                                        placeholder: "ATD Port",
+                                        readonly:
+                                          !!!_vm.shipment_edit_form
+                                            .actual_production_completion ||
+                                          _vm.shipment_edit_form.ata_port
+                                            ? true
+                                            : false
                                       },
                                       domProps: {
                                         value: _vm.shipment_edit_form.atd_port
@@ -23893,7 +24528,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(41),
+                                    _vm._m(50),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -23911,7 +24546,12 @@ var render = function() {
                                       attrs: {
                                         type: "text",
                                         name: "ata_port",
-                                        placeholder: "ATA Port"
+                                        placeholder: "ATA Port",
+                                        readonly:
+                                          !!!_vm.shipment_edit_form.atd_port ||
+                                          _vm.shipment_edit_form.ata_job_site
+                                            ? true
+                                            : false
                                       },
                                       domProps: {
                                         value: _vm.shipment_edit_form.ata_port
@@ -23948,7 +24588,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(42),
+                                      _vm._m(51),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -23967,7 +24607,11 @@ var render = function() {
                                         attrs: {
                                           type: "text",
                                           name: "ata_job_site",
-                                          placeholder: "ATA Job Site"
+                                          placeholder: "ATA Job Site",
+                                          readonly: !!!_vm.shipment_edit_form
+                                            .ata_port
+                                            ? true
+                                            : false
                                         },
                                         domProps: {
                                           value:
@@ -24031,7 +24675,7 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(43),
+            _vm._m(52),
             _vm._v(" "),
             _c("form", [
               _c("div", { staticClass: "modal-body" }, [
@@ -24046,7 +24690,7 @@ var render = function() {
                   },
                   [
                     _c("table", { staticClass: "table" }, [
-                      _vm._m(44),
+                      _vm._m(53),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -24659,256 +25303,100 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c("div", { staticClass: "col-md-6" }, [
-          _c(
-            "div",
-            {
-              staticStyle: {
-                "background-color": "#EEEEEE",
-                padding: "25px",
-                "border-radius": "4px",
-                "margin-bottom": "20px"
-              }
-            },
-            [
-              _c("div", { staticClass: "form-group  " }, [
-                _c("label", { staticClass: "col-sm-4 control-label" }, [
-                  _c(
-                    "span",
-                    {
-                      attrs: {
-                        "data-toggle": "tooltip",
-                        "data-placement": "top",
-                        "data-original-title": "Estimated production completion"
-                      }
-                    },
-                    [_vm._v("EPC")]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-sm-7" }, [
-                  _c("div", { staticClass: "input-group" }, [
-                    _c("span", { staticClass: "input-group-addon" }, [
-                      _c("i", { staticClass: "fa fa-calendar" })
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      staticClass: "form-control datetime-picker",
-                      attrs: {
-                        type: "text",
-                        name: "estimated_production_completion",
-                        placeholder: "Estimated Production Completion"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group  " }, [
-                _c("label", { staticClass: "col-sm-4 control-label" }, [
-                  _vm._v("ETD Port")
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-sm-7" }, [
-                  _c("div", { staticClass: "input-group" }, [
-                    _c("span", { staticClass: "input-group-addon" }, [
-                      _c("i", { staticClass: "fa fa-calendar" })
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      staticClass: "form-control datetime-picker",
-                      attrs: {
-                        type: "text",
-                        name: "etd_port",
-                        placeholder: "ETD Port"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group  " }, [
-                _c("label", { staticClass: "col-sm-4 control-label" }, [
-                  _vm._v("ETA Port")
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-sm-7" }, [
-                  _c("div", { staticClass: "input-group" }, [
-                    _c("span", { staticClass: "input-group-addon" }, [
-                      _c("i", { staticClass: "fa fa-calendar" })
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      staticClass: "form-control datetime-picker",
-                      attrs: {
-                        type: "text",
-                        name: "eta_port",
-                        placeholder: "ETA Port"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "form-group",
-                  staticStyle: { "margin-bottom": "0" }
-                },
-                [
-                  _c("label", { staticClass: "col-sm-4 control-label" }, [
-                    _vm._v("ETA Job Site")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-sm-7" }, [
-                    _c("div", { staticClass: "input-group" }, [
-                      _c("span", { staticClass: "input-group-addon" }, [
-                        _c("i", { staticClass: "fa fa-calendar" })
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control datetime-picker",
-                        attrs: {
-                          type: "text",
-                          name: "eta_job_site",
-                          placeholder: "ETA Job Site"
-                        }
-                      })
-                    ])
-                  ])
-                ]
-              )
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-6" }, [
-          _c(
-            "div",
-            {
-              staticStyle: {
-                "background-color": "#EEEEEE",
-                padding: "25px",
-                "border-radius": "4px",
-                "margin-bottom": "20px"
-              }
-            },
-            [
-              _c("div", { staticClass: "form-group  " }, [
-                _c("label", { staticClass: "col-sm-4 control-label" }, [
-                  _c(
-                    "span",
-                    {
-                      attrs: {
-                        "data-toggle": "tooltip",
-                        "data-placement": "top",
-                        "data-original-title": "Actual production completion"
-                      }
-                    },
-                    [_vm._v("APC")]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-sm-7" }, [
-                  _c("div", { staticClass: "input-group" }, [
-                    _c("span", { staticClass: "input-group-addon" }, [
-                      _c("i", { staticClass: "fa fa-calendar" })
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      staticClass: "form-control datetime-picker",
-                      attrs: {
-                        type: "text",
-                        name: "actual_production_completion",
-                        placeholder: "Actual Production Completion"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group  " }, [
-                _c("label", { staticClass: "col-sm-4 control-label" }, [
-                  _vm._v("ATD Port")
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-sm-7" }, [
-                  _c("div", { staticClass: "input-group" }, [
-                    _c("span", { staticClass: "input-group-addon" }, [
-                      _c("i", { staticClass: "fa fa-calendar" })
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      staticClass: "form-control datetime-picker",
-                      attrs: {
-                        type: "text",
-                        name: "atd_port",
-                        placeholder: "ATD Port"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group  " }, [
-                _c("label", { staticClass: "col-sm-4 control-label" }, [
-                  _vm._v("ATA Port")
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-sm-7" }, [
-                  _c("div", { staticClass: "input-group" }, [
-                    _c("span", { staticClass: "input-group-addon" }, [
-                      _c("i", { staticClass: "fa fa-calendar" })
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      staticClass: "form-control datetime-picker",
-                      attrs: {
-                        type: "text",
-                        name: "ata_port",
-                        placeholder: "ATA Port"
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "form-group",
-                  staticStyle: { "margin-bottom": "0" }
-                },
-                [
-                  _c("label", { staticClass: "col-sm-4 control-label" }, [
-                    _vm._v("ATA Job Site")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-sm-7" }, [
-                    _c("div", { staticClass: "input-group" }, [
-                      _c("span", { staticClass: "input-group-addon" }, [
-                        _c("i", { staticClass: "fa fa-calendar" })
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control datetime-picker",
-                        attrs: {
-                          type: "text",
-                          name: "ata_job_site",
-                          placeholder: "ATA Job Site"
-                        }
-                      })
-                    ])
-                  ])
-                ]
-              )
-            ]
-          )
-        ])
-      ])
+    return _c("label", { staticClass: "col-sm-4 control-label" }, [
+      _c(
+        "span",
+        {
+          attrs: {
+            "data-toggle": "tooltip",
+            "data-placement": "top",
+            "data-original-title": "Estimated production completion"
+          }
+        },
+        [_vm._v("EPC")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-calendar" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-calendar" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-calendar" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-calendar" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "col-sm-4 control-label" }, [
+      _c(
+        "span",
+        {
+          attrs: {
+            "data-toggle": "tooltip",
+            "data-placement": "top",
+            "data-original-title": "Actual production completion"
+          }
+        },
+        [_vm._v("APC")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-calendar" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-calendar" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-calendar" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-calendar" })
     ])
   },
   function() {
