@@ -1082,6 +1082,16 @@
         },
 
         mounted() {
+            $('#poClient .datetime-picker').datetimepicker({
+                'format': 'YYYY-MM-DD',
+                'allowInputToggle': true
+            });
+
+            $('#editPoClient .datetime-picker').datetimepicker({
+                'format': 'YYYY-MM-DD',
+                'allowInputToggle': true
+            });
+
             $('.estimated .datetime-picker').datetimepicker({
                 'format': 'YYYY-MM-DD',
                 'allowInputToggle': true
