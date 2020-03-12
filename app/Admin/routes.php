@@ -17,6 +17,12 @@ Route::group([
 
     //项目
     $router->resource('projects', ProjectController::class);
+    $router->get('po-client/edit/{id}', 'PoClientController@getPoClient');
+    $router->post('po-client/edit/{id}', 'PoClientController@save');
+    $router->post('po-client/add', 'PoClientController@add');
+    $router->post('po-client/delete/{id}', 'PoClientController@delete');
+    $router->post('po-factory/add', 'PoFactoryController@add');
+
     $router->post('po-factory', 'PoFactoryController@add');
     $router->post('po-factory-batch', 'PoFactoryController@addBatch');
     $router->post('delete/batch/{id}', 'PoFactoryController@deleteBatch');

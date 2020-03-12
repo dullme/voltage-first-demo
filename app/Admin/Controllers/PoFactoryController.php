@@ -16,8 +16,8 @@ class PoFactoryController extends ResponseController
     public function add(Request $request)
     {
         $data = $request->validate([
-            'project_id' => 'required',
-            'no'         => 'required'
+            'po_client_id' => 'required',
+            'no'           => 'required'
         ], [
             'no.required' => 'The PO# Factory field is required.'
         ]);
@@ -32,6 +32,7 @@ class PoFactoryController extends ResponseController
         $validator = Validator::make($request->all(), [
             'po_factory_id'                   => 'required',
             'name'                            => 'required',
+            'sequence'                        => 'nullable|integer',
             'carrier'                         => 'nullable',
 //            'b_l'                             => 'required|unique:batches',
             'b_l'                             => 'nullable',
@@ -125,6 +126,7 @@ class PoFactoryController extends ResponseController
     {
         $validator = Validator::make($request->all(), [
             'name'                            => 'required',
+            'sequence'                        => 'nullable|integer',
             'carrier'                         => 'nullable',
             'b_l'                             => [
                 'nullable',

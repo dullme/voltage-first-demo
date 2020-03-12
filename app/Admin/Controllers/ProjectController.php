@@ -31,7 +31,7 @@ class ProjectController extends AdminController
         $grid->disableFilter();
         $grid->disableRowSelector();
         $grid->actions(function ($actions) {
-            if($actions->row->poFactory()->count()){
+            if($actions->row->poClients()->count()){
                 // 去掉删除
                 $actions->disableDelete();
             } //存在 Factory 不允许删除
@@ -43,13 +43,7 @@ class ProjectController extends AdminController
 
             return "<a href='{$url}'>{$name}</a>";
         });
-        $grid->column('no', __('No'));
-        $grid->column('client_delivery_time', __('Client delivery time'))->display(function (){
-            return $this->client_delivery_time ? $this->client_delivery_time->toFormattedDateString() : '-';
-        });
-        $grid->column('po_date', __('Po date'))->display(function (){
-            return $this->po_date ? $this->po_date->toFormattedDateString() : '-';
-        });
+
         $grid->column('created_at', __('Created at'));
 
         return $grid;
@@ -63,20 +57,22 @@ class ProjectController extends AdminController
      */
     protected function detail($id)
     {
-//        Admin::script(<<<EOF
-//        const app = new Vue({
-//        el: '#app'
-//    });
-//EOF
-//        );
+        Admin::script(<<<EOF
+        const app = new Vue({
+        el: '#app'
+    });
+EOF
+        );
 
-        $project = Project::with(['poFactory' => function($query){
-            $query->with(['batches' => function($query){
-                $query->withTrashed();
+        $project = Project::with([ 'client', 'poClients' => function($query){
+            $query->with(['poFactories' => function($query){
+                $query->with(['batches' => function($query){
+                    $query->orderBy('sequence', 'ASC');
+                }]);
             }]);
         }])->findOrFail($id);
 
-        return view('admin.project.show', compact('project'));
+        return view('admin.project.detail', compact('project'));
     }
 
     /**
@@ -91,9 +87,6 @@ class ProjectController extends AdminController
         $clients = Client::pluck('name', 'id');
         $form->select('client_id', 'Clients')->options($clients)->required();
         $form->text('name', __('Name'))->required();
-        $form->text('no', __('No'));
-        $form->date('client_delivery_time', __('Client delivery time'));
-        $form->date('po_date', __('Po date'));
 
         $form->tools(function (Form\Tools $tools) {
             // 去掉`删除`按钮

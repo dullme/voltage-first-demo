@@ -751,7 +751,10 @@
     </div>
 </div>
 
-{{--<progress-line></progress-line>--}}
+<progress-line></progress-line>
+
+
+
 <script>
     $(function () {
         $('.estimated-datetime-picker').datetimepicker({

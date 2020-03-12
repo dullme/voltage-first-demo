@@ -17,6 +17,7 @@ class CreateBatchesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('po_factory_id')->unsigned()->comment('Po Factory ID');
             $table->string('name')->comment('发货批次');
+            $table->integer('sequence')->unsigned()->nullable()->comment('序号');
             $table->integer('status')->unsigned()->default(\App\Enums\BatchStatus::InProduction)->comment('状态');
             $table->timestamp('estimated_production_completion')->nullable()->comment('预计生产完成时间');
             $table->timestamp('etd_port')->nullable()->comment('预计离岗时间');

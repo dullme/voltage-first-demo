@@ -16,7 +16,7 @@ class CreatePoFactoriesTable extends Migration
     {
         Schema::create('po_factories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('project_id')->unsigned();
+            $table->integer('po_client_id')->unsigned();
             $table->string('no')->comment('PO# Factory');
             $table->timestamps();
         });

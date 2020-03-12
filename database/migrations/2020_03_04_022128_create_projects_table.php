@@ -17,9 +17,6 @@ class CreateProjectsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('client_id')->unsigned()->comment('客户表ID');
             $table->string('name')->comment('项目名称');
-            $table->string('no')->nullable()->comment('订单编号');
-            $table->timestamp('client_delivery_time')->nullable()->comment('客户要求到货时间');
-            $table->timestamp('po_date')->nullable()->comment('客户下单日期');
             $table->timestamps();
         });
     }

@@ -12,7 +12,7 @@
                         <div class="input-group">
                                                             <span class="input-group-addon"><i
                                                                 class="fa fa-calendar"></i></span>
-                            <input type="text" name="estimated_production_completion"
+                            <input type="text"  id="epc-pickup"
                                    placeholder="Estimated Production Completion"
                                    class="form-control estimated-datetime-picker">
                         </div>
@@ -25,8 +25,8 @@
                         <div class="input-group">
                                                             <span class="input-group-addon"><i
                                                                 class="fa fa-calendar"></i></span>
-                            <input type="text" name="etd_port" placeholder="ETD Port"
-                                   class="form-control estimated-datetime-picker" readonly="readonly">
+                            <input type="text" id="etd-port-pickup" placeholder="ETD Port"
+                                   class="form-control estimated-datetime-picker">
                         </div>
                     </div>
                 </div>
@@ -123,7 +123,10 @@
     export default {
         data() {
             return {
-
+                'estimated_production_completion' : '',
+                'etd_port' : '',
+                'eta_port' : '',
+                'eta_job_site' : '',
             }
         },
 
@@ -138,6 +141,15 @@
                 'allowInputToggle': true,
                 'maxDate': Date.today()
             });
+        },
+
+        methods:{
+            start(){
+                $('#epc-pickup').on('dp.change', (e) => {
+                    this.estimated_production_completion = e.currentTarget.value;
+                    $('#etd-port-pickup').data("DateTimePicker").maxDate(e.currentTarget.value);
+                });
+            }
         }
     }
 </script>

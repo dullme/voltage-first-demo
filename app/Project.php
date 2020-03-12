@@ -16,8 +16,9 @@ class Project extends Model
         return $this->belongsTo(Client::class);
     }
 
-    public function poFactory()
+    //一个项目对应多个客户PO#
+    public function poClients()
     {
-        return $this->hasMany(PoFactory::class);
+        return $this->hasMany(PoClient::class);
     }
 }

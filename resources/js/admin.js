@@ -8,5 +8,5 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-Vue.component('progress-line', require('./components/ProgressComponent').default);
+Vue.component('project-detail', require('./components/ProjectDetailComponent').default);
 

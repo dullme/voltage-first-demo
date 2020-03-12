@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -12,6 +13,7 @@ class Batch extends Model
     protected $fillable = [
         'po_factory_id',
         'name',
+        'sequence',
         'status',
         'carrier',
         'b_l',
@@ -43,5 +45,55 @@ class Batch extends Model
     public function poFactory()
     {
         return $this->belongsTo(PoFactory::class);
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->diffForHumans();
+    }
+
+    public function getDeletedAtAttribute($value)
+    {
+        return Carbon::parse($value)->diffForHumans();
+    }
+
+    public function getEstimatedProductionCompletionAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->toDateString() : null;
+    }
+
+    public function getEtdPortAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->toDateString() : null;
+    }
+
+    public function getEtaPortAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->toDateString() : null;
+    }
+
+    public function getEtaJobSiteAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->toDateString() : null;
+    }
+
+    public function getActualProductionCompletionAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->toDateString() : null;
+    }
+
+    public function getAtdPortAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->toDateString() : null;
+    }
+
+    public function getAtaPortAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->toDateString() : null;
+    }
+
+    public function getAtaJobSiteAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->toDateString() : null;
     }
 }
