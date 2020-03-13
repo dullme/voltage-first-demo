@@ -23,9 +23,13 @@ class PoFactoryController extends ResponseController
             'no.required' => 'The PO# Factory field is required.'
         ]);
 
-        PoFactory::create($data);
+        $po_factory = PoFactory::create($data);
 
-        return $this->responseSuccess('true', 'Created');
+        $data = PoFactory::with(['batches' => function($query){
+            $query->orderBy('sequence', 'ASC');
+        }])->find($po_factory->id);
+
+        return $this->responseSuccess($data, 'Created');
     }
 
     public function getPoFactory($id)

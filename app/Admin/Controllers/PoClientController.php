@@ -25,9 +25,15 @@ class PoClientController extends ResponseController
             return $this->setStatusCode(422)->responseError($validator->errors()->first());
         }
 
-        PoClient::create($validator->validated());
+        $po_client = PoClient::create($validator->validated());
 
-        return $this->responseSuccess('true', 'Created');
+        $data = PoClient::with(['poFactories' => function($query){
+            $query->with(['batches' => function($query){
+                $query->orderBy('sequence', 'ASC');
+            }]);
+        }])->find($po_client->id);
+
+        return $this->responseSuccess($data, 'Created');
     }
 
     public function getPoClient($id)

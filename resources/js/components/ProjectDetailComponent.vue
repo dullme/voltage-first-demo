@@ -1301,11 +1301,11 @@
                         response.data.message,
                         '',
                         'success'
-                    ).then(function () {
-                        location.reload()
+                    ).then(() => {
+                        this.loading.po_client = false
+                        this.po_clients.push(response.data.data)
+                        $('#poClient').modal('hide')
                     })
-                    this.loading.po_client = false
-
                 }).catch(error => {
                     this.loading.po_client = false
                     toastr.error(error.response.data.message);
@@ -1392,15 +1392,22 @@
                     url: '/admin/po-factory/add/',
                     data: this.po_factory_form
                 }).then(response => {
-                    console.log(response.data)
                     swal(
                         response.data.message,
                         '',
                         'success'
-                    ).then(function () {
-                        location.reload()
+                    ).then(() => {
+                        this.loading.po_factory = false
+                        this.po_clients.forEach((item,index) => {
+                            if(item.id == this.po_factory_form.po_client_id){
+                                this.po_clients[index]['po_factories'].push(response.data.data)
+                                console.log(item)
+                                console.log(index)
+                            }
+                        })
+                        $('#addPoFactory').modal('hide')
                     })
-                    this.loading.po_factory = false
+
                 }).catch(error => {
                     this.loading.po_factory = false
                     toastr.error(error.response.data.message)

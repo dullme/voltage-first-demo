@@ -3,8 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="8cf2ea23-7469-48af-b876-fd17efebcc2d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Admin/Controllers/PoClientController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Admin/Controllers/PoClientController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Admin/Controllers/PoFactoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Admin/Controllers/PoFactoryController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/ProjectDetailComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/ProjectDetailComponent.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -189,7 +190,7 @@
       <workItem from="1583889177231" duration="8672000" />
       <workItem from="1583975429822" duration="24960000" />
       <workItem from="1584061561367" duration="332000" />
-      <workItem from="1584067979650" duration="6462000" />
+      <workItem from="1584067979650" duration="8774000" />
     </task>
     <servers />
   </component>
@@ -201,10 +202,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="360" y="45" key="#Inspections/0.0.1920.1080@0.0.1920.1080" timestamp="1583480648415" />
-    <state x="573" y="194" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1584070994374">
+    <state x="573" y="194" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1584090884428">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="573" y="194" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1584070994374" />
+    <state x="573" y="194" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1584090884428" />
     <state x="192" y="97" key="DiffContextDialog" timestamp="1583722864085">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -221,10 +222,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="274" y="4" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1583480760732" />
-    <state width="791" height="600" key="SwitcherDM" timestamp="1584071075180">
+    <state width="791" height="600" key="SwitcherDM" timestamp="1584090942584">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="791" height="600" key="SwitcherDM/0.0.1920.1080@0.0.1920.1080" timestamp="1584071075180" />
+    <state width="791" height="600" key="SwitcherDM/0.0.1920.1080@0.0.1920.1080" timestamp="1584090942584" />
     <state width="791" height="600" key="SwitcherDM/0.23.1920.979@0.23.1920.979" timestamp="1583821698796" />
     <state width="791" height="600" key="SwitcherDM/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1583897837041" />
     <state x="364" y="130" width="1192" height="820" key="find.popup" timestamp="1583991001135">
