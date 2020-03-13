@@ -18,6 +18,7 @@ class CreatePoFactoriesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('po_client_id')->unsigned();
             $table->string('no')->comment('PO# Factory');
+            $table->longText('remarks')->nullable()->comment('remarks');
             $table->timestamps();
         });
     }

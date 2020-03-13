@@ -24,6 +24,8 @@ Route::group([
     $router->post('po-factory/add', 'PoFactoryController@add');
 
     $router->post('po-factory', 'PoFactoryController@add');
+    $router->get('po-factory/edit/{id}', 'PoFactoryController@getPoFactory');
+    $router->post('po-factory/edit/{id}', 'PoFactoryController@save');
     $router->post('po-factory-batch', 'PoFactoryController@addBatch');
     $router->post('delete/batch/{id}', 'PoFactoryController@deleteBatch');
     $router->post('restore/batch/{id}', 'PoFactoryController@restoreBatch');

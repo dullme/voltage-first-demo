@@ -17,7 +17,8 @@ class PoFactoryController extends ResponseController
     {
         $data = $request->validate([
             'po_client_id' => 'required',
-            'no'           => 'required'
+            'no'           => 'required',
+            'remarks'      => 'nullable'
         ], [
             'no.required' => 'The PO# Factory field is required.'
         ]);
@@ -25,6 +26,31 @@ class PoFactoryController extends ResponseController
         PoFactory::create($data);
 
         return $this->responseSuccess('true', 'Created');
+    }
+
+    public function getPoFactory($id)
+    {
+        $po_factory = PoFactory::findOrFail($id);
+
+        return $this->responseSuccess($po_factory);
+    }
+
+    public function save($id, Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'no'           => 'required',
+            'remarks'      => 'nullable'
+        ], [
+            'no.required' => 'The PO# Factory field is required.'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->setStatusCode(422)->responseError($validator->errors()->first());
+        }
+
+        PoFactory::where('id', $id)->update($validator->validated());
+
+        return $this->responseSuccess(true, 'Updated');
     }
 
     public function addBatch(Request $request)

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PoFactory extends Model
 {
     protected $fillable = [
-        'no', 'po_client_id'
+        'no', 'remarks', 'po_client_id'
     ];
 
     public function batches()

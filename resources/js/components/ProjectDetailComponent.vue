@@ -56,117 +56,127 @@
                                     <div class="tab-content">
                                         <div role="tabpanel" class="tab-pane" :class="index  == 0 ? 'active' : ''" :id="po_factory.id + po_factory.no" v-for="(po_factory,index) in po_client.po_factories">
                                             <div class="panel-body">
+                                                <pre style="background-color: unset;border: unset;padding: 0">{{ po_factory.remarks }}</pre>
+
                                                 <button class="btn btn-success btn-xs" style="margin-right: 5px" v-on:click="showAddShipment(po_factory.id, po_factory.no)">
                                                     <i class="fa fa-plus" style="padding-right: 2px"></i> Add Shipment #
                                                 </button>
+
                                                 <button class="btn btn-danger btn-xs" style="margin-right: 5px" v-if="!po_factory.batches.length" v-on:click="deletePoFactory(po_factory.id)">
                                                     <i class="fa fa-minus" style="padding-right: 2px"></i> Delete PO# Factory
                                                 </button>
+
+                                                <button class="btn btn-default btn-xs" style="margin-right: 5px" v-on:click="editPoFactory(po_factory.id)">
+                                                    <i class="fa fa-pencil" style="padding-right: 2px"></i> Edit PO# Factory
+                                                </button>
+
                                                 <button class="btn btn-default btn-xs" style="margin-right: 5px" v-on:click="deletedShipment(po_factory.id, po_factory.no)">
                                                     <i class="fa fa-history" style="padding-right: 2px"></i> Factory Shipment #
                                                 </button>
                                             </div>
 
-                                            <table class="table text-center">
-                                                <thead>
-                                                <tr>
-                                                    <th>Updated at</th>
-                                                    <th>Shipment #</th>
-                                                    <th style="min-width: 100px">PO Status</th>
-                                                    <th style="min-width: 200px">Estimated</th>
-                                                    <th style="min-width: 200px">Actual</th>
-                                                    <th>Carrier</th>
-                                                    <th>B/L</th>
-                                                    <th>Vessel</th>
-                                                    <th>Container No.</th>
-                                                    <th>Remarks</th>
-                                                    <th><span data-toggle="tooltip" data-placement="top"
-                                                              data-original-title="Shipping method">S-method</span></th>
-                                                    <th>Action</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr v-if="po_factory.batches.length" v-for="batch in po_factory.batches">
-                                                    <td>{{ batch.updated_at }}</td>
-                                                    <td>{{ batch.name }}<b><i v-if="batch.sequence"> - {{ getSequence(batch.sequence) }}</i></b></td>
-                                                    <td>
-                                                        <span style="display: block;padding: 5px" class="label label-info" v-if="batch.status == 0">InProduction</span>
-                                                        <span style="display: block;padding: 5px" class="label label-warning" v-else-if="batch.status == 1">Shipping</span>
-                                                        <span style="display: block;padding: 5px" class="label label-success" v-else-if="batch.status == 2">Finished</span>
-                                                    </td>
-                                                    <td>
-                                                        <div style="width:50%;text-align: right;float: left">
-                                                            <p><i data-toggle="tooltip"
-                                                                  data-placement="top" title=""
-                                                                  data-original-title="Estimated production completion">EPC：</i>
-                                                            </p>
-                                                            <p><i>ETD Port：</i></p>
-                                                            <p><i>ETA Port：</i></p>
-                                                            <p><i>ETA Job Site：</i></p>
-                                                        </div>
-                                                        <div style="width:50%;text-align: left;float: right">
-                                                            <p>{{ batch.estimated_production_completion ? batch.estimated_production_completion.substr(0,10) : '-' }}</p>
-                                                            <p>{{ batch.etd_port ? batch.etd_port.substr(0,10) : '-' }}</p>
-                                                            <p>{{ batch.eta_port ? batch.eta_port.substr(0,10) : '-' }}</p>
-                                                            <p>{{ batch.eta_job_site ? batch.eta_job_site.substr(0,10) : '-' }}</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div style="width:50%;text-align: right;float: left">
-                                                            <p><i data-toggle="tooltip"
-                                                                  data-placement="top" title=""
-                                                                  data-original-title="Actual production completion">APC：</i>
-                                                            </p>
-                                                            <p><i>ATD Port：</i></p>
-                                                            <p><i>ATA Port：</i></p>
-                                                            <p><i>ATA Job Site：</i></p>
-                                                        </div>
-                                                        <div style="width:50%;text-align: left;float: right">
-                                                            <p>{{ batch.actual_production_completion ? batch.actual_production_completion.substr(0,10) : '-' }}</p>
-                                                            <p>{{ batch.atd_port ? batch.atd_port.substr(0, 10) : '-' }}</p>
-                                                            <p>{{ batch.ata_port ? batch.ata_port.substr(0,10) : '-' }}</p>
-                                                            <p>{{ batch.ata_job_site ? batch.ata_job_site.substr(0,10) : '-' }}</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>{{ batch.carrier }}</td>
-                                                    <td>{{ batch.b_l }}</td>
-                                                    <td>{{ batch.vessel }}</td>
-                                                    <td>{{ batch.container_no }}</td>
-                                                    <td>{{ batch.remarks }}</td>
-                                                    <td>{{ batch.shipping_method }}</td>
-                                                    <td style="vertical-align: middle">
-                                                        <div class="grid-dropdown-actions dropdown">
-                                                            <a href="#" style="padding: 0 10px;" class="dropdown-toggle"
-                                                               data-toggle="dropdown" aria-expanded="false">
-                                                                <i class="fa fa-ellipsis-v"></i>
-                                                            </a>
-                                                            <ul class="dropdown-menu"
-                                                                style="min-width: 70px !important;box-shadow: 0 2px 3px 0 rgba(0,0,0,.2);border-radius:0;left: -65px;top: 5px;">
-                                                                <li>
-                                                                    <a href="javascript:void(0);" v-on:click="editShipment(batch.id)">Edit</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="javascript:void(0);" v-on:click="deleteShipment(batch.id, false)">Delete</a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                            <div style="overflow: auto; width: 100%;">
+                                                <table class="table text-center">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Updated at</th>
+                                                        <th>Shipment #</th>
+                                                        <th style="min-width: 100px">PO Status</th>
+                                                        <th style="min-width: 200px">Estimated</th>
+                                                        <th style="min-width: 200px">Actual</th>
+                                                        <th>Carrier</th>
+                                                        <th>B/L</th>
+                                                        <th>Vessel</th>
+                                                        <th>Container No.</th>
+                                                        <th>Remarks</th>
+                                                        <th><span data-toggle="tooltip" data-placement="top"
+                                                                  data-original-title="Shipping method">S-method</span></th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr v-if="po_factory.batches.length" v-for="batch in po_factory.batches">
+                                                        <td>{{ batch.updated_at }}</td>
+                                                        <td>{{ batch.name }}<b><i v-if="batch.sequence"> - {{ getSequence(batch.sequence) }}</i></b></td>
+                                                        <td>
+                                                            <span style="display: block;padding: 5px" class="label label-info" v-if="batch.status == 0">InProduction</span>
+                                                            <span style="display: block;padding: 5px" class="label label-warning" v-else-if="batch.status == 1">Shipping</span>
+                                                            <span style="display: block;padding: 5px" class="label label-success" v-else-if="batch.status == 2">Finished</span>
+                                                        </td>
+                                                        <td>
+                                                            <div style="width:50%;text-align: right;float: left">
+                                                                <p><i data-toggle="tooltip"
+                                                                      data-placement="top" title=""
+                                                                      data-original-title="Estimated production completion">EPC：</i>
+                                                                </p>
+                                                                <p><i>ETD Port：</i></p>
+                                                                <p><i>ETA Port：</i></p>
+                                                                <p><i>ETA Job Site：</i></p>
+                                                            </div>
+                                                            <div style="width:50%;text-align: left;float: right">
+                                                                <p>{{ batch.estimated_production_completion ? batch.estimated_production_completion.substr(0,10) : '-' }}</p>
+                                                                <p>{{ batch.etd_port ? batch.etd_port.substr(0,10) : '-' }}</p>
+                                                                <p>{{ batch.eta_port ? batch.eta_port.substr(0,10) : '-' }}</p>
+                                                                <p>{{ batch.eta_job_site ? batch.eta_job_site.substr(0,10) : '-' }}</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div style="width:50%;text-align: right;float: left">
+                                                                <p><i data-toggle="tooltip"
+                                                                      data-placement="top" title=""
+                                                                      data-original-title="Actual production completion">APC：</i>
+                                                                </p>
+                                                                <p><i>ATD Port：</i></p>
+                                                                <p><i>ATA Port：</i></p>
+                                                                <p><i>ATA Job Site：</i></p>
+                                                            </div>
+                                                            <div style="width:50%;text-align: left;float: right">
+                                                                <p>{{ batch.actual_production_completion ? batch.actual_production_completion.substr(0,10) : '-' }}</p>
+                                                                <p>{{ batch.atd_port ? batch.atd_port.substr(0, 10) : '-' }}</p>
+                                                                <p>{{ batch.ata_port ? batch.ata_port.substr(0,10) : '-' }}</p>
+                                                                <p>{{ batch.ata_job_site ? batch.ata_job_site.substr(0,10) : '-' }}</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>{{ batch.carrier }}</td>
+                                                        <td>{{ batch.b_l }}</td>
+                                                        <td>{{ batch.vessel }}</td>
+                                                        <td>{{ batch.container_no }}</td>
+                                                        <td>{{ batch.remarks }}</td>
+                                                        <td>{{ batch.shipping_method }}</td>
+                                                        <td style="vertical-align: middle">
+                                                            <div class="grid-dropdown-actions dropdown">
+                                                                <a href="#" style="padding: 0 10px;" class="dropdown-toggle"
+                                                                   data-toggle="dropdown" aria-expanded="false">
+                                                                    <i class="fa fa-ellipsis-v"></i>
+                                                                </a>
+                                                                <ul class="dropdown-menu"
+                                                                    style="min-width: 70px !important;box-shadow: 0 2px 3px 0 rgba(0,0,0,.2);border-radius:0;left: -65px;top: 5px;">
+                                                                    <li>
+                                                                        <a href="javascript:void(0);" v-on:click="editShipment(batch.id)">Edit</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="javascript:void(0);" v-on:click="deleteShipment(batch.id, false)">Delete</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
 
-                                                <tr v-if="po_factory.batches.length == 0">
-                                                    <td colspan="18"
-                                                        style="padding: 100px 50px;text-align: center;color: #999999;border-bottom: 0">
-                                                        <svg t="1562312016538" class="icon" viewBox="0 0 1024 1024"
-                                                             version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2076"
-                                                             width="80" height="80" style="fill: #e9e9e9;">
-                                                            <path
-                                                                d="M512.8 198.5c12.2 0 22-9.8 22-22v-90c0-12.2-9.8-22-22-22s-22 9.8-22 22v90c0 12.2 9.9 22 22 22zM307 247.8c8.6 8.6 22.5 8.6 31.1 0 8.6-8.6 8.6-22.5 0-31.1L274.5 153c-8.6-8.6-22.5-8.6-31.1 0-8.6 8.6-8.6 22.5 0 31.1l63.6 63.7zM683.9 247.8c8.6 8.6 22.5 8.6 31.1 0l63.6-63.6c8.6-8.6 8.6-22.5 0-31.1-8.6-8.6-22.5-8.6-31.1 0l-63.6 63.6c-8.6 8.6-8.6 22.5 0 31.1zM927 679.9l-53.9-234.2c-2.8-9.9-4.9-20-6.9-30.1-3.7-18.2-19.9-31.9-39.2-31.9H197c-19.9 0-36.4 14.5-39.5 33.5-1 6.3-2.2 12.5-3.9 18.7L97 679.9v239.6c0 22.1 17.9 40 40 40h750c22.1 0 40-17.9 40-40V679.9z m-315-40c0 55.2-44.8 100-100 100s-100-44.8-100-100H149.6l42.5-193.3c2.4-8.5 3.8-16.7 4.8-22.9h630c2.2 11 4.5 21.8 7.6 32.7l39.8 183.5H612z"
-                                                                p-id="2077"></path>
-                                                        </svg>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
+                                                    <tr v-if="po_factory.batches.length == 0">
+                                                        <td colspan="18"
+                                                            style="padding: 100px 50px;text-align: center;color: #999999;border-bottom: 0">
+                                                            <svg t="1562312016538" class="icon" viewBox="0 0 1024 1024"
+                                                                 version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2076"
+                                                                 width="80" height="80" style="fill: #e9e9e9;">
+                                                                <path
+                                                                    d="M512.8 198.5c12.2 0 22-9.8 22-22v-90c0-12.2-9.8-22-22-22s-22 9.8-22 22v90c0 12.2 9.9 22 22 22zM307 247.8c8.6 8.6 22.5 8.6 31.1 0 8.6-8.6 8.6-22.5 0-31.1L274.5 153c-8.6-8.6-22.5-8.6-31.1 0-8.6 8.6-8.6 22.5 0 31.1l63.6 63.7zM683.9 247.8c8.6 8.6 22.5 8.6 31.1 0l63.6-63.6c8.6-8.6 8.6-22.5 0-31.1-8.6-8.6-22.5-8.6-31.1 0l-63.6 63.6c-8.6 8.6-8.6 22.5 0 31.1zM927 679.9l-53.9-234.2c-2.8-9.9-4.9-20-6.9-30.1-3.7-18.2-19.9-31.9-39.2-31.9H197c-19.9 0-36.4 14.5-39.5 33.5-1 6.3-2.2 12.5-3.9 18.7L97 679.9v239.6c0 22.1 17.9 40 40 40h750c22.1 0 40-17.9 40-40V679.9z m-315-40c0 55.2-44.8 100-100 100s-100-44.8-100-100H149.6l42.5-193.3c2.4-8.5 3.8-16.7 4.8-22.9h630c2.2 11 4.5 21.8 7.6 32.7l39.8 183.5H612z"
+                                                                    p-id="2077"></path>
+                                                            </svg>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
 
                                         </div>
                                     </div>
@@ -325,13 +335,57 @@
                         <h4 class="modal-title" id="myModalLabel">Add PO# Factory - <span class="po_client_no"></span>
                         </h4>
                     </div>
-                    <form>
+                    <form class="form-horizontal">
                         <div class="modal-body">
-                            <textarea rows="5" placeholder="PO# Factory" class="form-control remark" v-model="po_factory_form.no"></textarea>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label>PO# Factory</label>
+                                    <input type="email" class="form-control" placeholder="PO# Factory" v-model="po_factory_form.no">
+                                </div>
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    <textarea rows="5" placeholder="Remarks" class="form-control remark" v-model="po_factory_form.remarks"></textarea>
+                                </div>
+                            </div>
                         </div>
-                        <div class="modal-footer">
+                        <div class="modal-footer" style="clear: both">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             <button v-on:click="addPoFactory" type="button" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+        <!-- Edit PO# Factory -->
+        <div class="modal fade in" id="editPoFactory">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" >Edit PO# Factory - <span class="po_client_no"></span>
+                        </h4>
+                    </div>
+                    <form class="form-horizontal">
+                        <div class="modal-body">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label>PO# Factory</label>
+                                    <input type="email" class="form-control" placeholder="PO# Factory" v-model="po_factory_edit_form.no">
+                                </div>
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    <textarea rows="5" placeholder="Remarks" class="form-control remark" v-model="po_factory_edit_form.remarks"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="clear: both">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button v-on:click="savePoFactory" type="button" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -1024,6 +1078,12 @@
                 po_factory_form: {
                     po_client_id: '',
                     no: '',
+                    remarks:'',
+                },
+                po_factory_edit_form: {
+                    id: '',
+                    no: '',
+                    remarks:'',
                 },
                 shipment_form: {
                     po_factory_id: '',
@@ -1344,6 +1404,34 @@
 
                 }).catch(error => {
                     toastr.error(error.response.data.message)
+                });
+            },
+
+            editPoFactory(id){
+                axios({
+                    method: 'get',
+                    url: '/admin/po-factory/edit/' + id,
+                }).then(response => {
+                    this.po_factory_edit_form = response.data.data
+                    $('#editPoFactory').modal('show')
+                })
+            },
+
+            savePoFactory(){
+                axios({
+                    method: 'post',
+                    url: '/admin/po-factory/edit/' + this.po_factory_edit_form.id,
+                    data: this.po_factory_edit_form
+                }).then(response => {
+                    swal(
+                        "SUCCESS",
+                        response.data.message,
+                        'success'
+                    ).then(function () {
+                        location.reload()
+                    });
+                }).catch(error => {
+                    toastr.error(error.response.data.message);
                 });
             },
 
