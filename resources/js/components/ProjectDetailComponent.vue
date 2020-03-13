@@ -66,7 +66,7 @@
                                                     <i class="fa fa-minus" style="padding-right: 2px"></i> Delete PO# Factory
                                                 </button>
 
-                                                <button class="btn btn-default btn-xs" style="margin-right: 5px" v-on:click="editPoFactory(po_factory.id)">
+                                                <button class="btn btn-default btn-xs" style="margin-right: 5px" v-on:click="editPoFactory(po_factory.id, po_factory.no)">
                                                     <i class="fa fa-pencil" style="padding-right: 2px"></i> Edit PO# Factory
                                                 </button>
 
@@ -208,36 +208,30 @@
                                 <div class="col-md-12">
 
                                     <div class="form-group ">
-                                        <label class="col-sm-4 asterisk control-label">PO# Client</label>
-                                        <div class="col-sm-8">
-                                            <div class="input-group">
+                                        <label class="asterisk">PO# Client</label>
+                                        <div class="input-group">
                                                 <span class="input-group-addon"><i
                                                     class="fa fa-pencil fa-fw"></i></span>
-                                                <input type="text" class="form-control" v-model="po_client_form.no">
-                                            </div>
+                                            <input type="text" class="form-control" placeholder="PO# Client" v-model="po_client_form.no">
                                         </div>
                                     </div>
 
                                     <div class="form-group ">
-                                        <label class="col-sm-4 control-label">Client delivery time</label>
-                                        <div class="col-sm-8">
-                                            <div class="input-group">
+                                        <label>Client delivery time</label>
+                                        <div class="input-group">
                                                 <span class="input-group-addon"><i
                                                     class="fa fa-calendar fa-fw"></i></span>
-                                                <input type="text" name="client_delivery_time"
-                                                       class="form-control datetime-picker">
-                                            </div>
+                                            <input type="text" name="client_delivery_time" placeholder="Client delivery time"
+                                                   class="form-control datetime-picker">
                                         </div>
                                     </div>
 
                                     <div class="form-group ">
-                                        <label class="col-sm-4 control-label">Po date</label>
-                                        <div class="col-sm-8">
-                                            <div class="input-group">
+                                        <label>Po date</label>
+                                        <div class="input-group">
                                                 <span class="input-group-addon"><i
                                                     class="fa fa-calendar fa-fw"></i></span>
-                                                <input type="text" name="po_date" class="form-control datetime-picker">
-                                            </div>
+                                            <input type="text" name="po_date" placeholder="Po date" class="form-control datetime-picker">
                                         </div>
                                     </div>
 
@@ -248,7 +242,7 @@
 
                     <div class="modal-footer" style="clear: both">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button v-on:click="addPoClient" type="button" class="btn btn-primary">Submit</button>
+                        <button v-on:click="addPoClient" type="button" class="btn btn-primary" :disabled="loading.po_client">Submit <i v-if="loading.po_client" class="fa fa-spinner fa-spin"></i></button>
                     </div>
 
                 </div>
@@ -273,37 +267,31 @@
                                 <div class="col-md-12">
 
                                     <div class="form-group ">
-                                        <label class="col-sm-4 asterisk control-label">PO# Client</label>
-                                        <div class="col-sm-8">
-                                            <div class="input-group">
+                                        <label class="asterisk">PO# Client</label>
+                                        <div class="input-group">
                                                 <span class="input-group-addon"><i
                                                     class="fa fa-pencil fa-fw"></i></span>
-                                                <input type="text" class="form-control" v-model="po_client_edit_form.no">
-                                            </div>
+                                            <input type="text" class="form-control" placeholder="PO# Client" v-model="po_client_edit_form.no">
                                         </div>
                                     </div>
 
                                     <div class="form-group ">
-                                        <label class="col-sm-4 control-label">Client delivery time</label>
-                                        <div class="col-sm-8">
-                                            <div class="input-group">
+                                        <label>Client delivery time</label>
+                                        <div class="input-group">
                                                 <span class="input-group-addon"><i
                                                     class="fa fa-calendar fa-fw"></i></span>
-                                                <input type="text" name="client_delivery_time" v-model="po_client_edit_form.client_delivery_time"
-                                                       class="form-control datetime-picker">
-                                            </div>
+                                            <input type="text" name="client_delivery_time" placeholder="Client delivery time" v-model="po_client_edit_form.client_delivery_time"
+                                                   class="form-control datetime-picker">
                                         </div>
                                     </div>
 
                                     <div class="form-group ">
-                                        <label class="col-sm-4 control-label">Po date</label>
-                                        <div class="col-sm-8">
-                                            <div class="input-group">
+                                        <label>Po date</label>
+                                        <div class="input-group">
                                                 <span class="input-group-addon"><i
                                                     class="fa fa-calendar fa-fw"></i></span>
-                                                <input type="text" name="po_date" v-model="po_client_edit_form.po_date"
-                                                       class="form-control datetime-picker">
-                                            </div>
+                                            <input type="text" name="po_date" v-model="po_client_edit_form.po_date" placeholder="Po date"
+                                                   class="form-control datetime-picker">
                                         </div>
                                     </div>
 
@@ -314,7 +302,7 @@
 
                     <div class="modal-footer" style="clear: both">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button v-on:click="savePoClient" type="button" class="btn btn-primary">Submit</button>
+                        <button v-on:click="savePoClient" type="button" class="btn btn-primary" :disabled="loading.po_client">Submit <i v-if="loading.po_client" class="fa fa-spinner fa-spin"></i></button>
                     </div>
 
                 </div>
@@ -335,12 +323,12 @@
                         <h4 class="modal-title" id="myModalLabel">Add PO# Factory - <span class="po_client_no"></span>
                         </h4>
                     </div>
-                    <form class="form-horizontal">
+                    <div class="form-horizontal">
                         <div class="modal-body">
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label>PO# Factory</label>
-                                    <input type="email" class="form-control" placeholder="PO# Factory" v-model="po_factory_form.no">
+                                    <input type="text" class="form-control" placeholder="PO# Factory" v-model="po_factory_form.no">
                                 </div>
                                 <div class="form-group">
                                     <label>Remarks</label>
@@ -350,9 +338,9 @@
                         </div>
                         <div class="modal-footer" style="clear: both">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button v-on:click="addPoFactory" type="button" class="btn btn-primary">Submit</button>
+                            <button v-on:click="addPoFactory" type="button" class="btn btn-primary" :disabled="loading.po_factory">Submit <i v-if="loading.po_factory" class="fa fa-spinner fa-spin"></i></button>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <!-- /.modal-content -->
             </div>
@@ -367,15 +355,15 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" >Edit PO# Factory - <span class="po_client_no"></span>
+                        <h4 class="modal-title" >Edit PO# Factory - <span class="po_factory_no"></span>
                         </h4>
                     </div>
-                    <form class="form-horizontal">
+                    <div class="form-horizontal">
                         <div class="modal-body">
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label>PO# Factory</label>
-                                    <input type="email" class="form-control" placeholder="PO# Factory" v-model="po_factory_edit_form.no">
+                                    <input type="text" class="form-control" placeholder="PO# Factory" v-model="po_factory_edit_form.no">
                                 </div>
                                 <div class="form-group">
                                     <label>Remarks</label>
@@ -385,9 +373,9 @@
                         </div>
                         <div class="modal-footer" style="clear: both">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button v-on:click="savePoFactory" type="button" class="btn btn-primary">Submit</button>
+                            <button v-on:click="savePoFactory" type="button" class="btn btn-primary" :disabled="loading.po_factory">Submit <i v-if="loading.po_factory" class="fa fa-spinner fa-spin"></i></button>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <!-- /.modal-content -->
             </div>
@@ -405,7 +393,7 @@
                         </button>
                         <h4 class="modal-title">PO# Factory：<span class="po_factory_no"></span></h4>
                     </div>
-                    <form class="form-horizontal">
+                    <div class="form-horizontal">
                         <div class="modal-body">
                             <div class="fields-group">
                                 <div class="row">
@@ -681,9 +669,9 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button v-on:click="addShipment" type="button" class="btn btn-primary">Submit</button>
+                            <button v-on:click="addShipment" type="button" class="btn btn-primary" :disabled="loading.shipment">Submit <i v-if="loading.shipment" class="fa fa-spinner fa-spin"></i></button>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <!-- /.modal-content -->
             </div>
@@ -700,7 +688,7 @@
                         </button>
                         <h4 class="modal-title">PO# Factory：<span class="po_factory_no"></span></h4>
                     </div>
-                    <form class="form-horizontal">
+                    <div class="form-horizontal">
                         <div class="modal-body">
                             <div class="fields-group">
                                 <div class="row">
@@ -976,9 +964,9 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button v-on:click="saveShipment" type="button" class="btn btn-primary">Submit</button>
+                            <button v-on:click="saveShipment" type="button" class="btn btn-primary" :disabled="loading.shipment">Submit <i v-if="loading.shipment" class="fa fa-spinner fa-spin"></i></button>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <!-- /.modal-content -->
             </div>
@@ -995,7 +983,7 @@
                         </button>
                         <h4 class="modal-title">Deleted PO# Factory：<span id="deleted_factory_no"></span></h4>
                     </div>
-                    <form>
+                    <div>
                         <div class="modal-body">
                             <div style="overflow: auto; width: 100%;min-height: 300px">
                                 <table class="table">
@@ -1043,7 +1031,7 @@
                                 </table>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <!-- /.modal-content -->
             </div>
@@ -1059,6 +1047,11 @@
     export default {
         data() {
             return {
+                loading:{
+                    po_client: false,
+                    po_factory: false,
+                    shipment: false,
+                },
                 project_id: '',
                 client: '',
                 po_clients: [],
@@ -1298,12 +1291,12 @@
             },
 
             addPoClient() {
+                this.loading.po_client = true
                 axios({
                     method: 'post',
                     url: '/admin/po-client/add/',
                     data: this.po_client_form
                 }).then(response => {
-                    console.log(response.data)
                     swal(
                         response.data.message,
                         '',
@@ -1311,8 +1304,10 @@
                     ).then(function () {
                         location.reload()
                     })
+                    this.loading.po_client = false
 
                 }).catch(error => {
+                    this.loading.po_client = false
                     toastr.error(error.response.data.message);
                 });
             },
@@ -1363,6 +1358,7 @@
             },
 
             savePoClient(){
+                this.loading.po_client = true
                 axios({
                     method: 'post',
                     url: '/admin/po-client/edit/' + this.po_client_edit_form.id,
@@ -1375,7 +1371,9 @@
                     ).then(function () {
                         location.reload()
                     });
+                    this.loading.po_client = false
                 }).catch(error => {
+                    this.loading.po_client = false
                     toastr.error(error.response.data.message);
                 });
             },
@@ -1388,6 +1386,7 @@
             },
 
             addPoFactory(){
+                this.loading.po_factory = true
                 axios({
                     method: 'post',
                     url: '/admin/po-factory/add/',
@@ -1401,23 +1400,26 @@
                     ).then(function () {
                         location.reload()
                     })
-
+                    this.loading.po_factory = false
                 }).catch(error => {
+                    this.loading.po_factory = false
                     toastr.error(error.response.data.message)
                 });
             },
 
-            editPoFactory(id){
+            editPoFactory(id, no){
                 axios({
                     method: 'get',
                     url: '/admin/po-factory/edit/' + id,
                 }).then(response => {
                     this.po_factory_edit_form = response.data.data
+                    $('#editPoFactory .po_factory_no').html(no)
                     $('#editPoFactory').modal('show')
                 })
             },
 
             savePoFactory(){
+                this.loading.po_factory = true
                 axios({
                     method: 'post',
                     url: '/admin/po-factory/edit/' + this.po_factory_edit_form.id,
@@ -1430,7 +1432,9 @@
                     ).then(function () {
                         location.reload()
                     });
+                    this.loading.po_factory = false
                 }).catch(error => {
+                    this.loading.po_factory = false
                     toastr.error(error.response.data.message);
                 });
             },
@@ -1478,6 +1482,7 @@
                     data.shipping_method = this.shipment_form.customize_shipping_method
                 }
 
+                this.loading.shipment = true
                 axios({
                     method: 'post',
                     url: '/admin/po-factory-batch',
@@ -1492,7 +1497,9 @@
                             location.reload()
                         })
                     }
+                    this.loading.shipment = false
                 }).catch(error => {
+                    this.loading.shipment = false
                     toastr.error(error.response.data.message)
                 });
             },
@@ -1582,6 +1589,7 @@
                     data.shipping_method = this.shipment_edit_form.customize_shipping_method
                 }
 
+                this.loading.shipment = true
                 axios({
                     method: 'post',
                     url: '/admin/po-factory-batch/edit/' + this.shipment_edit_form.id,
@@ -1594,7 +1602,9 @@
                     ).then(function () {
                         location.reload()
                     });
+                    this.loading.shipment = false
                 }).catch(error => {
+                    this.loading.shipment = false
                     toastr.error(error.response.data.message);
                 });
             },
