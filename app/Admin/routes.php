@@ -15,6 +15,20 @@ Route::group([
     //客户
     $router->resource('clients', ClientController::class);
 
+    //联系人
+    $router->resource('contacts', ContactController::class);
+
+    //工厂
+    $router->resource('factories', FactoryController::class);
+    $router->get('factory-list', 'FactoryController@getFactories');
+
+    //港口
+    $router->resource('ports', PortController::class);
+    $router->get('port-list', 'PortController@getPortList');
+
+    $router->resource('carriers', CarrierController::class);
+    $router->get('carrier-list', 'CarrierController@getCarriers');
+
     //项目
     $router->resource('projects', ProjectController::class);
     $router->get('po-client/edit/{id}', 'PoClientController@getPoClient');
@@ -32,5 +46,6 @@ Route::group([
     $router->post('deleted/batch/{id}', 'PoFactoryController@deletedBatch');
     $router->post('delete/factory/{id}', 'PoFactoryController@deleteFactory');
     $router->get('batch/{id}', 'PoFactoryController@getBatch');
+    $router->get('batch/show/{id}', 'PoFactoryController@showBatch');
     $router->post('po-factory-batch/edit/{id}', 'PoFactoryController@editBatch');
 });

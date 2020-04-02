@@ -2,20 +2,20 @@
 
 namespace App\Admin\Controllers;
 
-use App\Client;
+use App\Carrier;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
-class ClientController extends AdminController
+class CarrierController extends ResponseController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = 'Client';
+    protected $title = 'App\Carrier';
 
     /**
      * Make a grid builder.
@@ -24,15 +24,12 @@ class ClientController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new Client());
-        $grid->disableExport();
-        $grid->disableFilter();
-        $grid->disableRowSelector();
+        $grid = new Grid(new Carrier());
 
+        $grid->column('id', __('Id'));
         $grid->column('name', __('Name'));
-        $grid->column('tel', __('Tel'));
-        $grid->column('address', __('Address'));
         $grid->column('created_at', __('Created at'));
+        $grid->column('updated_at', __('Updated at'));
 
         return $grid;
     }
@@ -45,12 +42,10 @@ class ClientController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(Client::findOrFail($id));
+        $show = new Show(Carrier::findOrFail($id));
 
         $show->field('id', __('Id'));
         $show->field('name', __('Name'));
-        $show->field('tel', __('Tel'));
-        $show->field('address', __('Address'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
@@ -64,13 +59,17 @@ class ClientController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new Client());
+        $form = new Form(new Carrier());
 
-        $form->text('name', __('Name'))->creationRules(['required', "unique:clients"])
-            ->updateRules(['required', "unique:clients,name,{{id}}"]);
-        $form->text('tel', __('Tel'));
-        $form->text('address', __('Address'));
+        $form->text('name', __('Name'));
 
         return $form;
+    }
+
+    public function getCarriers()
+    {
+        $carriers = Carrier::pluck('name', 'id');
+
+        return $this->responseSuccess($carriers);
     }
 }

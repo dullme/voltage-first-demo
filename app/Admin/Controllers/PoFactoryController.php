@@ -6,6 +6,7 @@ namespace App\Admin\Controllers;
 use App\Batch;
 use App\Enums\BatchStatus;
 use App\PoFactory;
+use Encore\Admin\Layout\Content;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -15,17 +16,26 @@ class PoFactoryController extends ResponseController
 
     public function add(Request $request)
     {
-        $data = $request->validate([
+        $validator = Validator::make($request->all(), [
             'po_client_id' => 'required',
-            'no'           => 'required',
+            'type'         => 'required',
+            'factory_id'   => 'required|integer',
             'remarks'      => 'nullable'
         ], [
-            'no.required' => 'The PO# Factory field is required.'
+            'type.required'       => 'The Type of PO field is required.',
+            'factory_id.required' => 'The Factory field is required.'
         ]);
+
+        if ($validator->fails()) {
+            return $this->setStatusCode(422)->responseError($validator->errors()->first());
+        }
+        $data = $validator->validated();
+        $po_factory_count = PoFactory::where('po_client_id', $data['po_client_id'])->count();
+        $data['no'] = sprintf("%02d", ++$po_factory_count);
 
         $po_factory = PoFactory::create($data);
 
-        $data = PoFactory::with(['batches' => function($query){
+        $data = PoFactory::with(['batches' => function ($query) {
             $query->orderBy('sequence', 'ASC');
         }])->find($po_factory->id);
 
@@ -42,10 +52,12 @@ class PoFactoryController extends ResponseController
     public function save($id, Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'no'           => 'required',
-            'remarks'      => 'nullable'
+            'type'       => 'required',
+            'factory_id' => 'required|integer',
+            'remarks'    => 'nullable'
         ], [
-            'no.required' => 'The PO# Factory field is required.'
+            'type_id.required'    => 'The Type of PO field is required.',
+            'factory_id.required' => 'The Factory field is required.'
         ]);
 
         if ($validator->fails()) {
@@ -61,8 +73,8 @@ class PoFactoryController extends ResponseController
     {
         $validator = Validator::make($request->all(), [
             'po_factory_id'                   => 'required',
-            'name'                            => 'required',
-            'sequence'                        => 'nullable|integer',
+            'name'                            => 'nullable',
+            'sequence'                        => 'required|integer',
             'carrier'                         => 'nullable',
 //            'b_l'                             => 'required|unique:batches',
             'b_l'                             => 'nullable',
@@ -70,6 +82,11 @@ class PoFactoryController extends ResponseController
             'vessel'                          => 'nullable',
             'container_no'                    => 'nullable',
             'remarks'                         => 'nullable',
+            'port_of_departure'               => 'nullable',
+            'destination_port'                => 'nullable',
+            'rmb'                             => 'nullable|numeric',
+            'foreign_currency'                => 'nullable|numeric',
+            'foreign_currency_type'           => 'required_with:foreign_currency',
             'estimated_production_completion' => 'nullable|date',
             'etd_port'                        => 'nullable|date',
             'eta_port'                        => 'nullable|date',
@@ -79,7 +96,7 @@ class PoFactoryController extends ResponseController
             'ata_port'                        => 'nullable|date',
             'ata_job_site'                    => 'nullable|date',
         ], [
-            'name.required' => 'The project name field is required.',
+            'name.required' => 'The sequence field is required.',
         ]);
 
         if ($validator->fails()) {
@@ -152,11 +169,21 @@ class PoFactoryController extends ResponseController
         return $this->responseSuccess($batch);
     }
 
+    public function showBatch($id, Content $content)
+    {
+        $batch = Batch::with('poFactory.poClient.project')->findOrFail($id);
+
+        return $content
+            ->title(getSequence($batch->sequence))
+            ->description($batch->name)
+            ->row(view('admin.batch.show', compact('batch')));
+    }
+
     public function editBatch(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name'                            => 'required',
-            'sequence'                        => 'nullable|integer',
+            'name'                            => 'nullable',
+            'sequence'                        => 'required|integer',
             'carrier'                         => 'nullable',
             'b_l'                             => [
                 'nullable',
@@ -166,6 +193,11 @@ class PoFactoryController extends ResponseController
             'vessel'                          => 'nullable',
             'container_no'                    => 'nullable',
             'remarks'                         => 'nullable',
+            'port_of_departure'               => 'nullable',
+            'destination_port'                => 'nullable',
+            'rmb'                             => 'nullable|numeric',
+            'foreign_currency'                => 'nullable|numeric',
+            'foreign_currency_type'           => 'required_with:foreign_currency',
             'estimated_production_completion' => 'nullable|date',
             'etd_port'                        => 'nullable|date',
             'eta_port'                        => 'nullable|date',
@@ -175,7 +207,7 @@ class PoFactoryController extends ResponseController
             'ata_port'                        => 'nullable|date',
             'ata_job_site'                    => 'nullable|date',
         ], [
-            'name.required' => 'The project name field is required.',
+            'name.required' => 'The sequence field is required.',
         ]);
 
         if ($validator->fails()) {

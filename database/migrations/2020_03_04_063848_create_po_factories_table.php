@@ -17,7 +17,9 @@ class CreatePoFactoriesTable extends Migration
         Schema::create('po_factories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('po_client_id')->unsigned();
-            $table->string('no')->comment('PO# Factory');
+            $table->integer('factory_id')->unsigned();
+            $table->integer('type')->unsigned();
+            $table->string('no')->unique()->comment('编号自动生成');
             $table->longText('remarks')->nullable()->comment('remarks');
             $table->timestamps();
         });

@@ -2,20 +2,21 @@
 
 namespace App\Admin\Controllers;
 
-use App\Client;
+use App\Port;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
-class ClientController extends AdminController
+class PortController extends ResponseController
 {
+
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = 'Client';
+    protected $title = 'Port';
 
     /**
      * Make a grid builder.
@@ -24,15 +25,15 @@ class ClientController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new Client());
+        $grid = new Grid(new Port());
         $grid->disableExport();
         $grid->disableFilter();
         $grid->disableRowSelector();
 
         $grid->column('name', __('Name'));
-        $grid->column('tel', __('Tel'));
-        $grid->column('address', __('Address'));
-        $grid->column('created_at', __('Created at'));
+        $grid->column('type', __('China/Abroad'))->display(function ($type) {
+            return $type == 0 ? 'China' : 'Abroad';
+        });
 
         return $grid;
     }
@@ -45,14 +46,10 @@ class ClientController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(Client::findOrFail($id));
-
+        $show = new Show(Port::findOrFail($id));
         $show->field('id', __('Id'));
         $show->field('name', __('Name'));
-        $show->field('tel', __('Tel'));
-        $show->field('address', __('Address'));
-        $show->field('created_at', __('Created at'));
-        $show->field('updated_at', __('Updated at'));
+        $show->field('type', __('China/Abroad'))->using([0 => 'China', 1 => 'Abroad']);
 
         return $show;
     }
@@ -64,13 +61,20 @@ class ClientController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new Client());
-
-        $form->text('name', __('Name'))->creationRules(['required', "unique:clients"])
-            ->updateRules(['required', "unique:clients,name,{{id}}"]);
-        $form->text('tel', __('Tel'));
-        $form->text('address', __('Address'));
+        $form = new Form(new Port());
+        $form->text('name', __('Name'));
+        $form->switch('type', __('China/Abroad'))->states([
+            'on'  => ['value' => 1, 'text' => 'Abroad'],
+            'off' => ['value' => 0, 'text' => 'China'],
+        ]);
 
         return $form;
+    }
+
+    public function getPortList()
+    {
+        $ports = Port::select('name', 'id', 'type')->get();
+
+        return $this->responseSuccess($ports);
     }
 }

@@ -29,6 +29,11 @@ class Batch extends Model
         'atd_port',
         'ata_port',
         'ata_job_site',
+        'rmb',
+        'foreign_currency',
+        'foreign_currency_type',
+        'port_of_departure',
+        'destination_port',
     ];
 
     protected $dates = [
@@ -49,7 +54,7 @@ class Batch extends Model
 
     public function getUpdatedAtAttribute($value)
     {
-        return Carbon::parse($value)->diffForHumans();
+        return Carbon::parse($value)->toDateString();
     }
 
     public function getDeletedAtAttribute($value)

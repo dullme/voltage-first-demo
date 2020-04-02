@@ -16,8 +16,8 @@ class CreateBatchesTable extends Migration
         Schema::create('batches', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('po_factory_id')->unsigned()->comment('Po Factory ID');
-            $table->string('name')->comment('发货批次');
-            $table->integer('sequence')->unsigned()->nullable()->comment('序号');
+            $table->string('name')->nullable()->comment('发货批次');
+            $table->integer('sequence')->unsigned()->comment('序号');
             $table->integer('status')->unsigned()->default(\App\Enums\BatchStatus::InProduction)->comment('状态');
             $table->timestamp('estimated_production_completion')->nullable()->comment('预计生产完成时间');
             $table->timestamp('etd_port')->nullable()->comment('预计离岗时间');
@@ -33,6 +33,11 @@ class CreateBatchesTable extends Migration
             $table->string('container_no')->nullable()->comment('柜子编码');
             $table->string('remarks')->nullable()->comment('有几个柜子');
             $table->string('shipping_method')->nullable()->comment('运输方式');
+            $table->decimal('rmb', 10, 2)->nullable()->comment('人民币');
+            $table->decimal('foreign_currency', 10, 2)->nullable()->comment('外币');
+            $table->integer('foreign_currency_type')->nullable()->comment('外币类型');
+            $table->string('port_of_departure')->nullable()->comment('启运港口');
+            $table->string('destination_port')->nullable()->comment('目的地港口');
             $table->softDeletes();
             $table->timestamps();
         });
