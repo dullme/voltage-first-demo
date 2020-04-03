@@ -12,7 +12,6 @@ use App\PoFactoryHistory;
 use Encore\Admin\Layout\Content;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class PoFactoryController extends ResponseController
 {
@@ -22,11 +21,10 @@ class PoFactoryController extends ResponseController
         $validator = Validator::make($request->all(), [
             'po_client_id' => 'required',
             'type'         => 'required',
-            'factory_id'   => 'required|integer',
+            'factory_id'   => 'nullable|integer',
             'remarks'      => 'nullable'
         ], [
             'type.required'       => 'The Type of PO field is required.',
-            'factory_id.required' => 'The Factory field is required.'
         ]);
 
         if ($validator->fails()) {
@@ -59,11 +57,10 @@ class PoFactoryController extends ResponseController
     {
         $validator = Validator::make($request->all(), [
             'type'       => 'required|integer',
-            'factory_id' => 'required|integer',
+            'factory_id' => 'nullable|integer',
             'remarks'    => 'nullable'
         ], [
             'type_id.required'    => 'The Type of PO field is required.',
-            'factory_id.required' => 'The Factory field is required.'
         ]);
 
         if ($validator->fails()) {

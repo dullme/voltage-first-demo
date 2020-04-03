@@ -67,7 +67,7 @@
                                              :id="po_factory.id + po_factory.no"
                                              v-for="(po_factory,index) in po_client.po_factories">
                                             <div class="panel-body">
-                                                <p>
+                                                <p v-if="po_factory.factory">
                                                     <span><b>Factory name：</b>{{ po_factory.factory.name }}</span>
                                                     <span style="margin-left: 20px" v-if="po_factory.factory.address"><b>Factory address：</b>{{ po_factory.factory.address }}</span>
                                                     <span style="margin-left: 20px" v-if="po_factory.factory.tel"><b>Factory tel：</b>{{ po_factory.factory.tel }}</span>

@@ -22369,48 +22369,56 @@ var render = function() {
                               },
                               [
                                 _c("div", { staticClass: "panel-body" }, [
-                                  _c("p", [
-                                    _c("span", [
-                                      _c("b", [_vm._v("Factory name：")]),
-                                      _vm._v(_vm._s(po_factory.factory.name))
-                                    ]),
-                                    _vm._v(" "),
-                                    po_factory.factory.address
-                                      ? _c(
-                                          "span",
-                                          {
-                                            staticStyle: {
-                                              "margin-left": "20px"
-                                            }
-                                          },
-                                          [
-                                            _c("b", [
-                                              _vm._v("Factory address：")
-                                            ]),
-                                            _vm._v(
-                                              _vm._s(po_factory.factory.address)
+                                  po_factory.factory
+                                    ? _c("p", [
+                                        _c("span", [
+                                          _c("b", [_vm._v("Factory name：")]),
+                                          _vm._v(
+                                            _vm._s(po_factory.factory.name)
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        po_factory.factory.address
+                                          ? _c(
+                                              "span",
+                                              {
+                                                staticStyle: {
+                                                  "margin-left": "20px"
+                                                }
+                                              },
+                                              [
+                                                _c("b", [
+                                                  _vm._v("Factory address：")
+                                                ]),
+                                                _vm._v(
+                                                  _vm._s(
+                                                    po_factory.factory.address
+                                                  )
+                                                )
+                                              ]
                                             )
-                                          ]
-                                        )
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    po_factory.factory.tel
-                                      ? _c(
-                                          "span",
-                                          {
-                                            staticStyle: {
-                                              "margin-left": "20px"
-                                            }
-                                          },
-                                          [
-                                            _c("b", [_vm._v("Factory tel：")]),
-                                            _vm._v(
-                                              _vm._s(po_factory.factory.tel)
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        po_factory.factory.tel
+                                          ? _c(
+                                              "span",
+                                              {
+                                                staticStyle: {
+                                                  "margin-left": "20px"
+                                                }
+                                              },
+                                              [
+                                                _c("b", [
+                                                  _vm._v("Factory tel：")
+                                                ]),
+                                                _vm._v(
+                                                  _vm._s(po_factory.factory.tel)
+                                                )
+                                              ]
                                             )
-                                          ]
-                                        )
-                                      : _vm._e()
-                                  ]),
+                                          : _vm._e()
+                                      ])
+                                    : _vm._e(),
                                   _vm._v(" "),
                                   po_factory.remarks
                                     ? _c(
