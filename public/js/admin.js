@@ -3231,6 +3231,7 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
       factories: [],
       ports: [],
       project_id: '',
+      project_number: '',
       client: '',
       po_clients: [],
       deleted_shipments: [],
@@ -3330,6 +3331,7 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
 
     var project = JSON.parse(this.project);
     this.project_id = project.id;
+    this.project_number = project.number;
     Vue.set(this.po_client_form, 'project_id', project.id);
     this.project_name = project.name;
     this.client = project.client;
@@ -22311,7 +22313,7 @@ var render = function() {
                                               "-" +
                                               _vm._s(_vm.client.number) +
                                               "-" +
-                                              _vm._s(_vm.project_id) +
+                                              _vm._s(_vm.project_number) +
                                               "-" +
                                               _vm._s(po_factory.no)
                                           )

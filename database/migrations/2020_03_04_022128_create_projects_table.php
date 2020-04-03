@@ -17,6 +17,7 @@ class CreateProjectsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('client_id')->unsigned()->comment('客户表ID');
             $table->string('name')->comment('项目名称');
+            $table->string('number')->comment('项目编号');
             $table->timestamps();
         });
     }

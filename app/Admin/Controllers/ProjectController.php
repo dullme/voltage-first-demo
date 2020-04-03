@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Client;
 use App\Project;
+use Carbon\Carbon;
 use Encore\Admin\Admin;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -38,6 +39,7 @@ class ProjectController extends AdminController
         });
 
         $grid->column('client.name', __('Clients'));
+        $grid->column('number', __('Number'));
         $grid->column('name', __('Project name'))->display(function ($name){
             $url = url("/admin/projects/{$this->id}");
 
@@ -87,11 +89,21 @@ EOF
         $clients = Client::pluck('name', 'id');
         $form->select('client_id', 'Clients')->options($clients)->required();
         $form->text('name', __('Name'))->required();
+        $form->hidden('number', __('Number'));
 
         $form->tools(function (Form\Tools $tools) {
             // 去掉`删除`按钮
             $tools->disableDelete();
         });
+
+        if($form->isCreating()){
+            $form->saving(function (Form $form) {
+                $carbon = Carbon::now();
+                $project = Project::orderBy('id', 'desc')->whereBetween('created_at', [$carbon->startOfYear()->toDateTimeString(), $carbon->endOfYear()->toDateTimeString()])->first();
+                $number = $project ? intval($project->number) + 1 : substr($carbon->year,-2).'001';
+                $form->number = $number;
+            });
+        }
 
         return $form;
     }

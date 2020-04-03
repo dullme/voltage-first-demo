@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
+    protected $fillable = [
+        'client_id',
+        'name',
+        'number',
+    ];
+
     protected $dates = [
         'client_delivery_time',
         'po_date'

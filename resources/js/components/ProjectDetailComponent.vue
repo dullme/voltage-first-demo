@@ -53,7 +53,7 @@
                                                 v-for="(po_factory,index) in po_client.po_factories">
                                                 <a :href="'#' + po_factory.id + po_factory.no" aria-controls="home"
                                                    role="tab" data-toggle="tab">
-                                                    <span>{{ po_factory.type }}-{{ client.number }}-{{ project_id }}-{{ po_factory.no }}</span>
+                                                    <span>{{ po_factory.type }}-{{ client.number }}-{{ project_number }}-{{ po_factory.no }}</span>
                                                     <span v-if="po_factory.number">.{{ po_factory.number }}</span>
                                                     <span class="badge" v-if="po_factory.batches.length">{{ po_factory.batches.length }}</span>
                                                 </a>
@@ -1321,6 +1321,7 @@
                 factories: [],
                 ports: [],
                 project_id: '',
+                project_number: '',
                 client: '',
                 po_clients: [],
                 deleted_shipments: [],
@@ -1419,6 +1420,7 @@
         created() {
             let project = JSON.parse(this.project);
             this.project_id = project.id
+            this.project_number = project.number
             Vue.set(this.po_client_form, 'project_id', project.id);
             this.project_name = project.name
             this.client = project.client
