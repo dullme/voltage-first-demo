@@ -41,7 +41,7 @@ class PoFactoryController extends ResponseController
 
         $po_factory = PoFactory::create($data);
 
-        $data = PoFactory::with(['batches' => function ($query) {
+        $data = PoFactory::with(['factory', 'batches' => function ($query) {
             $query->orderBy('sequence', 'ASC');
         }])->find($po_factory->id);
 
