@@ -25,6 +25,9 @@ class CarrierController extends ResponseController
     protected function grid()
     {
         $grid = new Grid(new Carrier());
+        $grid->disableExport();
+        $grid->disableFilter();
+        $grid->disableRowSelector();
 
         $grid->column('id', __('Id'));
         $grid->column('name', __('Name'));
