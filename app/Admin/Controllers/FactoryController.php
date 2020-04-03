@@ -78,7 +78,7 @@ class FactoryController extends ResponseController
 
     public function getFactories()
     {
-        $factories = Factory::select('name', 'id')->get();
+        $factories = Factory::pluck('name', 'id');
 
         return $this->responseSuccess($factories);
     }

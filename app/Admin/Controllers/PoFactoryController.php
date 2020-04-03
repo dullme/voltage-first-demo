@@ -3,9 +3,12 @@
 
 namespace App\Admin\Controllers;
 
+use DB;
 use App\Batch;
 use App\Enums\BatchStatus;
+use App\PoClient;
 use App\PoFactory;
+use App\PoFactoryHistory;
 use Encore\Admin\Layout\Content;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +17,7 @@ use Illuminate\Validation\Rule;
 class PoFactoryController extends ResponseController
 {
 
-    public function add(Request $request)
+    public function add($id, Request $request)
     {
         $validator = Validator::make($request->all(), [
             'po_client_id' => 'required',
@@ -30,7 +33,10 @@ class PoFactoryController extends ResponseController
             return $this->setStatusCode(422)->responseError($validator->errors()->first());
         }
         $data = $validator->validated();
-        $po_factory_count = PoFactory::where('po_client_id', $data['po_client_id'])->count();
+
+        $po_client_ids = PoClient::where('project_id', $id)->pluck('id');
+        $po_factory = PoFactory::whereIn('po_client_id', $po_client_ids)->orderBy('id', 'desc')->first();
+        $po_factory_count = $po_factory ? intval($po_factory->no) : 0;
         $data['no'] = sprintf("%02d", ++$po_factory_count);
 
         $po_factory = PoFactory::create($data);
@@ -44,7 +50,7 @@ class PoFactoryController extends ResponseController
 
     public function getPoFactory($id)
     {
-        $po_factory = PoFactory::findOrFail($id);
+        $po_factory = PoFactory::with('poFactoryHistories')->findOrFail($id);
 
         return $this->responseSuccess($po_factory);
     }
@@ -52,7 +58,7 @@ class PoFactoryController extends ResponseController
     public function save($id, Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'type'       => 'required',
+            'type'       => 'required|integer',
             'factory_id' => 'required|integer',
             'remarks'    => 'nullable'
         ], [
@@ -63,8 +69,39 @@ class PoFactoryController extends ResponseController
         if ($validator->fails()) {
             return $this->setStatusCode(422)->responseError($validator->errors()->first());
         }
+        $po_factory = PoFactory::findOrFail($id);
 
-        PoFactory::where('id', $id)->update($validator->validated());
+        $update_data = $validator->validated();
+
+        $data1 = [
+            'type'       => $po_factory->type,
+            'factory_id' => $po_factory->factory_id,
+            'remarks'    => $po_factory->remarks
+        ];
+        $data2 = [
+            'type'       => intval($update_data['type']),
+            'factory_id' => intval($update_data['factory_id']),
+            'remarks'    => $update_data['remarks']
+        ];
+
+        if($data1 === $data2){
+            return $this->setStatusCode(422)->responseError('Unmodified');
+        }
+
+        DB::transaction(function () use ($po_factory, $validator) {
+            PoFactoryHistory::create([
+                'po_factory_id' => $po_factory->id,
+                'po_client_id' => $po_factory->po_client_id,
+                'factory_id' => $po_factory->factory_id,
+                'type' => $po_factory->type,
+                'no' => $po_factory->no,
+                'number' => $po_factory->number,
+                'remarks' => $po_factory->remarks,
+                'created_at' => $po_factory->created_at,
+                'updated_at' => $po_factory->updated_at,
+            ]);
+            PoFactory::where('id', $po_factory->id)->update(array_merge($validator->validated(),['number' => ++$po_factory->number]));
+        });
 
         return $this->responseSuccess(true, 'Updated');
     }

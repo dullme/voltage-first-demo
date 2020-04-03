@@ -1,12 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreatePoFactoriesTable extends Migration
+class CreatePoFactoryHistoriesTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -14,13 +13,14 @@ class CreatePoFactoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('po_factories', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('po_factory_histories', function (Blueprint $table) {
+            $table->id();
+            $table->integer('po_factory_id')->unsigned();
             $table->integer('po_client_id')->unsigned();
             $table->integer('factory_id')->unsigned();
             $table->integer('type')->unsigned();
             $table->string('no')->comment('编号自动生成');
-            $table->integer('number')->unsigned()->default(0)->comment('当前版本号');
+            $table->integer('number')->unsigned()->comment('当前版本号');
             $table->longText('remarks')->nullable()->comment('remarks');
             $table->timestamps();
         });
@@ -33,6 +33,6 @@ class CreatePoFactoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('po_factories');
+        Schema::dropIfExists('po_factory_histories');
     }
 }

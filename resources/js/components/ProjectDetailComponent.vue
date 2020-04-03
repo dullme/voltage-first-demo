@@ -53,8 +53,9 @@
                                                 v-for="(po_factory,index) in po_client.po_factories">
                                                 <a :href="'#' + po_factory.id + po_factory.no" aria-controls="home"
                                                    role="tab" data-toggle="tab">
-                                                    {{ po_factory.no }}<span class="badge"
-                                                                             v-if="po_factory.batches.length">{{ po_factory.batches.length }}</span>
+                                                    <span>{{ po_factory.type }}-{{ client.number }}-{{ project_id }}-{{ po_factory.no }}</span>
+                                                    <span v-if="po_factory.number">.{{ po_factory.number }}</span>
+                                                    <span class="badge" v-if="po_factory.batches.length">{{ po_factory.batches.length }}</span>
                                                 </a>
                                             </li>
                                         </ul>
@@ -66,7 +67,12 @@
                                              :id="po_factory.id + po_factory.no"
                                              v-for="(po_factory,index) in po_client.po_factories">
                                             <div class="panel-body">
-                                                <pre style="background-color: unset;border: unset;padding: 0">{{ po_factory.remarks }}</pre>
+                                                <p>
+                                                    <span><b>Factory name：</b>{{ po_factory.factory.name }}</span>
+                                                    <span style="margin-left: 20px" v-if="po_factory.factory.address"><b>Factory address：</b>{{ po_factory.factory.address }}</span>
+                                                    <span style="margin-left: 20px" v-if="po_factory.factory.tel"><b>Factory tel：</b>{{ po_factory.factory.tel }}</span>
+                                                </p>
+                                                <pre style="background-color: unset;border: unset;padding: 0" v-if="po_factory.remarks"><b>Remarks：</b>{{ po_factory.remarks }}</pre>
 
                                                 <button class="btn btn-success btn-xs" style="margin-right: 5px"
                                                         v-on:click="showAddShipment(po_factory.id, po_factory.no)">
@@ -403,20 +409,14 @@
                                     <label>Type of PO</label>
                                     <select class="form-control" v-model="po_factory_form.type">
                                         <option value="">Please choose</option>
-                                        <option value="1">Project related</option>
-                                        <option value="2">Inventory related</option>
-                                        <option value="3">Fixed assets</option>
-                                        <option value="4">Consumables</option>
-                                        <option value="5">Service</option>
-                                        <option value="6">Maintenance</option>
-                                        <option value="7">Transportation</option>
+                                        <option :value="key" v-for="(item,key) in type_of_po">{{ item }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Factory</label>
                                     <select class="form-control" v-model="po_factory_form.factory_id">
                                         <option value="">Please choose</option>
-                                        <option v-for="factory in factories" :value="factory.id">{{ factory.name }}</option>
+                                        <option v-for="(factory,key) in factories" :value="key">{{ factory }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -452,31 +452,37 @@
                     </div>
                     <div class="form-horizontal">
                         <div class="modal-body">
+                            <div class="col-lg-12" id="history-list">
+                                <a v-for="(item,key) in po_factory_edit_form.po_factory_histories" :class="po_factory_history_active === key? 'active' : ''" @click="poFactoryHistory(key)" style="margin: 0 5px;border-radius: 4px;cursor: pointer;display:inline-block;padding: 2px 18px;margin-bottom:10px;background-color: #f4f4f4;color: #636363">{{ item.number }}</a>
+                            </div>
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label>Type of PO</label>
                                     <select class="form-control" v-model="po_factory_edit_form.type">
                                         <option value="">Please choose</option>
-                                        <option value="1">Project related</option>
-                                        <option value="2">Inventory related</option>
-                                        <option value="3">Fixed assets</option>
-                                        <option value="4">Consumables</option>
-                                        <option value="5">Service</option>
-                                        <option value="6">Maintenance</option>
-                                        <option value="7">Transportation</option>
+                                        <option :value="key" v-for="(item,key) in type_of_po">{{ item }}</option>
                                     </select>
+                                    <span style="color: #9e9e9e;padding:0 10px;display: block;margin-top: 10px" v-if="po_factory_history.id">
+                                        {{ po_factory_history.number }}. {{ type_of_po[po_factory_history.type] }}
+                                    </span>
                                 </div>
                                 <div class="form-group">
                                     <label>Factory</label>
                                     <select class="form-control" v-model="po_factory_edit_form.factory_id">
                                         <option value="">Please choose</option>
-                                        <option v-for="factory in factories" :value="factory.id">{{ factory.name }}</option>
+                                        <option v-for="(factory,key) in factories" :value="key">{{ factory }}</option>
                                     </select>
+                                    <span style="color: #9e9e9e;padding:0 10px;display: block;margin-top: 10px" v-if="po_factory_history.id">
+                                        {{ po_factory_history.number }}. {{ factories[po_factory_history.factory_id] }}
+                                    </span>
                                 </div>
                                 <div class="form-group">
                                     <label>Remarks</label>
                                     <textarea rows="5" placeholder="Remarks" class="form-control remark"
                                               v-model="po_factory_edit_form.remarks"></textarea>
+                                    <span style="color: #9e9e9e;padding:0 10px;display: block;margin-top: 10px" v-if="po_factory_history.id">
+                                        {{ po_factory_history.number }}. {{ po_factory_history.remarks }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -1318,6 +1324,15 @@
                 client: '',
                 po_clients: [],
                 deleted_shipments: [],
+                type_of_po:{
+                    '1' : 'Project related',
+                    '2' : 'Inventory related',
+                    '3' : 'Fixed assets',
+                    '4' : 'Consumables',
+                    '5' : 'Service',
+                    '6' : 'Maintenance',
+                    '7' : 'Transportation',
+                },
                 project_name: '',
                 po_client_form: {
                     no: '',
@@ -1342,6 +1357,8 @@
                     type: '',
                     remarks: '',
                 },
+                po_factory_history: {},
+                po_factory_history_active: '',
                 shipment_form: {
                     po_factory_id: '',
                     name: '',
@@ -1573,9 +1590,25 @@
                 }
             })
 
+
+            $('#editPoFactory').on('hide.bs.modal', () => {
+                this.po_factory_history_active = ''
+                this.po_factory_history = {}
+            })
         },
 
         methods: {
+            poFactoryHistory(key){
+                if(this.po_factory_history_active === key){
+                    this.po_factory_history_active = ''
+                    this.po_factory_history = {}
+                }else{
+                    this.po_factory_history_active = key
+                    this.po_factory_history = this.po_factory_edit_form.po_factory_histories[key];
+                }
+
+            },
+
             inArray(search, array) {
                 for (let i in array) {
                     if (array[i] == search) {
@@ -1703,7 +1736,7 @@
                 this.loading.po_factory = true
                 axios({
                     method: 'post',
-                    url: '/admin/po-factory/add/',
+                    url: '/admin/po-factory/add/' + this.project_id,
                     data: this.po_factory_form
                 }).then(response => {
                     swal(
@@ -1719,6 +1752,14 @@
                                 console.log(index)
                             }
                         })
+
+                        this.po_factory_form =  {
+                            po_client_id: '',
+                            factory_id: '',
+                            type: '',
+                            remarks: '',
+                        }
+
                         $('#addPoFactory').modal('hide')
                     })
 
@@ -2055,5 +2096,10 @@
         background-color: #31708f;
         margin-top: -3px;
         margin-left: 5px;
+    }
+
+    #history-list > .active {
+        background-color: #00a65a !important;
+        color: #ffffff !important;
     }
 </style>

@@ -3209,6 +3209,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/vendor/date-js/date-zh-CN.js");
@@ -3228,6 +3234,15 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
       client: '',
       po_clients: [],
       deleted_shipments: [],
+      type_of_po: {
+        '1': 'Project related',
+        '2': 'Inventory related',
+        '3': 'Fixed assets',
+        '4': 'Consumables',
+        '5': 'Service',
+        '6': 'Maintenance',
+        '7': 'Transportation'
+      },
       project_name: '',
       po_client_form: {
         no: '',
@@ -3252,6 +3267,8 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         type: '',
         remarks: ''
       },
+      po_factory_history: {},
+      po_factory_history_active: '',
       shipment_form: {
         po_factory_id: '',
         name: '',
@@ -3462,8 +3479,21 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         _this2.shipment_edit_form.ata_job_site = '';
       }
     });
+    $('#editPoFactory').on('hide.bs.modal', function () {
+      _this2.po_factory_history_active = '';
+      _this2.po_factory_history = {};
+    });
   },
   methods: {
+    poFactoryHistory: function poFactoryHistory(key) {
+      if (this.po_factory_history_active === key) {
+        this.po_factory_history_active = '';
+        this.po_factory_history = {};
+      } else {
+        this.po_factory_history_active = key;
+        this.po_factory_history = this.po_factory_edit_form.po_factory_histories[key];
+      }
+    },
     inArray: function inArray(search, array) {
       for (var i in array) {
         if (array[i] == search) {
@@ -3582,7 +3612,7 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
       this.loading.po_factory = true;
       axios({
         method: 'post',
-        url: '/admin/po-factory/add/',
+        url: '/admin/po-factory/add/' + this.project_id,
         data: this.po_factory_form
       }).then(function (response) {
         swal(response.data.message, '', 'success').then(function () {
@@ -3597,6 +3627,12 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
             }
           });
 
+          _this6.po_factory_form = {
+            po_client_id: '',
+            factory_id: '',
+            type: '',
+            remarks: ''
+          };
           $('#addPoFactory').modal('hide');
         });
       })["catch"](function (error) {
@@ -3880,7 +3916,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.panel-heading[data-v-909a2404] {\n    padding-bottom: unset;\n}\n.nav-tabs > li.active > a[data-v-909a2404], .nav-tabs > li.active > a[data-v-909a2404]:focus, .nav-tabs > li.active > a[data-v-909a2404]:hover {\n    border-color: #bce8f1;\n    border-bottom: unset;\n    border-bottom-color: unset;\n}\n.nav-tabs[data-v-909a2404] {\n    border-bottom: unset;\n}\n.nav > li > a[data-v-909a2404] {\n    padding: 5px 15px;\n}\n.table td[data-v-909a2404] {\n    vertical-align: middle;\n}\n.panel-info > .panel-heading .badge[data-v-909a2404] {\n    color: #d9edf7;\n    background-color: #31708f;\n    margin-top: -3px;\n    margin-left: 5px;\n}\n", ""]);
+exports.push([module.i, "\n.panel-heading[data-v-909a2404] {\n    padding-bottom: unset;\n}\n.nav-tabs > li.active > a[data-v-909a2404], .nav-tabs > li.active > a[data-v-909a2404]:focus, .nav-tabs > li.active > a[data-v-909a2404]:hover {\n    border-color: #bce8f1;\n    border-bottom: unset;\n    border-bottom-color: unset;\n}\n.nav-tabs[data-v-909a2404] {\n    border-bottom: unset;\n}\n.nav > li > a[data-v-909a2404] {\n    padding: 5px 15px;\n}\n.table td[data-v-909a2404] {\n    vertical-align: middle;\n}\n.panel-info > .panel-heading .badge[data-v-909a2404] {\n    color: #d9edf7;\n    background-color: #31708f;\n    margin-top: -3px;\n    margin-left: 5px;\n}\n#history-list > .active[data-v-909a2404] {\n    background-color: #00a65a !important;\n    color: #ffffff !important;\n}\n", ""]);
 
 // exports
 
@@ -22269,10 +22305,26 @@ var render = function() {
                                         }
                                       },
                                       [
-                                        _vm._v(
-                                          "\n                                                " +
-                                            _vm._s(po_factory.no)
-                                        ),
+                                        _c("span", [
+                                          _vm._v(
+                                            _vm._s(po_factory.type) +
+                                              "-" +
+                                              _vm._s(_vm.client.number) +
+                                              "-" +
+                                              _vm._s(_vm.project_id) +
+                                              "-" +
+                                              _vm._s(po_factory.no)
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        po_factory.number
+                                          ? _c("span", [
+                                              _vm._v(
+                                                "." + _vm._s(po_factory.number)
+                                              )
+                                            ])
+                                          : _vm._e(),
+                                        _vm._v(" "),
                                         po_factory.batches.length
                                           ? _c(
                                               "span",
@@ -22315,17 +22367,65 @@ var render = function() {
                               },
                               [
                                 _c("div", { staticClass: "panel-body" }, [
-                                  _c(
-                                    "pre",
-                                    {
-                                      staticStyle: {
-                                        "background-color": "unset",
-                                        border: "unset",
-                                        padding: "0"
-                                      }
-                                    },
-                                    [_vm._v(_vm._s(po_factory.remarks))]
-                                  ),
+                                  _c("p", [
+                                    _c("span", [
+                                      _c("b", [_vm._v("Factory name：")]),
+                                      _vm._v(_vm._s(po_factory.factory.name))
+                                    ]),
+                                    _vm._v(" "),
+                                    po_factory.factory.address
+                                      ? _c(
+                                          "span",
+                                          {
+                                            staticStyle: {
+                                              "margin-left": "20px"
+                                            }
+                                          },
+                                          [
+                                            _c("b", [
+                                              _vm._v("Factory address：")
+                                            ]),
+                                            _vm._v(
+                                              _vm._s(po_factory.factory.address)
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    po_factory.factory.tel
+                                      ? _c(
+                                          "span",
+                                          {
+                                            staticStyle: {
+                                              "margin-left": "20px"
+                                            }
+                                          },
+                                          [
+                                            _c("b", [_vm._v("Factory tel：")]),
+                                            _vm._v(
+                                              _vm._s(po_factory.factory.tel)
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ]),
+                                  _vm._v(" "),
+                                  po_factory.remarks
+                                    ? _c(
+                                        "pre",
+                                        {
+                                          staticStyle: {
+                                            "background-color": "unset",
+                                            border: "unset",
+                                            padding: "0"
+                                          }
+                                        },
+                                        [
+                                          _c("b", [_vm._v("Remarks：")]),
+                                          _vm._v(_vm._s(po_factory.remarks))
+                                        ]
+                                      )
+                                    : _vm._e(),
                                   _vm._v(" "),
                                   _c(
                                     "button",
@@ -23281,34 +23381,13 @@ var render = function() {
                         _vm._v("Please choose")
                       ]),
                       _vm._v(" "),
-                      _c("option", { attrs: { value: "1" } }, [
-                        _vm._v("Project related")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "2" } }, [
-                        _vm._v("Inventory related")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "3" } }, [
-                        _vm._v("Fixed assets")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "4" } }, [
-                        _vm._v("Consumables")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "5" } }, [
-                        _vm._v("Service")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "6" } }, [
-                        _vm._v("Maintenance")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "7" } }, [
-                        _vm._v("Transportation")
-                      ])
-                    ]
+                      _vm._l(_vm.type_of_po, function(item, key) {
+                        return _c("option", { domProps: { value: key } }, [
+                          _vm._v(_vm._s(item))
+                        ])
+                      })
+                    ],
+                    2
                   )
                 ]),
                 _vm._v(" "),
@@ -23352,12 +23431,10 @@ var render = function() {
                         _vm._v("Please choose")
                       ]),
                       _vm._v(" "),
-                      _vm._l(_vm.factories, function(factory) {
-                        return _c(
-                          "option",
-                          { domProps: { value: factory.id } },
-                          [_vm._v(_vm._s(factory.name))]
-                        )
+                      _vm._l(_vm.factories, function(factory, key) {
+                        return _c("option", { domProps: { value: key } }, [
+                          _vm._v(_vm._s(factory))
+                        ])
                       })
                     ],
                     2
@@ -23440,6 +23517,42 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "form-horizontal" }, [
               _c("div", { staticClass: "modal-body" }, [
+                _c(
+                  "div",
+                  { staticClass: "col-lg-12", attrs: { id: "history-list" } },
+                  _vm._l(
+                    _vm.po_factory_edit_form.po_factory_histories,
+                    function(item, key) {
+                      return _c(
+                        "a",
+                        {
+                          class:
+                            _vm.po_factory_history_active === key
+                              ? "active"
+                              : "",
+                          staticStyle: {
+                            margin: "0 5px",
+                            "border-radius": "4px",
+                            cursor: "pointer",
+                            display: "inline-block",
+                            padding: "2px 18px",
+                            "margin-bottom": "10px",
+                            "background-color": "#f4f4f4",
+                            color: "#636363"
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.poFactoryHistory(key)
+                            }
+                          }
+                        },
+                        [_vm._v(_vm._s(item.number))]
+                      )
+                    }
+                  ),
+                  0
+                ),
+                _vm._v(" "),
                 _c("div", { staticClass: "col-lg-12" }, [
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", [_vm._v("Type of PO")]),
@@ -23481,35 +23594,39 @@ var render = function() {
                           _vm._v("Please choose")
                         ]),
                         _vm._v(" "),
-                        _c("option", { attrs: { value: "1" } }, [
-                          _vm._v("Project related")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "2" } }, [
-                          _vm._v("Inventory related")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "3" } }, [
-                          _vm._v("Fixed assets")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "4" } }, [
-                          _vm._v("Consumables")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "5" } }, [
-                          _vm._v("Service")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "6" } }, [
-                          _vm._v("Maintenance")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "7" } }, [
-                          _vm._v("Transportation")
-                        ])
-                      ]
-                    )
+                        _vm._l(_vm.type_of_po, function(item, key) {
+                          return _c("option", { domProps: { value: key } }, [
+                            _vm._v(_vm._s(item))
+                          ])
+                        })
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _vm.po_factory_history.id
+                      ? _c(
+                          "span",
+                          {
+                            staticStyle: {
+                              color: "#9e9e9e",
+                              padding: "0 10px",
+                              display: "block",
+                              "margin-top": "10px"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(_vm.po_factory_history.number) +
+                                ". " +
+                                _vm._s(
+                                  _vm.type_of_po[_vm.po_factory_history.type]
+                                ) +
+                                "\n                                "
+                            )
+                          ]
+                        )
+                      : _vm._e()
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
@@ -23552,16 +23669,41 @@ var render = function() {
                           _vm._v("Please choose")
                         ]),
                         _vm._v(" "),
-                        _vm._l(_vm.factories, function(factory) {
-                          return _c(
-                            "option",
-                            { domProps: { value: factory.id } },
-                            [_vm._v(_vm._s(factory.name))]
-                          )
+                        _vm._l(_vm.factories, function(factory, key) {
+                          return _c("option", { domProps: { value: key } }, [
+                            _vm._v(_vm._s(factory))
+                          ])
                         })
                       ],
                       2
-                    )
+                    ),
+                    _vm._v(" "),
+                    _vm.po_factory_history.id
+                      ? _c(
+                          "span",
+                          {
+                            staticStyle: {
+                              color: "#9e9e9e",
+                              padding: "0 10px",
+                              display: "block",
+                              "margin-top": "10px"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(_vm.po_factory_history.number) +
+                                ". " +
+                                _vm._s(
+                                  _vm.factories[
+                                    _vm.po_factory_history.factory_id
+                                  ]
+                                ) +
+                                "\n                                "
+                            )
+                          ]
+                        )
+                      : _vm._e()
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
@@ -23591,7 +23733,30 @@ var render = function() {
                           )
                         }
                       }
-                    })
+                    }),
+                    _vm._v(" "),
+                    _vm.po_factory_history.id
+                      ? _c(
+                          "span",
+                          {
+                            staticStyle: {
+                              color: "#9e9e9e",
+                              padding: "0 10px",
+                              display: "block",
+                              "margin-top": "10px"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(_vm.po_factory_history.number) +
+                                ". " +
+                                _vm._s(_vm.po_factory_history.remarks) +
+                                "\n                                "
+                            )
+                          ]
+                        )
+                      : _vm._e()
                   ])
                 ])
               ]),

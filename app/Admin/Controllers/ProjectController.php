@@ -66,7 +66,7 @@ EOF
 
         $project = Project::with([ 'client', 'poClients' => function($query){
             $query->with(['poFactories' => function($query){
-                $query->with(['batches' => function($query){
+                $query->with(['factory', 'batches' => function($query){
                     $query->orderBy('sequence', 'ASC');
                 }]);
             }]);

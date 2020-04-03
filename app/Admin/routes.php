@@ -35,7 +35,7 @@ Route::group([
     $router->post('po-client/edit/{id}', 'PoClientController@save');
     $router->post('po-client/add', 'PoClientController@add');
     $router->post('po-client/delete/{id}', 'PoClientController@delete');
-    $router->post('po-factory/add', 'PoFactoryController@add');
+    $router->post('po-factory/add/{id}', 'PoFactoryController@add');
 
     $router->post('po-factory', 'PoFactoryController@add');
     $router->get('po-factory/edit/{id}', 'PoFactoryController@getPoFactory');

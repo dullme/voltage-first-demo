@@ -30,6 +30,7 @@ class ClientController extends AdminController
         $grid->disableRowSelector();
 
         $grid->column('name', __('Name'));
+        $grid->column('number', __('Code'));
         $grid->column('tel', __('Tel'));
         $grid->column('address', __('Address'));
         $grid->column('created_at', __('Created at'));
@@ -70,6 +71,18 @@ class ClientController extends AdminController
             ->updateRules(['required', "unique:clients,name,{{id}}"]);
         $form->text('tel', __('Tel'));
         $form->text('address', __('Address'));
+        $form->hidden('number', __('Number'));
+
+        if($form->isCreating()){
+            $form->saving(function (Form $form) {
+                $client = Client::orderBy('id', 'desc')->first();
+                $number = 0;
+                if($client){
+                    $number = intval($client->number) == 0 ? 100 : intval($client->number) + 1;
+                }
+                $form->number = sprintf('%03d', $number);
+            });
+        }
 
         return $form;
     }
