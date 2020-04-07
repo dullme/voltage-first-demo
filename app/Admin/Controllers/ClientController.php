@@ -29,6 +29,13 @@ class ClientController extends AdminController
         $grid->disableFilter();
         $grid->disableRowSelector();
 
+        $grid->actions(function ($actions) {
+            if($actions->row->projects()->count()){
+                // 去掉删除
+                $actions->disableDelete();
+            } //存在 Project 不允许删除
+        });
+
         $grid->column('name', __('Name'));
         $grid->column('number', __('Code'));
         $grid->column('tel', __('Tel'));
@@ -47,6 +54,10 @@ class ClientController extends AdminController
     protected function detail($id)
     {
         $show = new Show(Client::findOrFail($id));
+
+        $show->panel()->tools(function ($tools) {
+                $tools->disableDelete();
+        });
 
         $show->field('id', __('Id'));
         $show->field('name', __('Name'));
@@ -72,6 +83,11 @@ class ClientController extends AdminController
         $form->text('tel', __('Tel'));
         $form->text('address', __('Address'));
         $form->hidden('number', __('Number'));
+
+        $form->tools(function (Form\Tools $tools) {
+            // 去掉`删除`按钮
+            $tools->disableDelete();
+        });
 
         if($form->isCreating()){
             $form->saving(function (Form $form) {
