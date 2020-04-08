@@ -90,7 +90,7 @@ EOF
         $clients = $clients->map(function ($item){
             return [
                 'id' => $item->id,
-                'name' => $item->name . ' : ' . $item->number,
+                'name' => $item->number . ' : ' . $item->name,
             ];
         });
 
