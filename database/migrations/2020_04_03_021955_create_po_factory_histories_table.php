@@ -17,7 +17,7 @@ class CreatePoFactoryHistoriesTable extends Migration
             $table->id();
             $table->integer('po_factory_id')->unsigned();
             $table->integer('po_client_id')->unsigned();
-            $table->integer('factory_id')->unsigned();
+            $table->integer('factory_id')->nullable()->unsigned();
             $table->integer('type')->unsigned();
             $table->string('no')->comment('编号自动生成');
             $table->integer('number')->unsigned()->comment('当前版本号');

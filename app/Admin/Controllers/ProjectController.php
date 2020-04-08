@@ -86,7 +86,15 @@ EOF
     {
         $form = new Form(new Project());
 
-        $clients = Client::pluck('name', 'id');
+        $clients = Client::all();
+        $clients = $clients->map(function ($item){
+            return [
+                'id' => $item->id,
+                'name' => $item->name . ' : ' . $item->number,
+            ];
+        });
+
+        $clients = $clients->pluck('name', 'id');
         $form->select('client_id', 'Clients')->options($clients)->required();
         $form->text('name', __('Name'))->required();
         $form->hidden('number', __('Number'));
