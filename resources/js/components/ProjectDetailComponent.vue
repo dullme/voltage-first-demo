@@ -53,8 +53,9 @@
                                                 v-for="(po_factory,index) in po_client.po_factories">
                                                 <a :href="'#' + po_factory.id + po_factory.no" aria-controls="home"
                                                    role="tab" data-toggle="tab">
-                                                    <span>{{ po_factory.type }}-{{ client.number }}-{{ project_number }}-{{ po_factory.no }}</span>
-                                                    <span v-if="po_factory.number">.{{ po_factory.number }}</span>
+                                                    <span>{{ po_factory.type }}.{{ client.number }}.{{ project_number }}.{{ po_factory.no }}</span>
+                                                    <span>.{{ po_factory.number }}</span>
+<!--                                                    <span v-else>.0</span>-->
                                                     <span class="badge" v-if="po_factory.batches.length">{{ po_factory.batches.length }}</span>
                                                 </a>
                                             </li>

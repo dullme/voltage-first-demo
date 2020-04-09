@@ -3215,6 +3215,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/vendor/date-js/date-zh-CN.js");
@@ -22310,22 +22311,20 @@ var render = function() {
                                         _c("span", [
                                           _vm._v(
                                             _vm._s(po_factory.type) +
-                                              "-" +
+                                              "." +
                                               _vm._s(_vm.client.number) +
-                                              "-" +
+                                              "." +
                                               _vm._s(_vm.project_number) +
-                                              "-" +
+                                              "." +
                                               _vm._s(po_factory.no)
                                           )
                                         ]),
                                         _vm._v(" "),
-                                        po_factory.number
-                                          ? _c("span", [
-                                              _vm._v(
-                                                "." + _vm._s(po_factory.number)
-                                              )
-                                            ])
-                                          : _vm._e(),
+                                        _c("span", [
+                                          _vm._v(
+                                            "." + _vm._s(po_factory.number)
+                                          )
+                                        ]),
                                         _vm._v(" "),
                                         po_factory.batches.length
                                           ? _c(
@@ -22457,7 +22456,7 @@ var render = function() {
                                         staticStyle: { "padding-right": "2px" }
                                       }),
                                       _vm._v(
-                                        " Add Shipment #\n                                            "
+                                        " Add Shipment #\n                                                "
                                       )
                                     ]
                                   ),
@@ -22486,7 +22485,7 @@ var render = function() {
                                             }
                                           }),
                                           _vm._v(
-                                            " Delete PO#\n                                                Factory\n                                            "
+                                            " Delete PO#\n                                                    Factory\n                                                "
                                           )
                                         ]
                                       )
@@ -22512,7 +22511,7 @@ var render = function() {
                                         staticStyle: { "padding-right": "2px" }
                                       }),
                                       _vm._v(
-                                        " Edit PO#\n                                                Factory\n                                            "
+                                        " Edit PO#\n                                                    Factory\n                                                "
                                       )
                                     ]
                                   ),
@@ -22537,7 +22536,7 @@ var render = function() {
                                         staticStyle: { "padding-right": "2px" }
                                       }),
                                       _vm._v(
-                                        " Factory\n                                                Shipment #\n                                            "
+                                        " Factory\n                                                    Shipment #\n                                                "
                                       )
                                     ]
                                   )
@@ -22594,7 +22593,7 @@ var render = function() {
                                                             batch.name
                                                               ? _c("i", [
                                                                   _vm._v(
-                                                                    " -\n                                                        " +
+                                                                    " -\n                                                            " +
                                                                       _vm._s(
                                                                         batch.name
                                                                       )
@@ -22748,7 +22747,7 @@ var render = function() {
                                                                       },
                                                                       [
                                                                         _vm._v(
-                                                                          "\n                                                                        " +
+                                                                          "\n                                                                            " +
                                                                             _vm._s(
                                                                               _vm.dateDifference(
                                                                                 batch.estimated_production_completion.substr(
@@ -22761,7 +22760,7 @@ var render = function() {
                                                                                 )
                                                                               )
                                                                             ) +
-                                                                            " days\n                                                                    "
+                                                                            " days\n                                                                        "
                                                                         )
                                                                       ]
                                                                     )
@@ -22865,7 +22864,7 @@ var render = function() {
                                                                       },
                                                                       [
                                                                         _vm._v(
-                                                                          "\n                                                                        " +
+                                                                          "\n                                                                            " +
                                                                             _vm._s(
                                                                               _vm.dateDifference(
                                                                                 batch.actual_production_completion.substr(
@@ -22878,7 +22877,7 @@ var render = function() {
                                                                                 )
                                                                               )
                                                                             ) +
-                                                                            " days\n                                                                    "
+                                                                            " days\n                                                                        "
                                                                         )
                                                                       ]
                                                                     )
@@ -23626,13 +23625,13 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                                    " +
+                              "\n                                        " +
                                 _vm._s(_vm.po_factory_history.number) +
                                 ". " +
                                 _vm._s(
                                   _vm.type_of_po[_vm.po_factory_history.type]
                                 ) +
-                                "\n                                "
+                                "\n                                    "
                             )
                           ]
                         )
@@ -23701,7 +23700,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                                    " +
+                              "\n                                        " +
                                 _vm._s(_vm.po_factory_history.number) +
                                 ". " +
                                 _vm._s(
@@ -23709,7 +23708,7 @@ var render = function() {
                                     _vm.po_factory_history.factory_id
                                   ]
                                 ) +
-                                "\n                                "
+                                "\n                                    "
                             )
                           ]
                         )
@@ -23758,11 +23757,11 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                                    " +
+                              "\n                                        " +
                                 _vm._s(_vm.po_factory_history.number) +
                                 ". " +
                                 _vm._s(_vm.po_factory_history.remarks) +
-                                "\n                                "
+                                "\n                                    "
                             )
                           ]
                         )
@@ -23891,7 +23890,7 @@ var render = function() {
                                       [
                                         _vm._v(
                                           _vm._s(i + 3) +
-                                            "th\n                                                            "
+                                            "th\n                                                                "
                                         )
                                       ]
                                     )
@@ -23957,7 +23956,7 @@ var render = function() {
                                       [
                                         _vm._v(
                                           _vm._s(carrier) +
-                                            "\n                                                            "
+                                            "\n                                                                "
                                         )
                                       ]
                                     )
@@ -24174,7 +24173,7 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "Regular Ocean\n                                                                Shipping\n                                                            "
+                                        "Regular Ocean\n                                                                    Shipping\n                                                                "
                                       )
                                     ]
                                   ),
@@ -24184,7 +24183,7 @@ var render = function() {
                                     { attrs: { value: "Fast Ocean Shipping" } },
                                     [
                                       _vm._v(
-                                        "Fast Ocean\n                                                                Shipping\n                                                            "
+                                        "Fast Ocean\n                                                                    Shipping\n                                                                "
                                       )
                                     ]
                                   ),
@@ -24198,7 +24197,7 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "Expedited\n                                                                Ocean+Rail+Truck\n                                                            "
+                                        "Expedited\n                                                                    Ocean+Rail+Truck\n                                                                "
                                       )
                                     ]
                                   ),
@@ -25201,7 +25200,7 @@ var render = function() {
                                       [
                                         _vm._v(
                                           _vm._s(i + 3) +
-                                            "th\n                                                            "
+                                            "th\n                                                                "
                                         )
                                       ]
                                     )
@@ -25267,7 +25266,7 @@ var render = function() {
                                       [
                                         _vm._v(
                                           _vm._s(carrier) +
-                                            "\n                                                            "
+                                            "\n                                                                "
                                         )
                                       ]
                                     )
@@ -25499,7 +25498,7 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "Regular Ocean\n                                                                Shipping\n                                                            "
+                                        "Regular Ocean\n                                                                    Shipping\n                                                                "
                                       )
                                     ]
                                   ),
@@ -25509,7 +25508,7 @@ var render = function() {
                                     { attrs: { value: "Fast Ocean Shipping" } },
                                     [
                                       _vm._v(
-                                        "Fast Ocean\n                                                                Shipping\n                                                            "
+                                        "Fast Ocean\n                                                                    Shipping\n                                                                "
                                       )
                                     ]
                                   ),
@@ -25523,7 +25522,7 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "Expedited\n                                                                Ocean+Rail+Truck\n                                                            "
+                                        "Expedited\n                                                                    Ocean+Rail+Truck\n                                                                "
                                       )
                                     ]
                                   ),
