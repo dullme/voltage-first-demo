@@ -12,6 +12,7 @@ class PoClient extends Model
         'no',
         'client_delivery_time',
         'po_date',
+        'voltage_no',
     ];
 
     protected $dates = [

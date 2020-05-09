@@ -20,6 +20,7 @@ class CreatePoFactoriesTable extends Migration
             $table->integer('factory_id')->nullable()->unsigned();
             $table->integer('type')->unsigned();
             $table->string('no')->comment('编号自动生成');
+            $table->string('product')->nullable();
             $table->integer('number')->unsigned()->default(0)->comment('当前版本号');
             $table->longText('remarks')->nullable()->comment('remarks');
             $table->timestamps();

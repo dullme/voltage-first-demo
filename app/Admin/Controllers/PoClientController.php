@@ -15,6 +15,7 @@ class PoClientController extends ResponseController
         $validator = Validator::make($request->all(), [
             'project_id'           => 'required',
             'no'                   => 'required',
+            'voltage_no'           => 'required',
             'client_delivery_time' => 'nullable|date',
             'po_date'              => 'nullable|date',
         ], [
@@ -27,8 +28,8 @@ class PoClientController extends ResponseController
 
         $po_client = PoClient::create($validator->validated());
 
-        $data = PoClient::with(['poFactories' => function($query){
-            $query->with(['batches' => function($query){
+        $data = PoClient::with(['poFactories' => function ($query) {
+            $query->with(['batches' => function ($query) {
                 $query->orderBy('sequence', 'ASC');
             }]);
         }])->find($po_client->id);
@@ -47,6 +48,7 @@ class PoClientController extends ResponseController
     {
         $validator = Validator::make($request->all(), [
             'no'                   => 'required',
+            'voltage_no'           => 'required',
             'client_delivery_time' => 'nullable|date',
             'po_date'              => 'nullable|date',
         ], [

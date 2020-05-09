@@ -3,12 +3,14 @@
 namespace App\Admin\Controllers;
 
 use App\Client;
+use App\Contact;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\DB;
 
-class ClientController extends AdminController
+class ClientController extends ResponseController
 {
     /**
      * Title for current resource.
@@ -101,5 +103,17 @@ class ClientController extends AdminController
         }
 
         return $form;
+    }
+
+    public function getClientList()
+    {
+        return Client::get(['id', DB::raw('name as text')]);
+    }
+
+    public function getContactList($id)
+    {
+        $clients = Contact::select('id', 'name')->where('client_id', $id)->get();
+
+        return $this->responseSuccess($clients);
     }
 }

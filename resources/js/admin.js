@@ -9,4 +9,5 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 Vue.component('project-detail', require('./components/ProjectDetailComponent').default);
+Vue.component('project-create', require('./components/project/CreateProjectComponent.vue').default);
 

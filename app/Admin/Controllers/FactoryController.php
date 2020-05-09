@@ -7,6 +7,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\DB;
 
 class FactoryController extends ResponseController
 {
@@ -78,8 +79,6 @@ class FactoryController extends ResponseController
 
     public function getFactories()
     {
-        $factories = Factory::pluck('name', 'id');
-
-        return $this->responseSuccess($factories);
+        return Factory::get(['id', DB::raw('name as text')]);
     }
 }

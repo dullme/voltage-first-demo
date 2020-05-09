@@ -10,6 +10,7 @@ class Project extends Model
         'client_id',
         'name',
         'number',
+        'contacts'
     ];
 
     protected $dates = [
@@ -21,6 +22,16 @@ class Project extends Model
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s'
     ];
+
+    public function getContactsAttribute($value)
+    {
+        return explode(',', $value);
+    }
+
+    public function setContactsAttribute($value)
+    {
+        $this->attributes['contacts'] = implode(',', $value);
+    }
 
     public function client()
     {

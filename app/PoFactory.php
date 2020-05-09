@@ -13,6 +13,7 @@ class PoFactory extends Model
         'factory_id',
         'type',
         'remarks',
+        'product',
     ];
 
     protected $casts = [

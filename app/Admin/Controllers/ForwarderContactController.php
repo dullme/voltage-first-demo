@@ -2,23 +2,22 @@
 
 namespace App\Admin\Controllers;
 
-use DB;
-use App\Client;
-use App\Contact;
+use App\Forwarder;
+use App\ForwarderContact;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class ContactController extends AdminController
+class ForwarderContactController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = 'App\Contact';
+    protected $title = 'App\ForwarderContact';
 
     /**
      * Make a grid builder.
@@ -27,24 +26,23 @@ class ContactController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new Contact());
+        $grid = new Grid(new ForwarderContact());
         $grid->model()->orderByDesc('id');
         $grid->disableExport();
-//        $grid->disableFilter();
         $grid->disableRowSelector();
 
         $grid->filter(function($filter){
-            // 去掉默认的id过滤器
             $filter->disableIdFilter();
             $filter->like('name', 'Name');
-            $filter->equal('client_id', 'Client')->select('/admin/client-list');
+            $filter->equal('forwarder_id', 'Forwarder')->select('/admin/forwarder-list');
         });
 
 //        $grid->column('id', __('Id'));
-        $grid->client()->name(__('Client name'));
+        $grid->forwarder()->name(__('Name'));
         $grid->column('name', __('Name'));
+        $grid->column('position', __('Position'));
         $grid->column('tel', __('Tel'));
-        $grid->column('email', __('E-mail'));
+        $grid->column('email', __('Email'));
         $grid->column('created_at', __('Created at'));
 //        $grid->column('updated_at', __('Updated at'));
 
@@ -59,12 +57,14 @@ class ContactController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(Contact::findOrFail($id));
+        $show = new Show(ForwarderContact::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('client_id', __('Client id'));
+        $show->field('forwarder_id', __('Forwarder id'));
         $show->field('name', __('Name'));
+        $show->field('position', __('Position'));
         $show->field('tel', __('Tel'));
+        $show->field('email', __('Email'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
@@ -78,21 +78,29 @@ class ContactController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new Contact());
+        $form = new Form(new ForwarderContact());
 
-        $clients = Client::pluck('name', 'id');
-        $form->select('client_id', 'Clients')->options($clients)->required();
+        $forwarders = Forwarder::pluck('name', 'id');
+        $form->select('forwarder_id', 'Forwarder')->options($forwarders)->required();
         $form->text('name', __('Name'))->required();
+        $form->text('position', __('Position'));
         $form->text('tel', __('Tel'));
-        $form->email('email', __('E-mail'));
+        $form->email('email', __('Email'));
 
         return $form;
     }
 
-    public function contact(Request $request)
+    public function getForwarderContacts()
     {
-        $clientId = $request->get('q');
+        $data = ForwarderContact::with('forwarder')->orderBy('forwarder_id', 'DESC')->get();
 
-        return Contact::where('client_id', $clientId)->get(['id', DB::raw('name as text')]);
+        $data = $data->map(function ($item){
+            return [
+                'id' => $item['id'],
+                'text' => "{$item['forwarder']['name']}：{$item['name']}",
+            ];
+        });
+
+        return $data;
     }
 }

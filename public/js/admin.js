@@ -3216,6 +3216,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/vendor/date-js/date-zh-CN.js");
@@ -3230,6 +3247,7 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
       },
       carriers: [],
       factories: [],
+      forwarder_contacts: [],
       ports: [],
       project_id: '',
       project_number: '',
@@ -3249,25 +3267,31 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
       po_client_form: {
         no: '',
         client_delivery_time: '',
-        po_date: ''
+        po_date: '',
+        voltage_no: ''
       },
       po_client_edit_form: {
         id: '',
         no: '',
         client_delivery_time: '',
-        po_date: ''
+        po_date: '',
+        voltage_no: ''
       },
       po_factory_form: {
         po_client_id: '',
         factory_id: '',
+        no: '',
         type: '',
-        remarks: ''
+        remarks: '',
+        product: ''
       },
       po_factory_edit_form: {
         id: '',
         factory_id: '',
+        no: '',
         type: '',
-        remarks: ''
+        remarks: '',
+        product: ''
       },
       po_factory_history: {},
       po_factory_history_active: '',
@@ -3276,9 +3300,10 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         name: '',
         sequence: '',
         carrier: '',
+        ocean_forwarder: '',
+        inland_forwarder: '',
         b_l: '',
         vessel: '',
-        container_no: '',
         remarks: '',
         shipping_method: 'Customize',
         customize_shipping_method: '',
@@ -3286,11 +3311,9 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         estimated_production_completion: '',
         etd_port: '',
         eta_port: '',
-        eta_job_site: '',
         actual_production_completion: '',
         atd_port: '',
         ata_port: '',
-        ata_job_site: '',
         destination_port: '',
         port_of_departure: '',
         rmb: '',
@@ -3302,9 +3325,10 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         name: '',
         sequence: '',
         carrier: '',
+        ocean_forwarder: '',
+        inland_forwarder: '',
         b_l: '',
         vessel: '',
-        container_no: '',
         remarks: '',
         shipping_method: 'Customize',
         customize_shipping_method: '',
@@ -3312,11 +3336,9 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         estimated_production_completion: '',
         etd_port: '',
         eta_port: '',
-        eta_job_site: '',
         actual_production_completion: '',
         atd_port: '',
         ata_port: '',
-        ata_job_site: '',
         destination_port: '',
         port_of_departure: '',
         rmb: '',
@@ -3341,10 +3363,13 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
       _this.carriers = response.data.data;
     });
     axios.get('/admin/factory-list').then(function (response) {
-      _this.factories = response.data.data;
+      _this.factories = response.data;
     });
     axios.get('/admin/port-list').then(function (response) {
       _this.ports = response.data.data;
+    });
+    axios.get('/admin/forwarder-contact-list').then(function (response) {
+      _this.forwarder_contacts = response.data;
     });
   },
   mounted: function mounted() {
@@ -3421,12 +3446,6 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         _this2.shipment_form.eta_port = '';
       }
     });
-    $('#addShipment input[name="eta_port"]').on('dp.change', function (e) {
-      if (e.currentTarget.value) {
-        $("#addShipment input[name='eta_job_site']").data("DateTimePicker").minDate(e.currentTarget.value);
-        _this2.shipment_form.eta_job_site = '';
-      }
-    });
     $('#addShipment input[name="actual_production_completion"]').on('dp.change', function (e) {
       if (e.currentTarget.value) {
         $("#addShipment input[name='atd_port']").data("DateTimePicker").minDate(e.currentTarget.value);
@@ -3437,12 +3456,6 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
       if (e.currentTarget.value) {
         $("#addShipment input[name='ata_port']").data("DateTimePicker").minDate(e.currentTarget.value);
         _this2.shipment_form.ata_port = '';
-      }
-    });
-    $('#addShipment input[name="ata_port"]').on('dp.change', function (e) {
-      if (e.currentTarget.value) {
-        $("#addShipment input[name='ata_job_site']").data("DateTimePicker").minDate(e.currentTarget.value);
-        _this2.shipment_form.ata_job_site = '';
       }
     }); //editShipment
 
@@ -3458,12 +3471,6 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         _this2.shipment_edit_form.eta_port = '';
       }
     });
-    $('#editShipment input[name="eta_port"]').on('dp.change', function (e) {
-      if (e.currentTarget.value) {
-        $("#editShipment input[name='eta_job_site']").data("DateTimePicker").minDate(e.currentTarget.value);
-        _this2.shipment_edit_form.eta_job_site = '';
-      }
-    });
     $('#editShipment input[name="actual_production_completion"]').on('dp.change', function (e) {
       if (e.currentTarget.value) {
         $("#editShipment input[name='atd_port']").data("DateTimePicker").minDate(e.currentTarget.value);
@@ -3474,12 +3481,6 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
       if (e.currentTarget.value) {
         $("#editShipment input[name='ata_port']").data("DateTimePicker").minDate(e.currentTarget.value);
         _this2.shipment_edit_form.ata_port = '';
-      }
-    });
-    $('#editShipment input[name="ata_port"]').on('dp.change', function (e) {
-      if (e.currentTarget.value) {
-        $("#editShipment input[name='ata_job_site']").data("DateTimePicker").minDate(e.currentTarget.value);
-        _this2.shipment_edit_form.ata_job_site = '';
       }
     });
     $('#editPoFactory').on('hide.bs.modal', function () {
@@ -3580,6 +3581,7 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
       }).then(function (response) {
         _this4.po_client_edit_form.id = response.data.data.id;
         _this4.po_client_edit_form.no = response.data.data.no;
+        _this4.po_client_edit_form.voltage_no = response.data.data.voltage_no;
         _this4.po_client_edit_form.client_delivery_time = response.data.data.client_delivery_time;
         _this4.po_client_edit_form.po_date = response.data.data.po_date;
         $('#editPoClient .po_client_no').html(response.data.data.no);
@@ -3705,8 +3707,10 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
 
       var data = this.shipment_form;
 
-      if (data.shipping_method == 'Customize') {
+      if (data.shipping_method == 'Customize' && this.shipment_form.customize_shipping_method) {
         data.shipping_method = this.shipment_form.customize_shipping_method;
+      } else {
+        this.shipment_form.customize_shipping_method = '';
       }
 
       this.loading.shipment = true;
@@ -3724,6 +3728,11 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         _this9.loading.shipment = false;
       })["catch"](function (error) {
         _this9.loading.shipment = false;
+
+        if (_this9.shipment_form.customize_shipping_method) {
+          _this9.shipment_form.shipping_method = 'Customize';
+        }
+
         toastr.error(error.response.data.message);
       });
     },
@@ -3739,19 +3748,18 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
           name: response.data.data.name,
           sequence: response.data.data.sequence,
           carrier: response.data.data.carrier,
+          ocean_forwarder: response.data.data.ocean_forwarder,
+          inland_forwarder: response.data.data.inland_forwarder,
           b_l: response.data.data.b_l,
           vessel: response.data.data.vessel,
-          container_no: response.data.data.container_no,
           remarks: response.data.data.remarks,
           shipping_method: response.data.data.shipping_method,
           estimated_production_completion: response.data.data.estimated_production_completion,
           etd_port: response.data.data.etd_port,
           eta_port: response.data.data.eta_port,
-          eta_job_site: response.data.data.eta_job_site,
           actual_production_completion: response.data.data.actual_production_completion,
           atd_port: response.data.data.atd_port,
           ata_port: response.data.data.ata_port,
-          ata_job_site: response.data.data.ata_job_site,
           destination_port: response.data.data.destination_port,
           port_of_departure: response.data.data.port_of_departure,
           rmb: response.data.data.rmb,
@@ -3769,11 +3777,6 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
           _this10.shipment_edit_form.eta_port = response.data.data.eta_port ? response.data.data.eta_port : '';
         }
 
-        if (response.data.data.eta_port) {
-          $("#editShipment input[name='eta_job_site']").data("DateTimePicker").minDate(response.data.data.eta_job_site);
-          _this10.shipment_edit_form.eta_job_site = response.data.data.eta_job_site ? response.data.data.eta_job_site : '';
-        }
-
         if (response.data.data.actual_production_completion) {
           $("#editShipment input[name='atd_port']").data("DateTimePicker").minDate(response.data.data.actual_production_completion);
           _this10.shipment_edit_form.atd_port = response.data.data.atd_port ? response.data.data.atd_port : '';
@@ -3782,11 +3785,6 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         if (response.data.data.atd_port) {
           $("#editShipment input[name='ata_port']").data("DateTimePicker").minDate(response.data.data.atd_port);
           _this10.shipment_edit_form.ata_port = response.data.data.ata_port ? response.data.data.ata_port : '';
-        }
-
-        if (response.data.data.ata_port) {
-          $("#editShipment input[name='ata_job_site']").data("DateTimePicker").minDate(response.data.data.ata_job_site);
-          _this10.shipment_edit_form.ata_job_site = response.data.data.ata_job_site ? response.data.data.ata_job_site : '';
         }
 
         var shipping_method = _this10.inArray(response.data.data.shipping_method, ['Regular Ocean Shipping', 'Fast Ocean Shipping', 'Expedited', 'Ocean+Rail+Truck', 'Ocean+Flatbed', 'Air Freight']);
@@ -3907,6 +3905,183 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/project/CreateProjectComponent.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/project/CreateProjectComponent.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      clients: [],
+      contacts: [],
+      loading: {
+        project: false
+      },
+      project_form: {
+        client_id: '',
+        contacts: [],
+        name: '',
+        address: ''
+      }
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    $('#client_id').select2({
+      placeholder: 'Please choose',
+      allowClear: true //选中项可清空
+
+    }).on('change', function (e) {
+      _this.project_form[e.target.name] = e.currentTarget.value;
+      axios.get('/admin/contact-list/' + e.currentTarget.value).then(function (response) {
+        _this.contacts = response.data.data;
+      });
+      $('#contact_id').val(null).trigger('change');
+    });
+    $('#contact_id').select2({
+      placeholder: 'Please choose',
+      allowClear: true //选中项可清空
+
+    }).on('change', function (e) {
+      _this.project_form.contacts = $('#contact_id').val();
+    }).on('select2:opening select2:closing', function (event) {
+      var $searchfield = $(this).parent().find('.select2-search__field');
+      $searchfield.prop('disabled', true);
+    });
+  },
+  created: function created() {
+    var _this2 = this;
+
+    axios.get('/admin/client-list').then(function (response) {
+      _this2.clients = response.data.data;
+    });
+  },
+  methods: {
+    saveProject: function saveProject() {
+      var _this3 = this;
+
+      this.loading.project = true;
+      axios({
+        method: 'post',
+        url: '/admin/projects',
+        data: this.project_form
+      }).then(function (response) {
+        if (response.data.status) {
+          swal("SUCCESS", response.data.message, 'success').then(function () {
+            location.href = '/admin/projects';
+          });
+        } // this.loading.project = false
+
+      })["catch"](function (error) {
+        _this3.loading.project = false;
+        toastr.error(error.response.data.message);
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&id=909a2404&scoped=true&lang=css&":
 /*!****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&id=909a2404&scoped=true&lang=css& ***!
@@ -3920,6 +4095,25 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 // module
 exports.push([module.i, "\n.panel-heading[data-v-909a2404] {\n    padding-bottom: unset;\n}\n.nav-tabs > li.active > a[data-v-909a2404], .nav-tabs > li.active > a[data-v-909a2404]:focus, .nav-tabs > li.active > a[data-v-909a2404]:hover {\n    border-color: #bce8f1;\n    border-bottom: unset;\n    border-bottom-color: unset;\n}\n.nav-tabs[data-v-909a2404] {\n    border-bottom: unset;\n}\n.nav > li > a[data-v-909a2404] {\n    padding: 5px 15px;\n}\n.table td[data-v-909a2404] {\n    vertical-align: middle;\n}\n.panel-info > .panel-heading .badge[data-v-909a2404] {\n    color: #d9edf7;\n    background-color: #31708f;\n    margin-top: -3px;\n    margin-left: 5px;\n}\n#history-list > .active[data-v-909a2404] {\n    background-color: #00a65a !important;\n    color: #ffffff !important;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/project/CreateProjectComponent.vue?vue&type=style&index=0&lang=css&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/project/CreateProjectComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.mb15{\n    margin-bottom: 15px;\n}\n.popover{\n    max-width:unset !important;\n    width: 100%;\n}\n.form-control[readonly]{\n    background-color: #fbfbfb;\n}\n.input-group span.asterisk:before {\n    content: \"* \";\n    color: red;\n}\n.select2{\n    width:100% !important;\n}\n.checked{\n    color: #dd4b39 !important;\n    border-color: #dd4b39 !important;\n}\n.border-red{\n    border-color: #dd4b39 !important;\n}\n.remark-list {\n    margin-bottom: 10px;\n}\n", ""]);
 
 // exports
 
@@ -21552,6 +21746,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/project/CreateProjectComponent.vue?vue&type=style&index=0&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/project/CreateProjectComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./CreateProjectComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/project/CreateProjectComponent.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/lib/addStyles.js":
 /*!****************************************************!*\
   !*** ./node_modules/style-loader/lib/addStyles.js ***!
@@ -22188,93 +22412,195 @@ var render = function() {
                           [
                             _c(
                               "div",
-                              { staticStyle: { "margin-bottom": "10px" } },
+                              {
+                                staticStyle: {
+                                  "margin-bottom": "10px",
+                                  display: "flex",
+                                  "justify-content": "space-between"
+                                }
+                              },
                               [
-                                _c("span", [
-                                  _vm._v(
-                                    "PO# Client：" +
-                                      _vm._s(po_client.no) +
-                                      " " +
-                                      _vm._s(po_client.client_delivery_time) +
-                                      " - " +
-                                      _vm._s(po_client.po_date)
-                                  )
-                                ]),
-                                _vm._v(" "),
                                 _c(
-                                  "span",
+                                  "div",
                                   {
-                                    staticClass: "btn btn-default btn-xs",
-                                    staticStyle: { float: "right" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.editPoClient(po_client.id)
-                                      }
+                                    staticStyle: {
+                                      display: "flex",
+                                      flex: "1",
+                                      "justify-content": "space-between",
+                                      "margin-right": "20px"
                                     }
                                   },
                                   [
-                                    _c("i", {
-                                      staticClass: "fa fa-pencil",
-                                      staticStyle: { "padding-right": "2px" }
-                                    }),
-                                    _vm._v(" Edit PO# Client ")
+                                    _c("div", [
+                                      _c("span", [
+                                        _vm._v(
+                                          "PO# Client：" + _vm._s(po_client.no)
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        {
+                                          staticStyle: { "margin-left": "20px" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "PO# Voltage：" +
+                                              _vm._s(po_client.voltage_no)
+                                          )
+                                        ]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticStyle: { "margin-left": "20px" }
+                                      },
+                                      [
+                                        po_client.client_delivery_time
+                                          ? _c("sapn", [
+                                              _vm._v(
+                                                _vm._s(
+                                                  po_client.client_delivery_time
+                                                )
+                                              )
+                                            ])
+                                          : _c(
+                                              "sapn",
+                                              {
+                                                staticStyle: {
+                                                  color: "#bbbbbb"
+                                                }
+                                              },
+                                              [
+                                                _c("i", {
+                                                  staticClass: "fa fa-clock-o"
+                                                })
+                                              ]
+                                            ),
+                                        _vm._v(" "),
+                                        !!!po_client.client_delivery_time &&
+                                        !!!po_client.po_date
+                                          ? _c(
+                                              "span",
+                                              {
+                                                staticStyle: {
+                                                  padding: "0 5px",
+                                                  color: "#bbbbbb"
+                                                }
+                                              },
+                                              [_vm._v("-")]
+                                            )
+                                          : _c(
+                                              "span",
+                                              {
+                                                staticStyle: {
+                                                  padding: "0 5px"
+                                                }
+                                              },
+                                              [_vm._v("-")]
+                                            ),
+                                        _vm._v(" "),
+                                        po_client.po_date
+                                          ? _c("sapn", [
+                                              _vm._v(_vm._s(po_client.po_date))
+                                            ])
+                                          : _c(
+                                              "span",
+                                              {
+                                                staticStyle: {
+                                                  color: "#bbbbbb"
+                                                }
+                                              },
+                                              [
+                                                _c("i", {
+                                                  staticClass: "fa fa-clock-o"
+                                                })
+                                              ]
+                                            )
+                                      ],
+                                      1
+                                    )
                                   ]
                                 ),
                                 _vm._v(" "),
-                                !po_client.po_factories.length
-                                  ? _c(
-                                      "span",
-                                      {
-                                        staticClass: "btn btn-danger btn-xs",
-                                        staticStyle: {
-                                          float: "right",
-                                          "margin-right": "7px"
-                                        },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.deletePoClient(
-                                              po_client.id
-                                            )
-                                          }
+                                _c("div", [
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "btn btn-default btn-xs",
+                                      staticStyle: { float: "right" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.editPoClient(po_client.id)
                                         }
-                                      },
-                                      [
-                                        _c("i", {
-                                          staticClass: "fa fa-minus",
-                                          staticStyle: {
-                                            "padding-right": "2px"
-                                          }
-                                        }),
-                                        _vm._v(" Delete PO# Client ")
-                                      ]
-                                    )
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  {
-                                    staticClass: "btn btn-success btn-xs",
-                                    staticStyle: {
-                                      float: "right",
-                                      "margin-right": "7px"
-                                    },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.showAddPoFactory(
-                                          po_client.id,
-                                          po_client.no
-                                        )
                                       }
-                                    }
-                                  },
-                                  [
-                                    _c("i", {
-                                      staticClass: "fa fa-plus",
-                                      staticStyle: { "padding-right": "2px" }
-                                    }),
-                                    _vm._v(" Add PO# Factory ")
-                                  ]
-                                )
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fa fa-pencil",
+                                        staticStyle: { "padding-right": "2px" }
+                                      }),
+                                      _vm._v(" Edit PO# Client ")
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  !po_client.po_factories.length
+                                    ? _c(
+                                        "span",
+                                        {
+                                          staticClass: "btn btn-danger btn-xs",
+                                          staticStyle: {
+                                            float: "right",
+                                            "margin-right": "7px"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.deletePoClient(
+                                                po_client.id
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fa fa-minus",
+                                            staticStyle: {
+                                              "padding-right": "2px"
+                                            }
+                                          }),
+                                          _vm._v(" Delete PO# Client ")
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "btn btn-success btn-xs",
+                                      staticStyle: {
+                                        float: "right",
+                                        "margin-right": "7px"
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.showAddPoFactory(
+                                            po_client.id,
+                                            po_client.no
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fa fa-plus",
+                                        staticStyle: { "padding-right": "2px" }
+                                      }),
+                                      _vm._v(" Add PO# Factory ")
+                                    ]
+                                  )
+                                ])
                               ]
                             ),
                             _vm._v(" "),
@@ -22300,8 +22626,7 @@ var render = function() {
                                       "a",
                                       {
                                         attrs: {
-                                          href:
-                                            "#" + po_factory.id + po_factory.no,
+                                          href: "#po_factory_" + po_factory.id,
                                           "aria-controls": "home",
                                           role: "tab",
                                           "data-toggle": "tab"
@@ -22309,21 +22634,7 @@ var render = function() {
                                       },
                                       [
                                         _c("span", [
-                                          _vm._v(
-                                            _vm._s(po_factory.type) +
-                                              "." +
-                                              _vm._s(_vm.client.number) +
-                                              "." +
-                                              _vm._s(_vm.project_number) +
-                                              "." +
-                                              _vm._s(po_factory.no)
-                                          )
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("span", [
-                                          _vm._v(
-                                            "." + _vm._s(po_factory.number)
-                                          )
+                                          _vm._v(_vm._s(po_factory.no))
                                         ]),
                                         _vm._v(" "),
                                         po_factory.batches.length
@@ -22363,7 +22674,7 @@ var render = function() {
                                 class: index == 0 ? "active" : "",
                                 attrs: {
                                   role: "tabpanel",
-                                  id: po_factory.id + po_factory.no
+                                  id: "po_factory_" + po_factory.id
                                 }
                               },
                               [
@@ -22416,6 +22727,13 @@ var render = function() {
                                               ]
                                             )
                                           : _vm._e()
+                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  po_factory.product
+                                    ? _c("p", [
+                                        _c("b", [_vm._v("Product：")]),
+                                        _vm._v(_vm._s(po_factory.product))
                                       ])
                                     : _vm._e(),
                                   _vm._v(" "),
@@ -22706,67 +23024,6 @@ var render = function() {
                                                                   : "-"
                                                               )
                                                             )
-                                                          ]),
-                                                          _vm._v(" "),
-                                                          _c("p", [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                batch.eta_job_site
-                                                                  ? batch.eta_job_site.substr(
-                                                                      0,
-                                                                      10
-                                                                    )
-                                                                  : "-"
-                                                              )
-                                                            )
-                                                          ]),
-                                                          _vm._v(" "),
-                                                          _c("p", [
-                                                            batch.estimated_production_completion &&
-                                                            batch.eta_job_site
-                                                              ? _c(
-                                                                  "span",
-                                                                  {
-                                                                    staticClass:
-                                                                      "label label-default"
-                                                                  },
-                                                                  [
-                                                                    _c(
-                                                                      "i",
-                                                                      {
-                                                                        attrs: {
-                                                                          "data-toggle":
-                                                                            "tooltip",
-                                                                          "data-placement":
-                                                                            "top",
-                                                                          title:
-                                                                            "",
-                                                                          "data-original-title":
-                                                                            "Time consuming"
-                                                                        }
-                                                                      },
-                                                                      [
-                                                                        _vm._v(
-                                                                          "\n                                                                            " +
-                                                                            _vm._s(
-                                                                              _vm.dateDifference(
-                                                                                batch.estimated_production_completion.substr(
-                                                                                  0,
-                                                                                  10
-                                                                                ),
-                                                                                batch.eta_job_site.substr(
-                                                                                  0,
-                                                                                  10
-                                                                                )
-                                                                              )
-                                                                            ) +
-                                                                            " days\n                                                                        "
-                                                                        )
-                                                                      ]
-                                                                    )
-                                                                  ]
-                                                                )
-                                                              : _vm._e()
                                                           ])
                                                         ]
                                                       )
@@ -22823,67 +23080,6 @@ var render = function() {
                                                                   : "-"
                                                               )
                                                             )
-                                                          ]),
-                                                          _vm._v(" "),
-                                                          _c("p", [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                batch.ata_job_site
-                                                                  ? batch.ata_job_site.substr(
-                                                                      0,
-                                                                      10
-                                                                    )
-                                                                  : "-"
-                                                              )
-                                                            )
-                                                          ]),
-                                                          _vm._v(" "),
-                                                          _c("p", [
-                                                            batch.actual_production_completion &&
-                                                            batch.ata_job_site
-                                                              ? _c(
-                                                                  "span",
-                                                                  {
-                                                                    staticClass:
-                                                                      "label label-default"
-                                                                  },
-                                                                  [
-                                                                    _c(
-                                                                      "i",
-                                                                      {
-                                                                        attrs: {
-                                                                          "data-toggle":
-                                                                            "tooltip",
-                                                                          "data-placement":
-                                                                            "top",
-                                                                          title:
-                                                                            "",
-                                                                          "data-original-title":
-                                                                            "Time consuming"
-                                                                        }
-                                                                      },
-                                                                      [
-                                                                        _vm._v(
-                                                                          "\n                                                                            " +
-                                                                            _vm._s(
-                                                                              _vm.dateDifference(
-                                                                                batch.actual_production_completion.substr(
-                                                                                  0,
-                                                                                  10
-                                                                                ),
-                                                                                batch.ata_job_site.substr(
-                                                                                  0,
-                                                                                  10
-                                                                                )
-                                                                              )
-                                                                            ) +
-                                                                            " days\n                                                                        "
-                                                                        )
-                                                                      ]
-                                                                    )
-                                                                  ]
-                                                                )
-                                                              : _vm._e()
                                                           ])
                                                         ]
                                                       )
@@ -22902,14 +23098,6 @@ var render = function() {
                                                     _c("td", [
                                                       _vm._v(
                                                         _vm._s(batch.vessel)
-                                                      )
-                                                    ]),
-                                                    _vm._v(" "),
-                                                    _c("td", [
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          batch.container_no
-                                                        )
                                                       )
                                                     ]),
                                                     _vm._v(" "),
@@ -23140,9 +23328,45 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(7),
+                  _c("div", { staticClass: "form-group " }, [
+                    _c("label", { staticClass: "asterisk" }, [
+                      _vm._v("PO# Voltage")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "input-group" }, [
+                      _vm._m(7),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.po_client_form.voltage_no,
+                            expression: "po_client_form.voltage_no"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", placeholder: "PO# Voltage" },
+                        domProps: { value: _vm.po_client_form.voltage_no },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.po_client_form,
+                              "voltage_no",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
                   _vm._v(" "),
-                  _vm._m(8)
+                  _vm._m(8),
+                  _vm._v(" "),
+                  _vm._m(9)
                 ])
               ])
             ])
@@ -23184,7 +23408,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "editPoClient" } }, [
       _c("div", { staticClass: "modal-dialog" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(9),
+          _vm._m(10),
           _vm._v(" "),
           _c("div", { staticClass: "modal-body" }, [
             _c("div", { staticClass: "form-horizontal" }, [
@@ -23196,7 +23420,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(10),
+                      _vm._m(11),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23227,10 +23451,46 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group " }, [
+                    _c("label", { staticClass: "asterisk" }, [
+                      _vm._v("PO# Voltage")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "input-group" }, [
+                      _vm._m(12),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.po_client_edit_form.voltage_no,
+                            expression: "po_client_edit_form.voltage_no"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", placeholder: "PO# Voltage" },
+                        domProps: { value: _vm.po_client_edit_form.voltage_no },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.po_client_edit_form,
+                              "voltage_no",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group " }, [
                     _c("label", [_vm._v("Client delivery time")]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(11),
+                      _vm._m(13),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23271,7 +23531,7 @@ var render = function() {
                     _c("label", [_vm._v("Po date")]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(12),
+                      _vm._m(14),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23345,13 +23605,15 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "addPoFactory" } }, [
       _c("div", { staticClass: "modal-dialog" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(13),
+          _vm._m(15),
           _vm._v(" "),
           _c("div", { staticClass: "form-horizontal" }, [
             _c("div", { staticClass: "modal-body" }, [
               _c("div", { staticClass: "col-lg-12" }, [
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Type of PO")]),
+                  _c("label", { staticClass: "asterisk" }, [
+                    _vm._v("Type of PO")
+                  ]),
                   _vm._v(" "),
                   _c(
                     "select",
@@ -23401,6 +23663,34 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
+                  _c("label", { staticClass: "asterisk" }, [
+                    _vm._v("PO Factory")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.po_factory_form.no,
+                        expression: "po_factory_form.no"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { placeholder: "PO Factory" },
+                    domProps: { value: _vm.po_factory_form.no },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.po_factory_form, "no", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
                   _c("label", [_vm._v("Factory")]),
                   _vm._v(" "),
                   _c(
@@ -23440,14 +23730,46 @@ var render = function() {
                         _vm._v("Please choose")
                       ]),
                       _vm._v(" "),
-                      _vm._l(_vm.factories, function(factory, key) {
-                        return _c("option", { domProps: { value: key } }, [
-                          _vm._v(_vm._s(factory))
-                        ])
+                      _vm._l(_vm.factories, function(factory) {
+                        return _c(
+                          "option",
+                          { domProps: { value: factory.id } },
+                          [_vm._v(_vm._s(factory.text))]
+                        )
                       })
                     ],
                     2
                   )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", [_vm._v("Product")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.po_factory_form.product,
+                        expression: "po_factory_form.product"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { placeholder: "Product" },
+                    domProps: { value: _vm.po_factory_form.product },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.po_factory_form,
+                          "product",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
@@ -23522,7 +23844,7 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(14),
+            _vm._m(16),
             _vm._v(" "),
             _c("div", { staticClass: "form-horizontal" }, [
               _c("div", { staticClass: "modal-body" }, [
@@ -23564,7 +23886,9 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "col-lg-12" }, [
                   _c("div", { staticClass: "form-group" }, [
-                    _c("label", [_vm._v("Type of PO")]),
+                    _c("label", { staticClass: "asterisk" }, [
+                      _vm._v("Type of PO")
+                    ]),
                     _vm._v(" "),
                     _c(
                       "select",
@@ -23639,6 +23963,38 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "asterisk" }, [
+                      _vm._v("PO Factory")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.po_factory_edit_form.no,
+                          expression: "po_factory_edit_form.no"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "PO Factory" },
+                      domProps: { value: _vm.po_factory_edit_form.no },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.po_factory_edit_form,
+                            "no",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
                     _c("label", [_vm._v("Factory")]),
                     _vm._v(" "),
                     _c(
@@ -23678,10 +24034,12 @@ var render = function() {
                           _vm._v("Please choose")
                         ]),
                         _vm._v(" "),
-                        _vm._l(_vm.factories, function(factory, key) {
-                          return _c("option", { domProps: { value: key } }, [
-                            _vm._v(_vm._s(factory))
-                          ])
+                        _vm._l(_vm.factories, function(factory) {
+                          return _c(
+                            "option",
+                            { domProps: { value: factory.id } },
+                            [_vm._v(_vm._s(factory.text))]
+                          )
                         })
                       ],
                       2
@@ -23713,6 +24071,36 @@ var render = function() {
                           ]
                         )
                       : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", [_vm._v("Product")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.po_factory_edit_form.product,
+                          expression: "po_factory_edit_form.product"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Product" },
+                      domProps: { value: _vm.po_factory_edit_form.product },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.po_factory_edit_form,
+                            "product",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
@@ -23811,7 +24199,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "addShipment" } }, [
       _c("div", { staticClass: "modal-dialog modal-lg" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(15),
+          _vm._m(17),
           _vm._v(" "),
           _c("div", { staticClass: "form-horizontal" }, [
             _c("div", { staticClass: "modal-body" }, [
@@ -23971,12 +24359,76 @@ var render = function() {
                             _c(
                               "label",
                               { staticClass: "col-sm-4 control-label" },
+                              [_vm._v("Ocean forwarder")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-sm-7" }, [
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.shipment_form.ocean_forwarder,
+                                      expression:
+                                        "shipment_form.ocean_forwarder"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.shipment_form,
+                                        "ocean_forwarder",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("option", { attrs: { value: "" } }, [
+                                    _vm._v("Please choose")
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.forwarder_contacts, function(
+                                    contact
+                                  ) {
+                                    return _c(
+                                      "option",
+                                      { domProps: { value: contact.id } },
+                                      [_vm._v(_vm._s(contact.text))]
+                                    )
+                                  })
+                                ],
+                                2
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group  " }, [
+                            _c(
+                              "label",
+                              { staticClass: "col-sm-4 control-label" },
                               [_vm._v("B/L")]
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(16),
+                                _vm._m(18),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -24019,7 +24471,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(17),
+                                _vm._m(19),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -24119,7 +24571,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group  " }, [
-                            _vm._m(18),
+                            _vm._m(20),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c(
@@ -24216,57 +24668,7 @@ var render = function() {
                                 ]
                               )
                             ])
-                          ]),
-                          _vm._v(" "),
-                          _vm.shipment_form.shipping_method == "Customize"
-                            ? _c("div", { staticClass: "form-group" }, [
-                                _c("label", {
-                                  staticClass: "col-sm-4 control-label"
-                                }),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "col-sm-7" }, [
-                                  _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(19),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value:
-                                            _vm.shipment_form
-                                              .customize_shipping_method,
-                                          expression:
-                                            "shipment_form.customize_shipping_method"
-                                        }
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: {
-                                        type: "text",
-                                        placeholder: "Input Remarks"
-                                      },
-                                      domProps: {
-                                        value:
-                                          _vm.shipment_form
-                                            .customize_shipping_method
-                                      },
-                                      on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.$set(
-                                            _vm.shipment_form,
-                                            "customize_shipping_method",
-                                            $event.target.value
-                                          )
-                                        }
-                                      }
-                                    })
-                                  ])
-                                ])
-                              ])
-                            : _vm._e()
+                          ])
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-6" }, [
@@ -24279,7 +24681,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(20),
+                                _vm._m(21),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -24322,7 +24724,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(21),
+                                _vm._m(22),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -24360,44 +24762,63 @@ var render = function() {
                             _c(
                               "label",
                               { staticClass: "col-sm-4 control-label" },
-                              [_vm._v("Container No.")]
+                              [_vm._v("Inland forwarder")]
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
-                              _c("div", { staticClass: "input-group" }, [
-                                _vm._m(22),
-                                _vm._v(" "),
-                                _c("input", {
+                              _c(
+                                "select",
+                                {
                                   directives: [
                                     {
                                       name: "model",
                                       rawName: "v-model",
-                                      value: _vm.shipment_form.container_no,
-                                      expression: "shipment_form.container_no"
+                                      value: _vm.shipment_form.inland_forwarder,
+                                      expression:
+                                        "shipment_form.inland_forwarder"
                                     }
                                   ],
                                   staticClass: "form-control",
-                                  attrs: {
-                                    type: "text",
-                                    placeholder: "Input Container No."
-                                  },
-                                  domProps: {
-                                    value: _vm.shipment_form.container_no
-                                  },
                                   on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
                                       _vm.$set(
                                         _vm.shipment_form,
-                                        "container_no",
-                                        $event.target.value
+                                        "inland_forwarder",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
                                       )
                                     }
                                   }
-                                })
-                              ])
+                                },
+                                [
+                                  _c("option", { attrs: { value: "" } }, [
+                                    _vm._v("Please choose")
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.forwarder_contacts, function(
+                                    contact
+                                  ) {
+                                    return _c(
+                                      "option",
+                                      { domProps: { value: contact.id } },
+                                      [_vm._v(_vm._s(contact.text))]
+                                    )
+                                  })
+                                ],
+                                2
+                              )
                             ])
                           ]),
                           _vm._v(" "),
@@ -24611,7 +25032,59 @@ var render = function() {
                                 })
                               ])
                             ])
-                          ])
+                          ]),
+                          _vm._v(" "),
+                          _vm.shipment_form.shipping_method == "Customize"
+                            ? _c("div", { staticClass: "form-group" }, [
+                                _c(
+                                  "label",
+                                  { staticClass: "col-sm-4 control-label" },
+                                  [_vm._v("Customize")]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-sm-7" }, [
+                                  _c("div", { staticClass: "input-group" }, [
+                                    _vm._m(24),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value:
+                                            _vm.shipment_form
+                                              .customize_shipping_method,
+                                          expression:
+                                            "shipment_form.customize_shipping_method"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "text",
+                                        placeholder: "Input Remarks"
+                                      },
+                                      domProps: {
+                                        value:
+                                          _vm.shipment_form
+                                            .customize_shipping_method
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.shipment_form,
+                                            "customize_shipping_method",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ])
+                              ])
+                            : _vm._e()
                         ])
                       ])
                     ]),
@@ -24631,11 +25104,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(24),
+                                _vm._m(25),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(25),
+                                    _vm._m(26),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -24691,7 +25164,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(26),
+                                    _vm._m(27),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -24735,69 +25208,17 @@ var render = function() {
                                 ])
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "form-group  " }, [
-                                _c(
-                                  "label",
-                                  { staticClass: "col-sm-4 control-label" },
-                                  [_vm._v("ETA Port")]
-                                ),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "col-sm-7" }, [
-                                  _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(27),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.shipment_form.eta_port,
-                                          expression: "shipment_form.eta_port"
-                                        }
-                                      ],
-                                      staticClass:
-                                        "form-control datetime-picker",
-                                      attrs: {
-                                        type: "text",
-                                        name: "eta_port",
-                                        placeholder: "ETA Port",
-                                        readonly:
-                                          !!!_vm.shipment_form.etd_port ||
-                                          _vm.shipment_form.eta_job_site
-                                            ? true
-                                            : false
-                                      },
-                                      domProps: {
-                                        value: _vm.shipment_form.eta_port
-                                      },
-                                      on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.$set(
-                                            _vm.shipment_form,
-                                            "eta_port",
-                                            $event.target.value
-                                          )
-                                        }
-                                      }
-                                    })
-                                  ])
-                                ])
-                              ]),
-                              _vm._v(" "),
                               _c(
                                 "div",
                                 {
-                                  staticClass: "form-group",
-                                  staticStyle: { "margin-bottom": "0" }
+                                  staticClass: "form-group  ",
+                                  staticStyle: { "margin-bottom": "unset" }
                                 },
                                 [
                                   _c(
                                     "label",
                                     { staticClass: "col-sm-4 control-label" },
-                                    [_vm._v("ETA Job Site")]
+                                    [_vm._v("ETA Port")]
                                   ),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
@@ -24809,25 +25230,23 @@ var render = function() {
                                           {
                                             name: "model",
                                             rawName: "v-model",
-                                            value:
-                                              _vm.shipment_form.eta_job_site,
-                                            expression:
-                                              "shipment_form.eta_job_site"
+                                            value: _vm.shipment_form.eta_port,
+                                            expression: "shipment_form.eta_port"
                                           }
                                         ],
                                         staticClass:
                                           "form-control datetime-picker",
                                         attrs: {
                                           type: "text",
-                                          name: "eta_job_site",
-                                          placeholder: "ETA Job Site",
+                                          name: "eta_port",
+                                          placeholder: "ETA Port",
                                           readonly: !!!_vm.shipment_form
-                                            .eta_port
+                                            .etd_port
                                             ? true
                                             : false
                                         },
                                         domProps: {
-                                          value: _vm.shipment_form.eta_job_site
+                                          value: _vm.shipment_form.eta_port
                                         },
                                         on: {
                                           input: function($event) {
@@ -24836,7 +25255,7 @@ var render = function() {
                                             }
                                             _vm.$set(
                                               _vm.shipment_form,
-                                              "eta_job_site",
+                                              "eta_port",
                                               $event.target.value
                                             )
                                           }
@@ -24967,99 +25386,45 @@ var render = function() {
                                 ])
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "form-group  " }, [
-                                _c(
-                                  "label",
-                                  { staticClass: "col-sm-4 control-label" },
-                                  [_vm._v("ATA Port")]
-                                ),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "col-sm-7" }, [
-                                  _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(32),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.shipment_form.ata_port,
-                                          expression: "shipment_form.ata_port"
-                                        }
-                                      ],
-                                      staticClass:
-                                        "form-control datetime-picker",
-                                      attrs: {
-                                        type: "text",
-                                        name: "ata_port",
-                                        placeholder: "ATA Port",
-                                        readonly:
-                                          !!!_vm.shipment_form.atd_port ||
-                                          _vm.shipment_form.ata_job_site
-                                            ? true
-                                            : false
-                                      },
-                                      domProps: {
-                                        value: _vm.shipment_form.ata_port
-                                      },
-                                      on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.$set(
-                                            _vm.shipment_form,
-                                            "ata_port",
-                                            $event.target.value
-                                          )
-                                        }
-                                      }
-                                    })
-                                  ])
-                                ])
-                              ]),
-                              _vm._v(" "),
                               _c(
                                 "div",
                                 {
-                                  staticClass: "form-group",
-                                  staticStyle: { "margin-bottom": "0" }
+                                  staticClass: "form-group  ",
+                                  staticStyle: { "margin-bottom": "unset" }
                                 },
                                 [
                                   _c(
                                     "label",
                                     { staticClass: "col-sm-4 control-label" },
-                                    [_vm._v("ATA Job Site")]
+                                    [_vm._v("ATA Port")]
                                   ),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(33),
+                                      _vm._m(32),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
                                           {
                                             name: "model",
                                             rawName: "v-model",
-                                            value:
-                                              _vm.shipment_form.ata_job_site,
-                                            expression:
-                                              "shipment_form.ata_job_site"
+                                            value: _vm.shipment_form.ata_port,
+                                            expression: "shipment_form.ata_port"
                                           }
                                         ],
                                         staticClass:
                                           "form-control datetime-picker",
                                         attrs: {
                                           type: "text",
-                                          name: "ata_job_site",
-                                          placeholder: "ATA Job Site",
+                                          name: "ata_port",
+                                          placeholder: "ATA Port",
                                           readonly: !!!_vm.shipment_form
-                                            .ata_port
+                                            .atd_port
                                             ? true
                                             : false
                                         },
                                         domProps: {
-                                          value: _vm.shipment_form.ata_job_site
+                                          value: _vm.shipment_form.ata_port
                                         },
                                         on: {
                                           input: function($event) {
@@ -25068,7 +25433,7 @@ var render = function() {
                                             }
                                             _vm.$set(
                                               _vm.shipment_form,
-                                              "ata_job_site",
+                                              "ata_port",
                                               $event.target.value
                                             )
                                           }
@@ -25121,7 +25486,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "editShipment" } }, [
       _c("div", { staticClass: "modal-dialog modal-lg" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(34),
+          _vm._m(33),
           _vm._v(" "),
           _c("div", { staticClass: "form-horizontal" }, [
             _c("div", { staticClass: "modal-body" }, [
@@ -25281,12 +25646,77 @@ var render = function() {
                             _c(
                               "label",
                               { staticClass: "col-sm-4 control-label" },
+                              [_vm._v("Ocean forwarder")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-sm-7" }, [
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value:
+                                        _vm.shipment_edit_form.ocean_forwarder,
+                                      expression:
+                                        "shipment_edit_form.ocean_forwarder"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.shipment_edit_form,
+                                        "ocean_forwarder",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("option", { attrs: { value: "" } }, [
+                                    _vm._v("Please choose")
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.forwarder_contacts, function(
+                                    contact
+                                  ) {
+                                    return _c(
+                                      "option",
+                                      { domProps: { value: contact.id } },
+                                      [_vm._v(_vm._s(contact.text))]
+                                    )
+                                  })
+                                ],
+                                2
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group  " }, [
+                            _c(
+                              "label",
+                              { staticClass: "col-sm-4 control-label" },
                               [_vm._v("B/L")]
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(35),
+                                _vm._m(34),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -25331,7 +25761,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(36),
+                                _vm._m(35),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -25443,7 +25873,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group  " }, [
-                            _vm._m(37),
+                            _vm._m(36),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c(
@@ -25541,57 +25971,7 @@ var render = function() {
                                 ]
                               )
                             ])
-                          ]),
-                          _vm._v(" "),
-                          _vm.shipment_edit_form.shipping_method == "Customize"
-                            ? _c("div", { staticClass: "form-group" }, [
-                                _c("label", {
-                                  staticClass: "col-sm-4 control-label"
-                                }),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "col-sm-7" }, [
-                                  _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(38),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value:
-                                            _vm.shipment_edit_form
-                                              .customize_shipping_method,
-                                          expression:
-                                            "shipment_edit_form.customize_shipping_method"
-                                        }
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: {
-                                        type: "text",
-                                        placeholder: "Input Remarks"
-                                      },
-                                      domProps: {
-                                        value:
-                                          _vm.shipment_edit_form
-                                            .customize_shipping_method
-                                      },
-                                      on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.$set(
-                                            _vm.shipment_edit_form,
-                                            "customize_shipping_method",
-                                            $event.target.value
-                                          )
-                                        }
-                                      }
-                                    })
-                                  ])
-                                ])
-                              ])
-                            : _vm._e()
+                          ])
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-6" }, [
@@ -25604,7 +25984,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(39),
+                                _vm._m(37),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -25649,7 +26029,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(40),
+                                _vm._m(38),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -25689,46 +26069,64 @@ var render = function() {
                             _c(
                               "label",
                               { staticClass: "col-sm-4 control-label" },
-                              [_vm._v("Container No.")]
+                              [_vm._v("Inland forwarder")]
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
-                              _c("div", { staticClass: "input-group" }, [
-                                _vm._m(41),
-                                _vm._v(" "),
-                                _c("input", {
+                              _c(
+                                "select",
+                                {
                                   directives: [
                                     {
                                       name: "model",
                                       rawName: "v-model",
                                       value:
-                                        _vm.shipment_edit_form.container_no,
+                                        _vm.shipment_edit_form.inland_forwarder,
                                       expression:
-                                        "shipment_edit_form.container_no"
+                                        "shipment_edit_form.inland_forwarder"
                                     }
                                   ],
                                   staticClass: "form-control",
-                                  attrs: {
-                                    type: "text",
-                                    placeholder: "Input Container No."
-                                  },
-                                  domProps: {
-                                    value: _vm.shipment_edit_form.container_no
-                                  },
                                   on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
                                       _vm.$set(
                                         _vm.shipment_edit_form,
-                                        "container_no",
-                                        $event.target.value
+                                        "inland_forwarder",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
                                       )
                                     }
                                   }
-                                })
-                              ])
+                                },
+                                [
+                                  _c("option", { attrs: { value: "" } }, [
+                                    _vm._v("Please choose")
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.forwarder_contacts, function(
+                                    contact
+                                  ) {
+                                    return _c(
+                                      "option",
+                                      { domProps: { value: contact.id } },
+                                      [_vm._v(_vm._s(contact.text))]
+                                    )
+                                  })
+                                ],
+                                2
+                              )
                             ])
                           ]),
                           _vm._v(" "),
@@ -25913,7 +26311,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(42),
+                                _vm._m(39),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -25947,7 +26345,59 @@ var render = function() {
                                 })
                               ])
                             ])
-                          ])
+                          ]),
+                          _vm._v(" "),
+                          _vm.shipment_edit_form.shipping_method == "Customize"
+                            ? _c("div", { staticClass: "form-group" }, [
+                                _c(
+                                  "label",
+                                  { staticClass: "col-sm-4 control-label" },
+                                  [_vm._v("Customize")]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-sm-7" }, [
+                                  _c("div", { staticClass: "input-group" }, [
+                                    _vm._m(40),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value:
+                                            _vm.shipment_edit_form
+                                              .customize_shipping_method,
+                                          expression:
+                                            "shipment_edit_form.customize_shipping_method"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "text",
+                                        placeholder: "Input Remarks"
+                                      },
+                                      domProps: {
+                                        value:
+                                          _vm.shipment_edit_form
+                                            .customize_shipping_method
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.shipment_edit_form,
+                                            "customize_shipping_method",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ])
+                              ])
+                            : _vm._e()
                         ])
                       ])
                     ]),
@@ -25967,11 +26417,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(43),
+                                _vm._m(41),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(44),
+                                    _vm._m(42),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26028,7 +26478,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(45),
+                                    _vm._m(43),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26074,76 +26524,22 @@ var render = function() {
                                 ])
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "form-group  " }, [
-                                _c(
-                                  "label",
-                                  { staticClass: "col-sm-4 control-label" },
-                                  [_vm._v("ETA Port")]
-                                ),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "col-sm-7" }, [
-                                  _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(46),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value:
-                                            _vm.shipment_edit_form.eta_port,
-                                          expression:
-                                            "shipment_edit_form.eta_port"
-                                        }
-                                      ],
-                                      staticClass:
-                                        "form-control datetime-picker",
-                                      attrs: {
-                                        type: "text",
-                                        name: "eta_port",
-                                        placeholder: "ETA Port",
-                                        readonly:
-                                          !!!_vm.shipment_edit_form.etd_port ||
-                                          _vm.shipment_edit_form.eta_job_site
-                                            ? true
-                                            : false
-                                      },
-                                      domProps: {
-                                        value: _vm.shipment_edit_form.eta_port
-                                      },
-                                      on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.$set(
-                                            _vm.shipment_edit_form,
-                                            "eta_port",
-                                            $event.target.value
-                                          )
-                                        }
-                                      }
-                                    })
-                                  ])
-                                ])
-                              ]),
-                              _vm._v(" "),
                               _c(
                                 "div",
                                 {
-                                  staticClass: "form-group",
-                                  staticStyle: { "margin-bottom": "0" }
+                                  staticClass: "form-group  ",
+                                  staticStyle: { "margin-bottom": "unset" }
                                 },
                                 [
                                   _c(
                                     "label",
                                     { staticClass: "col-sm-4 control-label" },
-                                    [_vm._v("ETA Job Site")]
+                                    [_vm._v("ETA Port")]
                                   ),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(47),
+                                      _vm._m(44),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -26151,26 +26547,24 @@ var render = function() {
                                             name: "model",
                                             rawName: "v-model",
                                             value:
-                                              _vm.shipment_edit_form
-                                                .eta_job_site,
+                                              _vm.shipment_edit_form.eta_port,
                                             expression:
-                                              "shipment_edit_form.eta_job_site"
+                                              "shipment_edit_form.eta_port"
                                           }
                                         ],
                                         staticClass:
                                           "form-control datetime-picker",
                                         attrs: {
                                           type: "text",
-                                          name: "eta_job_site",
-                                          placeholder: "ETA Job Site",
+                                          name: "eta_port",
+                                          placeholder: "ETA Port",
                                           readonly: !!!_vm.shipment_edit_form
-                                            .eta_port
+                                            .etd_port
                                             ? true
                                             : false
                                         },
                                         domProps: {
-                                          value:
-                                            _vm.shipment_edit_form.eta_job_site
+                                          value: _vm.shipment_edit_form.eta_port
                                         },
                                         on: {
                                           input: function($event) {
@@ -26179,7 +26573,7 @@ var render = function() {
                                             }
                                             _vm.$set(
                                               _vm.shipment_edit_form,
-                                              "eta_job_site",
+                                              "eta_port",
                                               $event.target.value
                                             )
                                           }
@@ -26206,11 +26600,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(48),
+                                _vm._m(45),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(49),
+                                    _vm._m(46),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26267,7 +26661,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(50),
+                                    _vm._m(47),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26313,76 +26707,22 @@ var render = function() {
                                 ])
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "form-group  " }, [
-                                _c(
-                                  "label",
-                                  { staticClass: "col-sm-4 control-label" },
-                                  [_vm._v("ATA Port")]
-                                ),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "col-sm-7" }, [
-                                  _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(51),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value:
-                                            _vm.shipment_edit_form.ata_port,
-                                          expression:
-                                            "shipment_edit_form.ata_port"
-                                        }
-                                      ],
-                                      staticClass:
-                                        "form-control datetime-picker",
-                                      attrs: {
-                                        type: "text",
-                                        name: "ata_port",
-                                        placeholder: "ATA Port",
-                                        readonly:
-                                          !!!_vm.shipment_edit_form.atd_port ||
-                                          _vm.shipment_edit_form.ata_job_site
-                                            ? true
-                                            : false
-                                      },
-                                      domProps: {
-                                        value: _vm.shipment_edit_form.ata_port
-                                      },
-                                      on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.$set(
-                                            _vm.shipment_edit_form,
-                                            "ata_port",
-                                            $event.target.value
-                                          )
-                                        }
-                                      }
-                                    })
-                                  ])
-                                ])
-                              ]),
-                              _vm._v(" "),
                               _c(
                                 "div",
                                 {
-                                  staticClass: "form-group",
-                                  staticStyle: { "margin-bottom": "0" }
+                                  staticClass: "form-group  ",
+                                  staticStyle: { "margin-bottom": "unset" }
                                 },
                                 [
                                   _c(
                                     "label",
                                     { staticClass: "col-sm-4 control-label" },
-                                    [_vm._v("ATA Job Site")]
+                                    [_vm._v("ATA Port")]
                                   ),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(52),
+                                      _vm._m(48),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -26390,26 +26730,24 @@ var render = function() {
                                             name: "model",
                                             rawName: "v-model",
                                             value:
-                                              _vm.shipment_edit_form
-                                                .ata_job_site,
+                                              _vm.shipment_edit_form.ata_port,
                                             expression:
-                                              "shipment_edit_form.ata_job_site"
+                                              "shipment_edit_form.ata_port"
                                           }
                                         ],
                                         staticClass:
                                           "form-control datetime-picker",
                                         attrs: {
                                           type: "text",
-                                          name: "ata_job_site",
-                                          placeholder: "ATA Job Site",
+                                          name: "ata_port",
+                                          placeholder: "ATA Port",
                                           readonly: !!!_vm.shipment_edit_form
-                                            .ata_port
+                                            .atd_port
                                             ? true
                                             : false
                                         },
                                         domProps: {
-                                          value:
-                                            _vm.shipment_edit_form.ata_job_site
+                                          value: _vm.shipment_edit_form.ata_port
                                         },
                                         on: {
                                           input: function($event) {
@@ -26418,7 +26756,7 @@ var render = function() {
                                             }
                                             _vm.$set(
                                               _vm.shipment_edit_form,
-                                              "ata_job_site",
+                                              "ata_port",
                                               $event.target.value
                                             )
                                           }
@@ -26474,7 +26812,7 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(53),
+            _vm._m(49),
             _vm._v(" "),
             _c("div", [
               _c("div", { staticClass: "modal-body" }, [
@@ -26489,7 +26827,7 @@ var render = function() {
                   },
                   [
                     _c("table", { staticClass: "table" }, [
-                      _vm._m(54),
+                      _vm._m(50),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -26751,8 +27089,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Vessel")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Container No.")]),
-        _vm._v(" "),
         _c("th", [_vm._v("Remarks")]),
         _vm._v(" "),
         _c("th", [
@@ -26798,9 +27134,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("p", [_c("i", [_vm._v("ETD Port：")])]),
         _vm._v(" "),
-        _c("p", [_c("i", [_vm._v("ETA Port：")])]),
-        _vm._v(" "),
-        _c("p", [_c("i", [_vm._v("ETA Job Site：")])])
+        _c("p", [_c("i", [_vm._v("ETA Port：")])])
       ]
     )
   },
@@ -26829,9 +27163,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("p", [_c("i", [_vm._v("ATD Port：")])]),
         _vm._v(" "),
-        _c("p", [_c("i", [_vm._v("ATA Port：")])]),
-        _vm._v(" "),
-        _c("p", [_c("i", [_vm._v("ATA Job Site：")])])
+        _c("p", [_c("i", [_vm._v("ATA Port：")])])
       ]
     )
   },
@@ -26872,6 +27204,14 @@ var staticRenderFns = [
       ),
       _vm._v(" "),
       _c("h4", { staticClass: "modal-title" }, [_vm._v("Add PO# Client")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-pencil fa-fw" })
     ])
   },
   function() {
@@ -26946,6 +27286,14 @@ var staticRenderFns = [
         _vm._v("Edit PO# Client："),
         _c("span", { staticClass: "po_client_no" })
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-pencil fa-fw" })
     ])
   },
   function() {
@@ -27114,14 +27462,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "input-group-addon" }, [
-      _c("i", { staticClass: "fa fa-pencil fa-fw" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("label", { staticClass: "col-sm-4 control-label" }, [
       _c(
         "span",
@@ -27164,14 +27504,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "input-group-addon" }, [
-      _c("i", { staticClass: "fa fa-calendar" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("label", { staticClass: "col-sm-4 control-label" }, [
       _c(
         "span",
@@ -27184,14 +27516,6 @@ var staticRenderFns = [
         },
         [_vm._v("APC")]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "input-group-addon" }, [
-      _c("i", { staticClass: "fa fa-calendar" })
     ])
   },
   function() {
@@ -27312,14 +27636,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "input-group-addon" }, [
-      _c("i", { staticClass: "fa fa-pencil fa-fw" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("label", { staticClass: "col-sm-4 control-label" }, [
       _c(
         "span",
@@ -27332,14 +27648,6 @@ var staticRenderFns = [
         },
         [_vm._v("EPC")]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "input-group-addon" }, [
-      _c("i", { staticClass: "fa fa-calendar" })
     ])
   },
   function() {
@@ -27412,14 +27720,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "input-group-addon" }, [
-      _c("i", { staticClass: "fa fa-calendar" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
       _c(
         "button",
@@ -27458,6 +27758,292 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Action")])
       ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/project/CreateProjectComponent.vue?vue&type=template&id=2799f0e1&":
+/*!*********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/project/CreateProjectComponent.vue?vue&type=template&id=2799f0e1& ***!
+  \*********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col-md-12" }, [
+      _c("div", { staticClass: "box box-info" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("form", { staticClass: "form-horizontal" }, [
+          _c("div", { staticClass: "box-body" }, [
+            _c("div", { staticClass: "fields-group" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("div", { staticClass: "form-group  " }, [
+                  _c(
+                    "label",
+                    { staticClass: "col-sm-2 asterisk control-label" },
+                    [_vm._v("Clients")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-8" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.project_form.client_id,
+                            expression: "project_form.client_id"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "client_id", name: "client_id" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.project_form,
+                              "client_id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      _vm._l(_vm.clients, function(client) {
+                        return _c(
+                          "option",
+                          { domProps: { value: client.id } },
+                          [_vm._v(_vm._s(client.name))]
+                        )
+                      }),
+                      0
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group  " }, [
+                  _c(
+                    "label",
+                    { staticClass: "col-sm-2 asterisk control-label" },
+                    [_vm._v("Contact")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-8" }, [
+                    _c(
+                      "select",
+                      {
+                        staticClass: "form-control",
+                        attrs: {
+                          id: "contact_id",
+                          name: "contacts[]",
+                          multiple: "multiple"
+                        }
+                      },
+                      _vm._l(_vm.contacts, function(contact) {
+                        return _c(
+                          "option",
+                          { domProps: { value: contact.id } },
+                          [_vm._v(_vm._s(contact.name))]
+                        )
+                      }),
+                      0
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group  " }, [
+                  _c(
+                    "label",
+                    { staticClass: "col-sm-2 asterisk control-label" },
+                    [_vm._v("Name")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-8" }, [
+                    _c("div", { staticClass: "input-group" }, [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.project_form.name,
+                            expression: "project_form.name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          required: "1",
+                          type: "text",
+                          id: "name",
+                          name: "name",
+                          value: "",
+                          placeholder: "Input Name"
+                        },
+                        domProps: { value: _vm.project_form.name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.project_form,
+                              "name",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group  " }, [
+                  _c("label", { staticClass: "col-sm-2 control-label" }, [
+                    _vm._v("Address")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-8" }, [
+                    _c("div", { staticClass: "input-group" }, [
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.project_form.address,
+                            expression: "project_form.address"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          required: "1",
+                          type: "text",
+                          id: "address",
+                          name: "address",
+                          value: "",
+                          placeholder: "Input Address"
+                        },
+                        domProps: { value: _vm.project_form.address },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.project_form,
+                              "address",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticStyle: { clear: "both" } })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "box-footer" }, [
+            _c("div", { staticClass: "col-md-2" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-8" }, [
+              _c("div", { staticClass: "btn-group pull-right" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button", disabled: _vm.loading.project },
+                    on: { click: _vm.saveProject }
+                  },
+                  [
+                    _vm._v("Submit "),
+                    _vm.loading.project
+                      ? _c("i", { staticClass: "fa fa-spinner fa-spin" })
+                      : _vm._e()
+                  ]
+                )
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-header with-border" }, [
+      _c("h3", { staticClass: "box-title" }, [_vm._v("Create")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "box-tools" }, [
+        _c(
+          "div",
+          {
+            staticClass: "btn-group pull-right",
+            staticStyle: { "margin-right": "5px" }
+          },
+          [
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-sm btn-default",
+                attrs: { href: "/admin/projects", title: "List" }
+              },
+              [
+                _c("i", { staticClass: "fa fa-list" }),
+                _c("span", { staticClass: "hidden-xs" }, [_vm._v(" List")])
+              ]
+            )
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-pencil fa-fw" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-pencil fa-fw" })
     ])
   }
 ]
@@ -41494,6 +42080,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 Vue.component('project-detail', __webpack_require__(/*! ./components/ProjectDetailComponent */ "./resources/js/components/ProjectDetailComponent.vue")["default"]);
+Vue.component('project-create', __webpack_require__(/*! ./components/project/CreateProjectComponent.vue */ "./resources/js/components/project/CreateProjectComponent.vue")["default"]);
 
 /***/ }),
 
@@ -41611,6 +42198,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_template_id_909a2404_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_template_id_909a2404_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/project/CreateProjectComponent.vue":
+/*!********************************************************************!*\
+  !*** ./resources/js/components/project/CreateProjectComponent.vue ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CreateProjectComponent_vue_vue_type_template_id_2799f0e1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CreateProjectComponent.vue?vue&type=template&id=2799f0e1& */ "./resources/js/components/project/CreateProjectComponent.vue?vue&type=template&id=2799f0e1&");
+/* harmony import */ var _CreateProjectComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CreateProjectComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/project/CreateProjectComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _CreateProjectComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CreateProjectComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/project/CreateProjectComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _CreateProjectComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CreateProjectComponent_vue_vue_type_template_id_2799f0e1___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CreateProjectComponent_vue_vue_type_template_id_2799f0e1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/project/CreateProjectComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/project/CreateProjectComponent.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/project/CreateProjectComponent.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateProjectComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./CreateProjectComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/project/CreateProjectComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateProjectComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/project/CreateProjectComponent.vue?vue&type=style&index=0&lang=css&":
+/*!*****************************************************************************************************!*\
+  !*** ./resources/js/components/project/CreateProjectComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \*****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateProjectComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./CreateProjectComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/project/CreateProjectComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateProjectComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateProjectComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateProjectComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateProjectComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateProjectComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/project/CreateProjectComponent.vue?vue&type=template&id=2799f0e1&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/components/project/CreateProjectComponent.vue?vue&type=template&id=2799f0e1& ***!
+  \***************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateProjectComponent_vue_vue_type_template_id_2799f0e1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./CreateProjectComponent.vue?vue&type=template&id=2799f0e1& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/project/CreateProjectComponent.vue?vue&type=template&id=2799f0e1&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateProjectComponent_vue_vue_type_template_id_2799f0e1___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateProjectComponent_vue_vue_type_template_id_2799f0e1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

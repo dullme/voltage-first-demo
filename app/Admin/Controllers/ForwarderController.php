@@ -2,20 +2,20 @@
 
 namespace App\Admin\Controllers;
 
-use App\Carrier;
+use App\Forwarder;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
-class CarrierController extends ResponseController
+class ForwarderController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = 'App\Carrier';
+    protected $title = 'App\Forwarder';
 
     /**
      * Make a grid builder.
@@ -24,15 +24,15 @@ class CarrierController extends ResponseController
      */
     protected function grid()
     {
-        $grid = new Grid(new Carrier());
+        $grid = new Grid(new Forwarder());
+        $grid->model()->orderByDesc('id');
         $grid->disableExport();
         $grid->disableFilter();
         $grid->disableRowSelector();
 
-        $grid->column('id', __('Id'));
         $grid->column('name', __('Name'));
+        $grid->column('address', __('Address'));
         $grid->column('created_at', __('Created at'));
-//        $grid->column('updated_at', __('Updated at'));
 
         return $grid;
     }
@@ -45,10 +45,11 @@ class CarrierController extends ResponseController
      */
     protected function detail($id)
     {
-        $show = new Show(Carrier::findOrFail($id));
+        $show = new Show(Forwarder::findOrFail($id));
 
         $show->field('id', __('Id'));
         $show->field('name', __('Name'));
+        $show->field('address', __('Address'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
@@ -62,17 +63,11 @@ class CarrierController extends ResponseController
      */
     protected function form()
     {
-        $form = new Form(new Carrier());
+        $form = new Form(new Forwarder());
 
-        $form->text('name', __('Name'));
+        $form->text('name', __('Name'))->required();
+        $form->text('address', __('Address'));
 
         return $form;
-    }
-
-    public function getCarriers()
-    {
-        $carriers = Carrier::pluck('name', 'id');
-
-        return $this->responseSuccess($carriers);
     }
 }

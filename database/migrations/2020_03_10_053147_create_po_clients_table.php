@@ -16,7 +16,8 @@ class CreatePoClientsTable extends Migration
         Schema::create('po_clients', function (Blueprint $table) {
             $table->id();
             $table->integer('project_id')->unsigned()->comment('项目ID');
-            $table->string('no')->nullable()->comment('客户订单编号');
+            $table->string('no')->comment('客户订单编号');
+            $table->string('voltage_no')->comment('Voltage订单编号');
             $table->timestamp('client_delivery_time')->nullable()->comment('客户要求到货时间');
             $table->timestamp('po_date')->nullable()->comment('客户下单日期');
             $table->timestamps();

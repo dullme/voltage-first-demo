@@ -3,6 +3,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Container;
 use DB;
 use App\Batch;
 use App\Enums\BatchStatus;
@@ -20,24 +21,27 @@ class PoFactoryController extends ResponseController
     {
         $validator = Validator::make($request->all(), [
             'po_client_id' => 'required',
+            'no'           => 'required',
             'type'         => 'required',
             'factory_id'   => 'nullable|integer',
-            'remarks'      => 'nullable'
+            'remarks'      => 'nullable',
+            'product'      => 'nullable',
         ], [
-            'type.required'       => 'The Type of PO field is required.',
+            'type.required' => 'The Type of PO field is required.',
+            'no.required'   => 'The PO factory field is required.',
         ]);
 
         if ($validator->fails()) {
             return $this->setStatusCode(422)->responseError($validator->errors()->first());
         }
-        $data = $validator->validated();
+//        $data = $validator->validated();
 
-        $po_client_ids = PoClient::where('project_id', $id)->pluck('id');
-        $po_factory = PoFactory::whereIn('po_client_id', $po_client_ids)->orderBy('id', 'desc')->first();
-        $po_factory_count = $po_factory ? intval($po_factory->no) : 0;
-        $data['no'] = sprintf("%02d", ++$po_factory_count);
+//        $po_client_ids = PoClient::where('project_id', $id)->pluck('id');
+//        $po_factory = PoFactory::whereIn('po_client_id', $po_client_ids)->orderBy('id', 'desc')->first();
+//        $po_factory_count = $po_factory ? intval($po_factory->no) : 0;
+//        $data['no'] = sprintf("%02d", ++$po_factory_count);
 
-        $po_factory = PoFactory::create($data);
+        $po_factory = PoFactory::create($validator->validated());
 
         $data = PoFactory::with(['factory', 'batches' => function ($query) {
             $query->orderBy('sequence', 'ASC');
@@ -57,10 +61,13 @@ class PoFactoryController extends ResponseController
     {
         $validator = Validator::make($request->all(), [
             'type'       => 'required|integer',
+            'no'         => 'required',
             'factory_id' => 'nullable|integer',
-            'remarks'    => 'nullable'
+            'remarks'    => 'nullable',
+            'product'    => 'nullable',
         ], [
-            'type_id.required'    => 'The Type of PO field is required.',
+            'type_id.required' => 'The Type of PO field is required.',
+            'no.required'      => 'The PO factory field is required.',
         ]);
 
         if ($validator->fails()) {
@@ -68,37 +75,39 @@ class PoFactoryController extends ResponseController
         }
         $po_factory = PoFactory::findOrFail($id);
 
-        $update_data = $validator->validated();
+//        $update_data = $validator->validated();
 
-        $data1 = [
-            'type'       => $po_factory->type,
-            'factory_id' => $po_factory->factory_id,
-            'remarks'    => $po_factory->remarks
-        ];
-        $data2 = [
-            'type'       => intval($update_data['type']),
-            'factory_id' => intval($update_data['factory_id']),
-            'remarks'    => $update_data['remarks']
-        ];
+//        $data1 = [
+//            'type'       => $po_factory->type,
+//            'factory_id' => $po_factory->factory_id,
+//            'remarks'    => $po_factory->remarks
+//        ];
+//        $data2 = [
+//            'type'       => intval($update_data['type']),
+//            'factory_id' => intval($update_data['factory_id']),
+//            'remarks'    => $update_data['remarks']
+//        ];
+//
+//        if ($data1 === $data2) {
+//            return $this->setStatusCode(422)->responseError('Unmodified');
+//        }
 
-        if($data1 === $data2){
-            return $this->setStatusCode(422)->responseError('Unmodified');
-        }
+        PoFactory::where('id', $po_factory->id)->update($validator->validated());
 
-        DB::transaction(function () use ($po_factory, $validator) {
-            PoFactoryHistory::create([
-                'po_factory_id' => $po_factory->id,
-                'po_client_id' => $po_factory->po_client_id,
-                'factory_id' => $po_factory->factory_id,
-                'type' => $po_factory->type,
-                'no' => $po_factory->no,
-                'number' => $po_factory->number,
-                'remarks' => $po_factory->remarks,
-                'created_at' => $po_factory->created_at,
-                'updated_at' => $po_factory->updated_at,
-            ]);
-            PoFactory::where('id', $po_factory->id)->update(array_merge($validator->validated(),['number' => ++$po_factory->number]));
-        });
+//        DB::transaction(function () use ($po_factory, $validator) {
+//            PoFactoryHistory::create([
+//                'po_factory_id' => $po_factory->id,
+//                'po_client_id'  => $po_factory->po_client_id,
+//                'factory_id'    => $po_factory->factory_id,
+//                'type'          => $po_factory->type,
+//                'no'            => $po_factory->no,
+//                'number'        => $po_factory->number,
+//                'remarks'       => $po_factory->remarks,
+//                'created_at'    => $po_factory->created_at,
+//                'updated_at'    => $po_factory->updated_at,
+//            ]);
+//            PoFactory::where('id', $po_factory->id)->update(array_merge($validator->validated(), ['number' => ++$po_factory->number]));
+//        });
 
         return $this->responseSuccess(true, 'Updated');
     }
@@ -110,11 +119,11 @@ class PoFactoryController extends ResponseController
             'name'                            => 'nullable',
             'sequence'                        => 'required|integer',
             'carrier'                         => 'nullable',
-//            'b_l'                             => 'required|unique:batches',
+            'ocean_forwarder'                 => 'nullable|integer',
+            'inland_forwarder'                => 'nullable|integer',
             'b_l'                             => 'nullable',
             'shipping_method'                 => 'nullable',
             'vessel'                          => 'nullable',
-            'container_no'                    => 'nullable',
             'remarks'                         => 'nullable',
             'port_of_departure'               => 'nullable',
             'destination_port'                => 'nullable',
@@ -124,11 +133,13 @@ class PoFactoryController extends ResponseController
             'estimated_production_completion' => 'nullable|date',
             'etd_port'                        => 'nullable|date',
             'eta_port'                        => 'nullable|date',
-            'eta_job_site'                    => 'nullable|date',
             'actual_production_completion'    => 'nullable|date',
             'atd_port'                        => 'nullable|date',
             'ata_port'                        => 'nullable|date',
-            'ata_job_site'                    => 'nullable|date',
+
+
+            'eta_job_site' => 'nullable|date',
+            'ata_job_site' => 'nullable|date',
         ], [
             'name.required' => 'The sequence field is required.',
         ]);
@@ -205,7 +216,7 @@ class PoFactoryController extends ResponseController
 
     public function showBatch($id, Content $content)
     {
-        $batch = Batch::with('poFactory.poClient.project')->findOrFail($id);
+        $batch = Batch::with('poFactory.poClient.project', 'containers')->findOrFail($id);
 
         return $content
             ->title(getSequence($batch->sequence))
@@ -219,13 +230,14 @@ class PoFactoryController extends ResponseController
             'name'                            => 'nullable',
             'sequence'                        => 'required|integer',
             'carrier'                         => 'nullable',
+            'ocean_forwarder'                 => 'nullable|integer',
+            'inland_forwarder'                => 'nullable|integer',
             'b_l'                             => [
                 'nullable',
 //                Rule::unique('batches')->ignore($id),
             ],
             'shipping_method'                 => 'nullable',
             'vessel'                          => 'nullable',
-            'container_no'                    => 'nullable',
             'remarks'                         => 'nullable',
             'port_of_departure'               => 'nullable',
             'destination_port'                => 'nullable',
@@ -235,11 +247,12 @@ class PoFactoryController extends ResponseController
             'estimated_production_completion' => 'nullable|date',
             'etd_port'                        => 'nullable|date',
             'eta_port'                        => 'nullable|date',
-            'eta_job_site'                    => 'nullable|date',
             'actual_production_completion'    => 'nullable|date',
             'atd_port'                        => 'nullable|date',
             'ata_port'                        => 'nullable|date',
-            'ata_job_site'                    => 'nullable|date',
+
+            'eta_job_site' => 'nullable|date',
+            'ata_job_site' => 'nullable|date',
         ], [
             'name.required' => 'The sequence field is required.',
         ]);
@@ -259,6 +272,67 @@ class PoFactoryController extends ResponseController
         }
 
         Batch::where('id', $id)->update($data);
+
+        return $this->responseSuccess(true, 'Updated');
+    }
+
+    public function addContainer(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'batch_id'     => 'required|integer',
+            'no'           => 'required',
+            'type'         => 'nullable',
+            'remarks'      => 'nullable',
+            'eta_job_site' => 'nullable|date',
+            'ata_job_site' => 'nullable|date',
+        ], [
+            'no.required' => 'The No. field is required.',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->setStatusCode(422)->responseError($validator->errors()->first());
+        }
+
+        $data = $validator->validated();
+
+        Container::create($data);
+
+        return $this->responseSuccess(true);
+    }
+
+    public function deleteContainer($id)
+    {
+        Container::destroy($id);
+
+        return $this->responseSuccess(true, 'Deleted');
+    }
+
+    public function containerInfo($id)
+    {
+        $container = Container::findOrFail($id);
+
+        return $this->responseSuccess($container);
+    }
+
+    public function editContainer(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'no'           => 'required',
+            'type'         => 'nullable',
+            'remarks'      => 'nullable',
+            'eta_job_site' => 'nullable|date',
+            'ata_job_site' => 'nullable|date',
+        ], [
+            'no.required' => 'The No. field is required.',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->setStatusCode(422)->responseError($validator->errors()->first());
+        }
+
+        $data = $validator->validated();
+
+        Container::where('id', $id)->update($data);
 
         return $this->responseSuccess(true, 'Updated');
     }
