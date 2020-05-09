@@ -500,13 +500,16 @@
                 'allowInputToggle': true,
                 'minDate' : '{{  $batch->eta_port }}'
             });
+
+            $('#eta_job_site').val('')
         @endif
 
         @if($batch->ata_port)
             $('#ata_job_site').datetimepicker({
                 'format': 'YYYY-MM-DD',
                 'allowInputToggle': true,
-                'minDate' : '{{  $batch->ata_port }}'
+                'minDate' : '{{  $batch->ata_port }}',
+                'maxDate' : '{{  \Carbon\Carbon::now()->toDateString() }}'
             });
         @endif
     })
@@ -609,7 +612,8 @@
                 $('#edit_ata_job_site').datetimepicker({
                     'format': 'YYYY-MM-DD',
                     'allowInputToggle': true,
-                    'minDate' : '{{  $batch->ata_port }}'
+                    'minDate' : '{{  $batch->ata_port }}',
+                    'maxDate' : '{{  \Carbon\Carbon::now()->toDateString() }}'
                 });
                 $("#edit_ata_job_site").val(response.data.data.ata_job_site)
                 @endif

@@ -136,10 +136,6 @@ class PoFactoryController extends ResponseController
             'actual_production_completion'    => 'nullable|date',
             'atd_port'                        => 'nullable|date',
             'ata_port'                        => 'nullable|date',
-
-
-            'eta_job_site' => 'nullable|date',
-            'ata_job_site' => 'nullable|date',
         ], [
             'name.required' => 'The sequence field is required.',
         ]);
@@ -250,9 +246,6 @@ class PoFactoryController extends ResponseController
             'actual_production_completion'    => 'nullable|date',
             'atd_port'                        => 'nullable|date',
             'ata_port'                        => 'nullable|date',
-
-            'eta_job_site' => 'nullable|date',
-            'ata_job_site' => 'nullable|date',
         ], [
             'name.required' => 'The sequence field is required.',
         ]);
