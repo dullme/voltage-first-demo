@@ -1908,7 +1908,6 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
 //
 //
 //
@@ -3250,36 +3249,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
+// import Common from '../util'
 __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/vendor/date-js/date-zh-CN.js");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3290,6 +3260,7 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         po_factory: false,
         shipment: false
       },
+      contacts: [],
       carriers: [],
       factories: [],
       forwarder_contacts: [],
@@ -3398,12 +3369,18 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
     var _this = this;
 
     var project = JSON.parse(this.project);
+    console.log(project);
     this.project_id = project.id;
     this.project_number = project.number;
     Vue.set(this.po_client_form, 'project_id', project.id);
     this.project_name = project.name;
     this.client = project.client;
     this.po_clients = project.po_clients;
+    project.client.contacts.forEach(function (item) {
+      if (_this.inArray(item.id, project.contacts)) {
+        _this.contacts.push(item);
+      }
+    });
     axios.get('/admin/carrier-list').then(function (response) {
       _this.carriers = response.data.data;
     });
@@ -22438,7 +22415,27 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", {}, [
-          _vm._m(1),
+          _vm.contacts.length
+            ? _c(
+                "div",
+                {
+                  staticClass: "col-sm-12",
+                  staticStyle: { "margin-top": "25px" }
+                },
+                _vm._l(_vm.contacts, function(contact) {
+                  return _c("div", { staticClass: "col-sm-3" }, [
+                    _c("div", { staticClass: "contact" }, [
+                      _c("p", [_vm._v("Name：" + _vm._s(contact.name))]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("Tel：" + _vm._s(contact.tel))]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("E-mail：" + _vm._s(contact.email))])
+                    ])
+                  ])
+                }),
+                0
+              )
+            : _vm._e(),
           _vm._v(" "),
           _c("div", { staticStyle: { clear: "both" } }),
           _vm._v(" "),
@@ -22514,7 +22511,7 @@ var render = function() {
                                       },
                                       [
                                         po_client.client_delivery_time
-                                          ? _c("sapn", [
+                                          ? _c("span", [
                                               _vm._v(
                                                 _vm._s(
                                                   po_client.client_delivery_time
@@ -22522,7 +22519,7 @@ var render = function() {
                                               )
                                             ])
                                           : _c(
-                                              "sapn",
+                                              "span",
                                               {
                                                 staticStyle: {
                                                   color: "#bbbbbb"
@@ -22558,7 +22555,7 @@ var render = function() {
                                             ),
                                         _vm._v(" "),
                                         po_client.po_date
-                                          ? _c("sapn", [
+                                          ? _c("span", [
                                               _vm._v(_vm._s(po_client.po_date))
                                             ])
                                           : _c(
@@ -22574,8 +22571,7 @@ var render = function() {
                                                 })
                                               ]
                                             )
-                                      ],
-                                      1
+                                      ]
                                     )
                                   ]
                                 ),
@@ -22928,7 +22924,7 @@ var render = function() {
                                       "table",
                                       { staticClass: "table text-center" },
                                       [
-                                        _vm._m(2, true),
+                                        _vm._m(1, true),
                                         _vm._v(" "),
                                         _c(
                                           "tbody",
@@ -23029,7 +23025,7 @@ var render = function() {
                                                     ]),
                                                     _vm._v(" "),
                                                     _c("td", [
-                                                      _vm._m(3, true),
+                                                      _vm._m(2, true),
                                                       _vm._v(" "),
                                                       _c(
                                                         "div",
@@ -23146,7 +23142,7 @@ var render = function() {
                                                     ]),
                                                     _vm._v(" "),
                                                     _c("td", [
-                                                      _vm._m(4, true),
+                                                      _vm._m(3, true),
                                                       _vm._v(" "),
                                                       _c(
                                                         "div",
@@ -23308,7 +23304,7 @@ var render = function() {
                                                               "grid-dropdown-actions dropdown"
                                                           },
                                                           [
-                                                            _vm._m(5, true),
+                                                            _vm._m(4, true),
                                                             _vm._v(" "),
                                                             _c(
                                                               "ul",
@@ -23463,7 +23459,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "poClient" } }, [
       _c("div", { staticClass: "modal-dialog" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(6),
+          _vm._m(5),
           _vm._v(" "),
           _c("div", { staticClass: "modal-body" }, [
             _c("div", { staticClass: "form-horizontal" }, [
@@ -23475,7 +23471,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(7),
+                      _vm._m(6),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23511,7 +23507,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(8),
+                      _vm._m(7),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23541,9 +23537,9 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(9),
+                  _vm._m(8),
                   _vm._v(" "),
-                  _vm._m(10)
+                  _vm._m(9)
                 ])
               ])
             ])
@@ -23585,7 +23581,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "editPoClient" } }, [
       _c("div", { staticClass: "modal-dialog" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(11),
+          _vm._m(10),
           _vm._v(" "),
           _c("div", { staticClass: "modal-body" }, [
             _c("div", { staticClass: "form-horizontal" }, [
@@ -23597,7 +23593,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(12),
+                      _vm._m(11),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23633,7 +23629,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(13),
+                      _vm._m(12),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23667,7 +23663,7 @@ var render = function() {
                     _c("label", [_vm._v("Client delivery time")]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(14),
+                      _vm._m(13),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23708,7 +23704,7 @@ var render = function() {
                     _c("label", [_vm._v("Po date")]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(15),
+                      _vm._m(14),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23782,7 +23778,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "addPoFactory" } }, [
       _c("div", { staticClass: "modal-dialog" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(16),
+          _vm._m(15),
           _vm._v(" "),
           _c("div", { staticClass: "form-horizontal" }, [
             _c("div", { staticClass: "modal-body" }, [
@@ -24021,7 +24017,7 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(17),
+            _vm._m(16),
             _vm._v(" "),
             _c("div", { staticClass: "form-horizontal" }, [
               _c("div", { staticClass: "modal-body" }, [
@@ -24376,7 +24372,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "addShipment" } }, [
       _c("div", { staticClass: "modal-dialog modal-lg" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(18),
+          _vm._m(17),
           _vm._v(" "),
           _c("div", { staticClass: "form-horizontal" }, [
             _c("div", { staticClass: "modal-body" }, [
@@ -24605,7 +24601,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(19),
+                                _vm._m(18),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -24648,7 +24644,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(20),
+                                _vm._m(19),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -24748,7 +24744,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group  " }, [
-                            _vm._m(21),
+                            _vm._m(20),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c(
@@ -24858,7 +24854,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(22),
+                                _vm._m(21),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -24901,7 +24897,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(23),
+                                _vm._m(22),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -25175,7 +25171,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(24),
+                                _vm._m(23),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -25221,7 +25217,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(25),
+                                    _vm._m(24),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -25281,11 +25277,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(26),
+                                _vm._m(25),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(27),
+                                    _vm._m(26),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -25341,7 +25337,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(28),
+                                    _vm._m(27),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -25400,7 +25396,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(29),
+                                      _vm._m(28),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -25459,11 +25455,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(30),
+                                _vm._m(29),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(31),
+                                    _vm._m(30),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -25519,7 +25515,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(32),
+                                    _vm._m(31),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -25578,7 +25574,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(33),
+                                      _vm._m(32),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -25663,7 +25659,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "editShipment" } }, [
       _c("div", { staticClass: "modal-dialog modal-lg" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(34),
+          _vm._m(33),
           _vm._v(" "),
           _c("div", { staticClass: "form-horizontal" }, [
             _c("div", { staticClass: "modal-body" }, [
@@ -25893,7 +25889,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(35),
+                                _vm._m(34),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -25938,7 +25934,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(36),
+                                _vm._m(35),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -26050,7 +26046,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group  " }, [
-                            _vm._m(37),
+                            _vm._m(36),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c(
@@ -26161,7 +26157,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(38),
+                                _vm._m(37),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -26206,7 +26202,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(39),
+                                _vm._m(38),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -26488,7 +26484,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(40),
+                                _vm._m(39),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -26534,7 +26530,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(41),
+                                    _vm._m(40),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26594,11 +26590,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(42),
+                                _vm._m(41),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(43),
+                                    _vm._m(42),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26655,7 +26651,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(44),
+                                    _vm._m(43),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26716,7 +26712,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(45),
+                                      _vm._m(44),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -26777,11 +26773,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(46),
+                                _vm._m(45),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(47),
+                                    _vm._m(46),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26838,7 +26834,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(48),
+                                    _vm._m(47),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26899,7 +26895,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(49),
+                                      _vm._m(48),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -26989,7 +26985,7 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(50),
+            _vm._m(49),
             _vm._v(" "),
             _c("div", [
               _c("div", { staticClass: "modal-body" }, [
@@ -27004,7 +27000,7 @@ var render = function() {
                   },
                   [
                     _c("table", { staticClass: "table" }, [
-                      _vm._m(51),
+                      _vm._m(50),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -27239,66 +27235,6 @@ var staticRenderFns = [
         ]
       )
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "col-sm-12", staticStyle: { "margin-top": "25px" } },
-      [
-        _c("div", { staticClass: "col-sm-3" }, [
-          _c("div", { staticClass: "contact" }, [
-            _c("p", [_vm._v("Name：Patrick Fairl")]),
-            _vm._v(" "),
-            _c("p", [_vm._v("Tel：17607037858")]),
-            _vm._v(" "),
-            _c("p", [_vm._v("E-mail：pfairl@baker-electric.com")])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-3" }, [
-          _c("div", { staticClass: "contact" }, [
-            _c("p", [_vm._v("Name：Patrick Fairl")]),
-            _vm._v(" "),
-            _c("p", [_vm._v("Tel：17607037858")]),
-            _vm._v(" "),
-            _c("p", [_vm._v("E-mail：pfairl@baker-electric.com")])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-3" }, [
-          _c("div", { staticClass: "contact" }, [
-            _c("p", [_vm._v("Name：Patrick Fairl")]),
-            _vm._v(" "),
-            _c("p", [_vm._v("Tel：17607037858")]),
-            _vm._v(" "),
-            _c("p", [_vm._v("E-mail：pfairl@baker-electric.com")])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-3" }, [
-          _c("div", { staticClass: "contact" }, [
-            _c("p", [_vm._v("Name：Patrick Fairl")]),
-            _vm._v(" "),
-            _c("p", [_vm._v("Tel：17607037858")]),
-            _vm._v(" "),
-            _c("p", [_vm._v("E-mail：pfairl@baker-electric.com")])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-3" }, [
-          _c("div", { staticClass: "contact" }, [
-            _c("p", [_vm._v("Name：Patrick Fairl")]),
-            _vm._v(" "),
-            _c("p", [_vm._v("Tel：17607037858")]),
-            _vm._v(" "),
-            _c("p", [_vm._v("E-mail：pfairl@baker-electric.com")])
-          ])
-        ])
-      ]
-    )
   },
   function() {
     var _vm = this
@@ -42528,81 +42464,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateProjectComponent_vue_vue_type_template_id_2799f0e1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
-
-/***/ }),
-
-/***/ "./resources/js/util.js":
-/*!******************************!*\
-  !*** ./resources/js/util.js ***!
-  \******************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ({
-  select: function select(data, tag, url, key, value) {
-    var allowClear = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : false;
-    var placeholder = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : '';
-    var minimumInputLength = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : 1;
-    var language = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : "zh-CN";
-    var formatRepo = arguments.length > 9 && arguments[9] !== undefined ? arguments[9] : null;
-    var formatRepoSelection = arguments.length > 10 && arguments[10] !== undefined ? arguments[10] : null;
-    var disabled = arguments.length > 11 && arguments[11] !== undefined ? arguments[11] : false;
-    $(tag).select2({
-      data: data,
-      placeholder: placeholder,
-      allowClear: allowClear,
-      minimumInputLength: minimumInputLength,
-      language: language,
-      disabled: disabled,
-      ajax: {
-        url: url,
-        dataType: 'json',
-        delay: 250,
-        data: function data(params) {
-          return {
-            q: params.term
-          };
-        },
-        processResults: function processResults(data, params) {
-          return {
-            results: data
-          };
-        },
-        cache: true
-      },
-      templateResult: function templateResult(repo) {
-        return formatRepo == null ? defaultFormatRepo(repo, key, value) : formatRepo(repo);
-      },
-      templateSelection: function templateSelection(repo) {
-        return formatRepoSelection == null ? defaultFormatRepoSelection(repo, key) : formatRepoSelection(repo);
-      },
-      escapeMarkup: function escapeMarkup(markup) {
-        return markup;
-      }
-    });
-  },
-
-  /**
-   * 格式化数字自动补零
-   * @param num 数字
-   * @param n 位数
-   * @returns {string}
-   */
-  prefixInteger: function prefixInteger(num, n) {
-    return (Array(n).join(0) + num).slice(-n);
-  }
-});
-
-function defaultFormatRepo(repo, key, value) {
-  if (repo.loading) return repo.text;
-  return repo[key] + '：' + repo[value];
-}
-
-function defaultFormatRepoSelection(repo, key) {
-  return repo[key] || repo.text;
-}
 
 /***/ }),
 

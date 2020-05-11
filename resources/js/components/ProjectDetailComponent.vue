@@ -23,40 +23,12 @@
                 <!-- /.box-header -->
                 <!-- form start -->
                 <div class="">
-                    <div class="col-sm-12" style="margin-top: 25px">
-                        <div class="col-sm-3">
+                    <div class="col-sm-12" style="margin-top: 25px" v-if="contacts.length">
+                        <div class="col-sm-3" v-for="contact in contacts">
                             <div class="contact">
-                                <p>Name：Patrick Fairl</p>
-                                <p>Tel：17607037858</p>
-                                <p>E-mail：pfairl@baker-electric.com</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="contact">
-                                <p>Name：Patrick Fairl</p>
-                                <p>Tel：17607037858</p>
-                                <p>E-mail：pfairl@baker-electric.com</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="contact">
-                                <p>Name：Patrick Fairl</p>
-                                <p>Tel：17607037858</p>
-                                <p>E-mail：pfairl@baker-electric.com</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="contact">
-                                <p>Name：Patrick Fairl</p>
-                                <p>Tel：17607037858</p>
-                                <p>E-mail：pfairl@baker-electric.com</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="contact">
-                                <p>Name：Patrick Fairl</p>
-                                <p>Tel：17607037858</p>
-                                <p>E-mail：pfairl@baker-electric.com</p>
+                                <p>Name：{{ contact.name }}</p>
+                                <p>Tel：{{ contact.tel }}</p>
+                                <p>E-mail：{{ contact.email }}</p>
                             </div>
                         </div>
                     </div>
@@ -77,11 +49,11 @@
                                                 </div>
 
                                                 <div style="margin-left: 20px">
-                                                    <sapn v-if="po_client.client_delivery_time">{{ po_client.client_delivery_time }}</sapn>
-                                                    <sapn v-else style="color: #bbbbbb"><i class="fa fa-clock-o"></i></sapn>
+                                                    <span v-if="po_client.client_delivery_time">{{ po_client.client_delivery_time }}</span>
+                                                    <span v-else style="color: #bbbbbb"><i class="fa fa-clock-o"></i></span>
                                                     <span v-if="!!!po_client.client_delivery_time && !!!po_client.po_date" style="padding: 0 5px;color: #bbbbbb">-</span>
                                                     <span v-else style="padding: 0 5px;">-</span>
-                                                    <sapn v-if="po_client.po_date">{{ po_client.po_date }}</sapn>
+                                                    <span v-if="po_client.po_date">{{ po_client.po_date }}</span>
                                                     <span v-else style="color: #bbbbbb"><i class="fa fa-clock-o"></i></span>
                                                 </div>
                                             </div>
@@ -1368,7 +1340,7 @@
 </template>
 
 <script>
-    import Common from '../util'
+    // import Common from '../util'
 
     require('../../../public/vendor/date-js/date-zh-CN')
 
@@ -1380,6 +1352,7 @@
                     po_factory: false,
                     shipment: false,
                 },
+                contacts: [],
                 carriers: [],
                 factories: [],
                 forwarder_contacts: [],
@@ -1487,12 +1460,19 @@
 
         created() {
             let project = JSON.parse(this.project);
+            console.log(project)
             this.project_id = project.id
             this.project_number = project.number
             Vue.set(this.po_client_form, 'project_id', project.id);
             this.project_name = project.name
             this.client = project.client
             this.po_clients = project.po_clients
+
+            project.client.contacts.forEach((item)=>{
+                if(this.inArray(item.id, project.contacts)){
+                    this.contacts.push(item)
+                }
+            })
 
             axios.get('/admin/carrier-list').then(response => {
                 this.carriers = response.data.data
@@ -2103,7 +2083,7 @@
                 dateSpan = Math.abs(dateSpan);
                 iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
                 return iDays
-            }
+            },
 
         },
     }

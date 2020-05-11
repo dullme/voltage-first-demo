@@ -71,7 +71,7 @@ class ProjectController extends AdminController
 EOF
         );
 
-        $project = Project::with(['client', 'poClients' => function ($query) {
+        $project = Project::with(['client.contacts', 'poClients' => function ($query) {
             $query->with(['poFactories' => function ($query) {
                 $query->with(['factory', 'batches' => function ($query) {
                     $query->orderBy('sequence', 'ASC');
