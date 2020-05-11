@@ -72,6 +72,16 @@ class Batch extends Model
         return $this->hasMany(Container::class);
     }
 
+    public function oceanForwarder()
+    {
+        return $this->belongsTo(ForwarderContact::class, 'ocean_forwarder', 'id');
+    }
+
+    public function inlandForwarder()
+    {
+        return $this->belongsTo(ForwarderContact::class, 'inland_forwarder', 'id');
+    }
+
     public function getDeletedAtAttribute($value)
     {
         return Carbon::parse($value)->diffForHumans();

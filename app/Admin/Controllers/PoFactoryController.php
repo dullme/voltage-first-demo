@@ -210,7 +210,7 @@ class PoFactoryController extends ResponseController
 
     public function showBatch($id, Content $content)
     {
-        $batch = Batch::with('poFactory.poClient.project', 'containers')->findOrFail($id);
+        $batch = Batch::with('poFactory.poClient.project', 'containers', 'oceanForwarder.forwarder', 'inlandForwarder.forwarder')->findOrFail($id);
 
         return $content
             ->title(getSequence($batch->sequence))
