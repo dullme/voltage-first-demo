@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">{{ project_name }} - {{ client.name }}</h3>
+                    <h3 class="box-title">{{ project_name }} - {{ client.name }} - {{ client.address }}</h3>
                     <div class="box-tools">
                         <div class="btn-group pull-right" style="margin-right: 5px">
                             <a href="/admin/projects" class="btn btn-sm btn-default" title="List">
@@ -23,6 +23,45 @@
                 <!-- /.box-header -->
                 <!-- form start -->
                 <div class="">
+                    <div class="col-sm-12" style="margin-top: 25px">
+                        <div class="col-sm-3">
+                            <div class="contact">
+                                <p>Name：Patrick Fairl</p>
+                                <p>Tel：17607037858</p>
+                                <p>E-mail：pfairl@baker-electric.com</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="contact">
+                                <p>Name：Patrick Fairl</p>
+                                <p>Tel：17607037858</p>
+                                <p>E-mail：pfairl@baker-electric.com</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="contact">
+                                <p>Name：Patrick Fairl</p>
+                                <p>Tel：17607037858</p>
+                                <p>E-mail：pfairl@baker-electric.com</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="contact">
+                                <p>Name：Patrick Fairl</p>
+                                <p>Tel：17607037858</p>
+                                <p>E-mail：pfairl@baker-electric.com</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="contact">
+                                <p>Name：Patrick Fairl</p>
+                                <p>Tel：17607037858</p>
+                                <p>E-mail：pfairl@baker-electric.com</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="clear: both"></div>
 
                     <div class="box-body" style="padding-top: 25px">
                         <div class="">
@@ -2103,5 +2142,16 @@
     #history-list > .active {
         background-color: #00a65a !important;
         color: #ffffff !important;
+    }
+
+    .contact{
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        border: 2px solid #02a65a;
+    }
+
+    .contact p:last-child{
+        margin: unset;
     }
 </style>

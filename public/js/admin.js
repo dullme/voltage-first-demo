@@ -3239,6 +3239,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/vendor/date-js/date-zh-CN.js");
@@ -4100,7 +4139,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.panel-heading[data-v-909a2404] {\n    padding-bottom: unset;\n}\n.nav-tabs > li.active > a[data-v-909a2404], .nav-tabs > li.active > a[data-v-909a2404]:focus, .nav-tabs > li.active > a[data-v-909a2404]:hover {\n    border-color: #bce8f1;\n    border-bottom: unset;\n    border-bottom-color: unset;\n}\n.nav-tabs[data-v-909a2404] {\n    border-bottom: unset;\n}\n.nav > li > a[data-v-909a2404] {\n    padding: 5px 15px;\n}\n.table td[data-v-909a2404] {\n    vertical-align: middle;\n}\n.panel-info > .panel-heading .badge[data-v-909a2404] {\n    color: #d9edf7;\n    background-color: #31708f;\n    margin-top: -3px;\n    margin-left: 5px;\n}\n#history-list > .active[data-v-909a2404] {\n    background-color: #00a65a !important;\n    color: #ffffff !important;\n}\n", ""]);
+exports.push([module.i, "\n.panel-heading[data-v-909a2404] {\n    padding-bottom: unset;\n}\n.nav-tabs > li.active > a[data-v-909a2404], .nav-tabs > li.active > a[data-v-909a2404]:focus, .nav-tabs > li.active > a[data-v-909a2404]:hover {\n    border-color: #bce8f1;\n    border-bottom: unset;\n    border-bottom-color: unset;\n}\n.nav-tabs[data-v-909a2404] {\n    border-bottom: unset;\n}\n.nav > li > a[data-v-909a2404] {\n    padding: 5px 15px;\n}\n.table td[data-v-909a2404] {\n    vertical-align: middle;\n}\n.panel-info > .panel-heading .badge[data-v-909a2404] {\n    color: #d9edf7;\n    background-color: #31708f;\n    margin-top: -3px;\n    margin-left: 5px;\n}\n#history-list > .active[data-v-909a2404] {\n    background-color: #00a65a !important;\n    color: #ffffff !important;\n}\n.contact[data-v-909a2404]{\n    padding: 10px;\n    margin-bottom: 10px;\n    border-radius: 4px;\n    border: 2px solid #02a65a;\n}\n.contact p[data-v-909a2404]:last-child{\n    margin: unset;\n}\n", ""]);
 
 // exports
 
@@ -22386,13 +22425,23 @@ var render = function() {
       _c("div", { staticClass: "box box-info" }, [
         _c("div", { staticClass: "box-header with-border" }, [
           _c("h3", { staticClass: "box-title" }, [
-            _vm._v(_vm._s(_vm.project_name) + " - " + _vm._s(_vm.client.name))
+            _vm._v(
+              _vm._s(_vm.project_name) +
+                " - " +
+                _vm._s(_vm.client.name) +
+                " - " +
+                _vm._s(_vm.client.address)
+            )
           ]),
           _vm._v(" "),
           _vm._m(0)
         ]),
         _vm._v(" "),
         _c("div", {}, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c("div", { staticStyle: { clear: "both" } }),
+          _vm._v(" "),
           _c(
             "div",
             { staticClass: "box-body", staticStyle: { "padding-top": "25px" } },
@@ -22879,7 +22928,7 @@ var render = function() {
                                       "table",
                                       { staticClass: "table text-center" },
                                       [
-                                        _vm._m(1, true),
+                                        _vm._m(2, true),
                                         _vm._v(" "),
                                         _c(
                                           "tbody",
@@ -22980,7 +23029,7 @@ var render = function() {
                                                     ]),
                                                     _vm._v(" "),
                                                     _c("td", [
-                                                      _vm._m(2, true),
+                                                      _vm._m(3, true),
                                                       _vm._v(" "),
                                                       _c(
                                                         "div",
@@ -23097,7 +23146,7 @@ var render = function() {
                                                     ]),
                                                     _vm._v(" "),
                                                     _c("td", [
-                                                      _vm._m(3, true),
+                                                      _vm._m(4, true),
                                                       _vm._v(" "),
                                                       _c(
                                                         "div",
@@ -23259,7 +23308,7 @@ var render = function() {
                                                               "grid-dropdown-actions dropdown"
                                                           },
                                                           [
-                                                            _vm._m(4, true),
+                                                            _vm._m(5, true),
                                                             _vm._v(" "),
                                                             _c(
                                                               "ul",
@@ -23414,7 +23463,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "poClient" } }, [
       _c("div", { staticClass: "modal-dialog" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(5),
+          _vm._m(6),
           _vm._v(" "),
           _c("div", { staticClass: "modal-body" }, [
             _c("div", { staticClass: "form-horizontal" }, [
@@ -23426,7 +23475,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(6),
+                      _vm._m(7),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23462,7 +23511,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(7),
+                      _vm._m(8),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23492,9 +23541,9 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(8),
+                  _vm._m(9),
                   _vm._v(" "),
-                  _vm._m(9)
+                  _vm._m(10)
                 ])
               ])
             ])
@@ -23536,7 +23585,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "editPoClient" } }, [
       _c("div", { staticClass: "modal-dialog" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(10),
+          _vm._m(11),
           _vm._v(" "),
           _c("div", { staticClass: "modal-body" }, [
             _c("div", { staticClass: "form-horizontal" }, [
@@ -23548,7 +23597,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(11),
+                      _vm._m(12),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23584,7 +23633,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(12),
+                      _vm._m(13),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23618,7 +23667,7 @@ var render = function() {
                     _c("label", [_vm._v("Client delivery time")]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(13),
+                      _vm._m(14),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23659,7 +23708,7 @@ var render = function() {
                     _c("label", [_vm._v("Po date")]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(14),
+                      _vm._m(15),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23733,7 +23782,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "addPoFactory" } }, [
       _c("div", { staticClass: "modal-dialog" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(15),
+          _vm._m(16),
           _vm._v(" "),
           _c("div", { staticClass: "form-horizontal" }, [
             _c("div", { staticClass: "modal-body" }, [
@@ -23972,7 +24021,7 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(16),
+            _vm._m(17),
             _vm._v(" "),
             _c("div", { staticClass: "form-horizontal" }, [
               _c("div", { staticClass: "modal-body" }, [
@@ -24327,7 +24376,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "addShipment" } }, [
       _c("div", { staticClass: "modal-dialog modal-lg" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(17),
+          _vm._m(18),
           _vm._v(" "),
           _c("div", { staticClass: "form-horizontal" }, [
             _c("div", { staticClass: "modal-body" }, [
@@ -24556,7 +24605,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(18),
+                                _vm._m(19),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -24599,7 +24648,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(19),
+                                _vm._m(20),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -24699,7 +24748,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group  " }, [
-                            _vm._m(20),
+                            _vm._m(21),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c(
@@ -24809,7 +24858,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(21),
+                                _vm._m(22),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -24852,7 +24901,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(22),
+                                _vm._m(23),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -25126,7 +25175,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(23),
+                                _vm._m(24),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -25172,7 +25221,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(24),
+                                    _vm._m(25),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -25232,11 +25281,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(25),
+                                _vm._m(26),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(26),
+                                    _vm._m(27),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -25292,7 +25341,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(27),
+                                    _vm._m(28),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -25351,7 +25400,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(28),
+                                      _vm._m(29),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -25410,11 +25459,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(29),
+                                _vm._m(30),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(30),
+                                    _vm._m(31),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -25470,7 +25519,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(31),
+                                    _vm._m(32),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -25529,7 +25578,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(32),
+                                      _vm._m(33),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -25614,7 +25663,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "editShipment" } }, [
       _c("div", { staticClass: "modal-dialog modal-lg" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(33),
+          _vm._m(34),
           _vm._v(" "),
           _c("div", { staticClass: "form-horizontal" }, [
             _c("div", { staticClass: "modal-body" }, [
@@ -25844,7 +25893,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(34),
+                                _vm._m(35),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -25889,7 +25938,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(35),
+                                _vm._m(36),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -26001,7 +26050,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group  " }, [
-                            _vm._m(36),
+                            _vm._m(37),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c(
@@ -26112,7 +26161,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(37),
+                                _vm._m(38),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -26157,7 +26206,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(38),
+                                _vm._m(39),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -26439,7 +26488,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(39),
+                                _vm._m(40),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -26485,7 +26534,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(40),
+                                    _vm._m(41),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26545,11 +26594,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(41),
+                                _vm._m(42),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(42),
+                                    _vm._m(43),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26606,7 +26655,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(43),
+                                    _vm._m(44),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26667,7 +26716,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(44),
+                                      _vm._m(45),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -26728,11 +26777,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(45),
+                                _vm._m(46),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(46),
+                                    _vm._m(47),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26789,7 +26838,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(47),
+                                    _vm._m(48),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26850,7 +26899,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(48),
+                                      _vm._m(49),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -26940,7 +26989,7 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(49),
+            _vm._m(50),
             _vm._v(" "),
             _c("div", [
               _c("div", { staticClass: "modal-body" }, [
@@ -26955,7 +27004,7 @@ var render = function() {
                   },
                   [
                     _c("table", { staticClass: "table" }, [
-                      _vm._m(50),
+                      _vm._m(51),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -27190,6 +27239,66 @@ var staticRenderFns = [
         ]
       )
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "col-sm-12", staticStyle: { "margin-top": "25px" } },
+      [
+        _c("div", { staticClass: "col-sm-3" }, [
+          _c("div", { staticClass: "contact" }, [
+            _c("p", [_vm._v("Name：Patrick Fairl")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("Tel：17607037858")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("E-mail：pfairl@baker-electric.com")])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-3" }, [
+          _c("div", { staticClass: "contact" }, [
+            _c("p", [_vm._v("Name：Patrick Fairl")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("Tel：17607037858")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("E-mail：pfairl@baker-electric.com")])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-3" }, [
+          _c("div", { staticClass: "contact" }, [
+            _c("p", [_vm._v("Name：Patrick Fairl")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("Tel：17607037858")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("E-mail：pfairl@baker-electric.com")])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-3" }, [
+          _c("div", { staticClass: "contact" }, [
+            _c("p", [_vm._v("Name：Patrick Fairl")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("Tel：17607037858")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("E-mail：pfairl@baker-electric.com")])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-3" }, [
+          _c("div", { staticClass: "contact" }, [
+            _c("p", [_vm._v("Name：Patrick Fairl")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("Tel：17607037858")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("E-mail：pfairl@baker-electric.com")])
+          ])
+        ])
+      ]
+    )
   },
   function() {
     var _vm = this
