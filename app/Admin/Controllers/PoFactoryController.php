@@ -416,6 +416,14 @@ class PoFactoryController extends ResponseController
             $batch->status = BatchStatus::Finished;
         }
 
+        if(is_null($data['ata_job_site'])){
+            if (!is_null($batch->actual_production_completion)) {
+                $batch->status = BatchStatus::Shipping;
+            } else {
+                $batch->status = BatchStatus::InProduction;
+            }
+        }
+
         $batch->save();
         Container::where('id', $id)->update($data);
 
