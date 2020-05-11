@@ -19,7 +19,9 @@ class Container extends Model
 
     protected $casts = [
         'created_at' => 'datetime:Y-m-d H:i:s',
-        'updated_at' => 'datetime:Y-m-d H:i:s'
+        'updated_at' => 'datetime:Y-m-d H:i:s',
+        'eta_job_site' => 'datetime:Y-m-d',
+        'ata_job_site' => 'datetime:Y-m-d',
     ];
 
     protected $dates = [

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Batch extends Model
 {
+
     use SoftDeletes;
 
     protected $fillable = [
@@ -25,9 +26,11 @@ class Batch extends Model
         'estimated_production_completion',
         'etd_port',
         'eta_port',
+        'eta_job_site',
         'actual_production_completion',
         'atd_port',
         'ata_port',
+        'ata_job_site',
         'rmb',
         'foreign_currency',
         'foreign_currency_type',
@@ -47,8 +50,16 @@ class Batch extends Model
     ];
 
     protected $casts = [
-        'created_at' => 'datetime:Y-m-d H:i:s',
-        'updated_at' => 'datetime:Y-m-d H:i:s'
+        'created_at'                      => 'datetime:Y-m-d H:i:s',
+        'updated_at'                      => 'datetime:Y-m-d',
+        'estimated_production_completion' => 'datetime:Y-m-d',
+        'etd_port'                        => 'datetime:Y-m-d',
+        'eta_port'                        => 'datetime:Y-m-d',
+        'eta_job_site'                    => 'datetime:Y-m-d',
+        'actual_production_completion'    => 'datetime:Y-m-d',
+        'atd_port'                        => 'datetime:Y-m-d',
+        'ata_port'                        => 'datetime:Y-m-d',
+        'ata_job_site'                    => 'datetime:Y-m-d',
     ];
 
     public function poFactory()
@@ -61,43 +72,8 @@ class Batch extends Model
         return $this->hasMany(Container::class);
     }
 
-    public function getUpdatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->toDateString();
-    }
-
     public function getDeletedAtAttribute($value)
     {
         return Carbon::parse($value)->diffForHumans();
-    }
-
-    public function getEstimatedProductionCompletionAttribute($value)
-    {
-        return $value ? Carbon::parse($value)->toDateString() : null;
-    }
-
-    public function getEtdPortAttribute($value)
-    {
-        return $value ? Carbon::parse($value)->toDateString() : null;
-    }
-
-    public function getEtaPortAttribute($value)
-    {
-        return $value ? Carbon::parse($value)->toDateString() : null;
-    }
-
-    public function getActualProductionCompletionAttribute($value)
-    {
-        return $value ? Carbon::parse($value)->toDateString() : null;
-    }
-
-    public function getAtdPortAttribute($value)
-    {
-        return $value ? Carbon::parse($value)->toDateString() : null;
-    }
-
-    public function getAtaPortAttribute($value)
-    {
-        return $value ? Carbon::parse($value)->toDateString() : null;
     }
 }

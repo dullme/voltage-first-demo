@@ -11,12 +11,13 @@
                         </a>
                     </div>
 
+                    @if(!$batch->ata_port)
                     <div class="btn-group pull-right" style="margin-right: 5px">
                         <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#myModal">
                             <i class="fa fa-plus"></i><span class="hidden-xs">&nbsp;&nbsp;Container</span>
                         </button>
                     </div>
-
+                    @endif
                 </div>
             </div>
             <!-- /.box-header -->
@@ -46,36 +47,38 @@
                             </div>
                         </div>
 
-{{--                        <div class="col-lg-6">--}}
-{{--                            <div style="background-color: rgb(238, 238, 238);    padding: 25px;border-radius: 4px;margin-bottom: 20px;">--}}
-{{--                                <p>EPC：{{ $batch->estimated_production_completion }}</p>--}}
-{{--                                <p>ETD Port：{{ $batch->etd_port }}</p>--}}
-{{--                                <p>ETA Port：{{ $batch->eta_port }}</p>--}}
-{{--                                @if($batch->estimated_production_completion && $batch->eta_job_site)--}}
-{{--                                    <p>Time consuming：--}}
-{{--                                        <span class="label label-default">--}}
-{{--                                                {{ \Carbon\Carbon::parse($batch->estimated_production_completion)->diffInDays($batch->eta_job_site) }} days--}}
-{{--                                            </span>--}}
-{{--                                    </p>--}}
-{{--                                @endif--}}
-{{--                            </div>--}}
+                        <div class="col-lg-6">
+                            <div style="background-color: rgb(238, 238, 238);    padding: 25px;border-radius: 4px;margin-bottom: 20px;">
+                                <p>EPC：{{ optional($batch->estimated_production_completion)->toDatestring() }}</p>
+                                <p>ETD Port：{{ optional($batch->etd_port)->toDatestring() }}</p>
+                                <p>ETA Port：{{ optional($batch->eta_port)->toDatestring() }}</p>
+                                <p>ETA Job Site：{{ optional($batch->eta_job_site)->toDatestring() }}</p>
+                                @if($batch->estimated_production_completion && $batch->eta_job_site)
+                                    <p>Time consuming：
+                                        <span class="label label-default">
+                                                {{ \Carbon\Carbon::parse($batch->estimated_production_completion)->diffInDays($batch->eta_job_site) }} days
+                                            </span>
+                                    </p>
+                                @endif
+                            </div>
 
-{{--                        </div>--}}
+                        </div>
 
-{{--                        <div class="col-lg-6">--}}
-{{--                            <div style="background-color: rgb(238, 238, 238);    padding: 25px;border-radius: 4px;margin-bottom: 20px;">--}}
-{{--                                <p>APC：{{ $batch->actual_production_completion }}</p>--}}
-{{--                                <p>ATD Port：{{ $batch->atd_port }}</p>--}}
-{{--                                <p>ATA Port：{{ $batch->ata_port }}</p>--}}
-{{--                                @if($batch->actual_production_completion && $batch->ata_job_site)--}}
-{{--                                    <p>Time consuming：--}}
-{{--                                        <span class="label label-default">--}}
-{{--                                                {{ \Carbon\Carbon::parse($batch->actual_production_completion)->diffInDays($batch->ata_job_site) }} days--}}
-{{--                                            </span>--}}
-{{--                                    </p>--}}
-{{--                                @endif--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                        <div class="col-lg-6">
+                            <div style="background-color: rgb(238, 238, 238);    padding: 25px;border-radius: 4px;margin-bottom: 20px;">
+                                <p>APC：{{ optional($batch->actual_production_completion)->toDatestring() }}</p>
+                                <p>ATD Port：{{ optional($batch->atd_port)->toDatestring() }}</p>
+                                <p>ATA Port：{{ optional($batch->ata_port)->toDatestring() }}</p>
+                                <p>ATA Job Site：{{ optional($batch->ata_job_site)->toDatestring() }}</p>
+                                @if($batch->actual_production_completion && $batch->ata_job_site)
+                                    <p>Time consuming：
+                                        <span class="label label-default">
+                                                {{ \Carbon\Carbon::parse($batch->actual_production_completion)->diffInDays($batch->ata_job_site) }} days
+                                            </span>
+                                    </p>
+                                @endif
+                            </div>
+                        </div>
 
                         @if($batch->containers->count())
                             <div class="col-sm-12" style="margin-top: 20px">
@@ -92,8 +95,8 @@
                                         <tr>
                                             <th>NO.</th>
                                             <th>Type</th>
-                                            <th style="min-width: 200px">Estimated</th>
-                                            <th style="min-width: 200px">Actual</th>
+                                            <th style="min-width: 200px">ETA Job Site</th>
+                                            <th style="min-width: 200px">ATA Job Site</th>
                                             <th>Remarks</th>
                                             <th>Action</th>
                                         </tr>
@@ -104,38 +107,40 @@
                                                 <td>{{ $container->no }}</td>
                                                 <td>{{ $container->type }}</td>
                                                 <td style="vertical-align: middle">
-                                                    <div style="width:50%;text-align: right;float: left">
-                                                        <p><i data-toggle="tooltip"
-                                                              data-placement="top" title=""
-                                                              data-original-title="Estimated production completion">EPC：</i>
-                                                        </p>
-                                                        <p><i>ETD Port：</i></p>
-                                                        <p><i>ETA Port：</i></p>
-                                                        <p><b><i>ETA Job Site：</i></b></p>
-                                                    </div>
-                                                    <div style="width:50%;text-align: left;float: right">
-                                                        <p>{{ $batch->estimated_production_completion ? $batch->estimated_production_completion : '-' }}</p>
-                                                        <p>{{ $batch->etd_port ? $batch->etd_port : '-' }}</p>
-                                                        <p>{{ $batch->eta_port ? $batch->eta_port : '-' }}</p>
-                                                        <p><b>{{ $container->eta_job_site ? $container->eta_job_site : '-' }}</b></p>
-                                                    </div>
+                                                    <p><b>{{ $container->eta_job_site ? $container->eta_job_site : '-' }}</b></p>
+{{--                                                    <div style="width:50%;text-align: right;float: left">--}}
+{{--                                                        <p><i data-toggle="tooltip"--}}
+{{--                                                              data-placement="top" title=""--}}
+{{--                                                              data-original-title="Estimated production completion">EPC：</i>--}}
+{{--                                                        </p>--}}
+{{--                                                        <p><i>ETD Port：</i></p>--}}
+{{--                                                        <p><i>ETA Port：</i></p>--}}
+{{--                                                        <p><b><i>ETA Job Site：</i></b></p>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div style="width:50%;text-align: left;float: right">--}}
+{{--                                                        <p>{{ $batch->estimated_production_completion ? $batch->estimated_production_completion : '-' }}</p>--}}
+{{--                                                        <p>{{ $batch->etd_port ? $batch->etd_port : '-' }}</p>--}}
+{{--                                                        <p>{{ $batch->eta_port ? $batch->eta_port : '-' }}</p>--}}
+{{--                                                        <p><b>{{ $container->eta_job_site ? $container->eta_job_site : '-' }}</b></p>--}}
+{{--                                                    </div>--}}
                                                 </td>
                                                 <td style="vertical-align: middle">
-                                                    <div style="width:50%;text-align: right;float: left">
-                                                        <p><i data-toggle="tooltip"
-                                                              data-placement="top" title=""
-                                                              data-original-title="Actual production completion">APC：</i>
-                                                        </p>
-                                                        <p><i>ATD Port：</i></p>
-                                                        <p><i>ATA Port：</i></p>
-                                                        <p><b><i>ATA Job Site：</i></b></p>
-                                                    </div>
-                                                    <div style="width:50%;text-align: left;float: right">
-                                                        <p>{{ $batch->actual_production_completion ? $batch->actual_production_completion : '-' }}</p>
-                                                        <p>{{ $batch->atd_port ? $batch->atd_port : '-' }}</p>
-                                                        <p>{{ $batch->ata_port ? $batch->ata_port : '-' }}</p>
-                                                        <p><b>{{ $container->ata_job_site ? $container->ata_job_site : '-' }}</b></p>
-                                                    </div>
+                                                    <p><b>{{ $container->ata_job_site ? $container->ata_job_site : '-' }}</b></p>
+{{--                                                    <div style="width:50%;text-align: right;float: left">--}}
+{{--                                                        <p><i data-toggle="tooltip"--}}
+{{--                                                              data-placement="top" title=""--}}
+{{--                                                              data-original-title="Actual production completion">APC：</i>--}}
+{{--                                                        </p>--}}
+{{--                                                        <p><i>ATD Port：</i></p>--}}
+{{--                                                        <p><i>ATA Port：</i></p>--}}
+{{--                                                        <p><b><i>ATA Job Site：</i></b></p>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div style="width:50%;text-align: left;float: right">--}}
+{{--                                                        <p>{{ $batch->actual_production_completion ? $batch->actual_production_completion : '-' }}</p>--}}
+{{--                                                        <p>{{ $batch->atd_port ? $batch->atd_port : '-' }}</p>--}}
+{{--                                                        <p>{{ $batch->ata_port ? $batch->ata_port : '-' }}</p>--}}
+{{--                                                        <p><b>{{ $container->ata_job_site ? $container->ata_job_site : '-' }}</b></p>--}}
+{{--                                                    </div>--}}
                                                 </td>
                                                 <td>{{ $container->remarks }}</td>
                                                 <td>
@@ -578,8 +583,8 @@
                         response.data.message,
                         'success'
                     ).then(function () {
-                        $('.data_container_row_'+container_id).remove()
-                        // location.reload()
+                        // $('.data_container_row_'+container_id).remove()
+                        location.reload()
                     });
                 })
             }

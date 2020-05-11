@@ -146,9 +146,7 @@ class PoFactoryController extends ResponseController
 
         $data = $validator->validated();
 
-        if (isset($data['ata_job_site']) && $data['ata_job_site']) {
-            $data['status'] = BatchStatus::Finished;
-        } else if (isset($data['actual_production_completion']) && $data['actual_production_completion']) {
+        if (isset($data['actual_production_completion']) && $data['actual_production_completion']) {
             $data['status'] = BatchStatus::Shipping;
         } else {
             $data['status'] = BatchStatus::InProduction;
@@ -256,9 +254,31 @@ class PoFactoryController extends ResponseController
 
         $data = $validator->validated();
 
-        if (isset($data['ata_job_site']) && $data['ata_job_site']) {
+        $eta_job_site = Container::where('batch_id', $id)->where('eta_job_site', '!=', null)->orderBy('eta_job_site', 'DESC')->first();
+        $ata_job_site = Container::where('batch_id', $id)->where('ata_job_site', '!=', null)->orderBy('ata_job_site', 'DESC')->first();
+
+        if($eta_job_site && $data['eta_port'] > $eta_job_site->eta_job_site){
+            return $this->setStatusCode(422)->responseError('ETA Port must be less than or equal to '. $eta_job_site->eta_job_site);
+        }
+
+        if($ata_job_site && $data['ata_port'] > $ata_job_site->ata_job_site){
+            return $this->setStatusCode(422)->responseError('ATA Port must be less than or equal to '. $ata_job_site->ata_job_site);
+        }
+
+        if(is_null($data['eta_port']) && $eta_job_site){
+            return $this->setStatusCode(422)->responseError('Please set eta port');
+        }
+
+        if(is_null($data['ata_port']) && $ata_job_site){
+            return $this->setStatusCode(422)->responseError('Please set ata port');
+        }
+
+        $containerCount = Container::where('batch_id', $id)->count();
+        $containerAtaJobSiteCount = Container::where('batch_id', $id)->where('ata_job_site', '!=', null)->count();
+
+        if($containerCount > 0 && $containerCount == $containerAtaJobSiteCount){
             $data['status'] = BatchStatus::Finished;
-        } else if (isset($data['actual_production_completion']) && $data['actual_production_completion']) {
+        }else if (isset($data['actual_production_completion']) && $data['actual_production_completion']) {
             $data['status'] = BatchStatus::Shipping;
         } else {
             $data['status'] = BatchStatus::InProduction;
@@ -288,6 +308,28 @@ class PoFactoryController extends ResponseController
 
         $data = $validator->validated();
 
+        $batch = Batch::findOrFail($data['batch_id']);
+
+        if($batch->ata_port){
+            return $this->setStatusCode(422)->responseError('Can\'t add');
+        }
+
+        $save = false;
+        $maxEtaJobSite = $this->getMaxEtaJobSite($data['batch_id']);
+
+        if($data['eta_job_site'] > $maxEtaJobSite){
+            $batch->eta_job_site = $data['eta_job_site'];
+            $save= true;
+        }
+
+        $maxAtaJobSite = $this->getMaxAtaJobSite($data['batch_id']);
+        if($data['ata_job_site'] > $maxAtaJobSite){
+            $batch->ata_job_site = $data['ata_job_site'];
+            $save = true;
+        }
+
+        $save ? $batch->save() : '';
+
         Container::create($data);
 
         return $this->responseSuccess(true);
@@ -295,6 +337,31 @@ class PoFactoryController extends ResponseController
 
     public function deleteContainer($id)
     {
+        $container = Container::findOrFail($id);
+        $batch = Batch::findOrFail($container->batch_id);
+
+        $save = false;
+        $maxEtaJobSite = $this->getMaxEtaJobSite($container->batch_id, $container->id);
+        if(is_null($maxEtaJobSite)){
+            $batch->eta_job_site = null;
+            $save = true;
+        }
+
+        $maxAtaJobSite = $this->getMaxAtaJobSite($container->batch_id, $container->id);
+        if(is_null($maxAtaJobSite)){
+            $batch->ata_job_site = null;
+            $save = true;
+        }
+
+        if(Container::where('batch_id', $container->batch_id)->count() == 1){
+            if (!is_null($batch->actual_production_completion)) {
+                $batch->status = BatchStatus::Shipping;
+            } else {
+                $batch->status = BatchStatus::InProduction;
+            }
+        }
+
+        $save ? $batch->save() : '';
         Container::destroy($id);
 
         return $this->responseSuccess(true, 'Deleted');
@@ -325,8 +392,49 @@ class PoFactoryController extends ResponseController
 
         $data = $validator->validated();
 
+        $container = Container::findOrFail($id);
+        $batch = Batch::findOrFail($container->batch_id);
+
+        $maxEtaJobSite = $this->getMaxEtaJobSite($container->batch_id, $container->id);
+        $batch->eta_job_site = $maxEtaJobSite;
+        if($data['eta_job_site'] && $data['eta_job_site'] > $maxEtaJobSite){
+            $batch->eta_job_site = $data['eta_job_site'];
+        }
+
+        $maxAtaJobSite = $this->getMaxAtaJobSite($container->batch_id, $container->id);
+        $batch->ata_job_site = $maxAtaJobSite;
+        if($data['ata_job_site'] && $data['ata_job_site'] > $maxAtaJobSite){
+            $batch->ata_job_site = $data['ata_job_site'];
+        }
+
+        $res = Container::where([
+            'batch_id' => $container->batch_id,
+            'ata_job_site' => null,
+        ])->where('id', '!=',$container->id)->count();
+
+        if (!is_null($data['ata_job_site']) && $res == 0) {
+            $batch->status = BatchStatus::Finished;
+        }
+
+        $batch->save();
         Container::where('id', $id)->update($data);
 
         return $this->responseSuccess(true, 'Updated');
+    }
+
+    public function getMaxEtaJobSite($batchId, $withoutContainerId=null)
+    {
+        $etaJobSite = Container::where('batch_id', $batchId)->orderBy('eta_job_site', 'DESC');
+        $etaJobSite = $withoutContainerId ? $etaJobSite->where('id', '!=', $withoutContainerId)->first() : $etaJobSite->first();
+
+        return $etaJobSite && $etaJobSite->eta_job_site ? $etaJobSite->eta_job_site : null;
+    }
+
+    public function getMaxAtaJobSite($batchId, $withoutContainerId=null)
+    {
+        $ataJobSite = Container::where('batch_id', $batchId)->orderBy('ata_job_site', 'DESC');
+        $ataJobSite = $withoutContainerId ? $ataJobSite->where('id', '!=', $withoutContainerId)->first() : $ataJobSite->first();
+
+        return $ataJobSite && $ataJobSite->ata_job_site ? $ataJobSite->ata_job_site : null;
     }
 }

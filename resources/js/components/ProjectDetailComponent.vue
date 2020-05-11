@@ -163,6 +163,7 @@
                                                                 </p>
                                                                 <p><i>ETD Port：</i></p>
                                                                 <p><i>ETA Port：</i></p>
+                                                                <p><i>ETA Job Site：</i></p>
                                                             </div>
                                                             <div style="width:50%;text-align: left;float: right">
                                                                 <p>{{ batch.estimated_production_completion ?
@@ -172,16 +173,18 @@
                                                                     }}</p>
                                                                 <p>{{ batch.eta_port ? batch.eta_port.substr(0,10) : '-'
                                                                     }}</p>
-<!--                                                                <p>-->
-<!--                                                                    <span class="label label-default"-->
-<!--                                                                          v-if="batch.estimated_production_completion && batch.eta_job_site">-->
-<!--                                                                        <i data-toggle="tooltip"-->
-<!--                                                                           data-placement="top" title=""-->
-<!--                                                                           data-original-title="Time consuming">-->
-<!--                                                                            {{ dateDifference(batch.estimated_production_completion.substr(0,10), batch.eta_job_site.substr(0,10)) }} days-->
-<!--                                                                        </i>-->
-<!--                                                                    </span>-->
-<!--                                                                </p>-->
+                                                                <p>{{ batch.eta_job_site ? batch.eta_job_site.substr(0,10) : '-'
+                                                                    }}</p>
+                                                                <p>
+                                                                    <span class="label label-default"
+                                                                          v-if="batch.estimated_production_completion && batch.eta_job_site">
+                                                                        <i data-toggle="tooltip"
+                                                                           data-placement="top" title=""
+                                                                           data-original-title="Time consuming">
+                                                                            {{ dateDifference(batch.estimated_production_completion.substr(0,10), batch.eta_job_site.substr(0,10)) }} days
+                                                                        </i>
+                                                                    </span>
+                                                                </p>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -192,6 +195,7 @@
                                                                 </p>
                                                                 <p><i>ATD Port：</i></p>
                                                                 <p><i>ATA Port：</i></p>
+                                                                <p><i>ATA Job Site：</i></p>
                                                             </div>
                                                             <div style="width:50%;text-align: left;float: right">
                                                                 <p>{{ batch.actual_production_completion ?
@@ -201,16 +205,18 @@
                                                                     '-' }}</p>
                                                                 <p>{{ batch.ata_port ? batch.ata_port.substr(0,10) : '-'
                                                                     }}</p>
-<!--                                                                <p>-->
-<!--                                                                    <span class="label label-default"-->
-<!--                                                                          v-if="batch.actual_production_completion && batch.ata_job_site">-->
-<!--                                                                        <i data-toggle="tooltip"-->
-<!--                                                                           data-placement="top" title=""-->
-<!--                                                                           data-original-title="Time consuming">-->
-<!--                                                                            {{ dateDifference(batch.actual_production_completion.substr(0,10), batch.ata_job_site.substr(0,10)) }} days-->
-<!--                                                                        </i>-->
-<!--                                                                    </span>-->
-<!--                                                                </p>-->
+                                                                <p>{{ batch.ata_job_site ? batch.ata_job_site.substr(0,10) : '-'
+                                                                    }}</p>
+                                                                <p>
+                                                                    <span class="label label-default"
+                                                                          v-if="batch.actual_production_completion && batch.ata_job_site">
+                                                                        <i data-toggle="tooltip"
+                                                                           data-placement="top" title=""
+                                                                           data-original-title="Time consuming">
+                                                                            {{ dateDifference(batch.actual_production_completion.substr(0,10), batch.ata_job_site.substr(0,10)) }} days
+                                                                        </i>
+                                                                    </span>
+                                                                </p>
                                                             </div>
                                                         </td>
                                                         <td>{{ batch.carrier }}</td>

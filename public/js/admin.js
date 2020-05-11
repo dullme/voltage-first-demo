@@ -3233,6 +3233,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/vendor/date-js/date-zh-CN.js");
@@ -23024,6 +23030,67 @@ var render = function() {
                                                                   : "-"
                                                               )
                                                             )
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c("p", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                batch.eta_job_site
+                                                                  ? batch.eta_job_site.substr(
+                                                                      0,
+                                                                      10
+                                                                    )
+                                                                  : "-"
+                                                              )
+                                                            )
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c("p", [
+                                                            batch.estimated_production_completion &&
+                                                            batch.eta_job_site
+                                                              ? _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "label label-default"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "i",
+                                                                      {
+                                                                        attrs: {
+                                                                          "data-toggle":
+                                                                            "tooltip",
+                                                                          "data-placement":
+                                                                            "top",
+                                                                          title:
+                                                                            "",
+                                                                          "data-original-title":
+                                                                            "Time consuming"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "\n                                                                            " +
+                                                                            _vm._s(
+                                                                              _vm.dateDifference(
+                                                                                batch.estimated_production_completion.substr(
+                                                                                  0,
+                                                                                  10
+                                                                                ),
+                                                                                batch.eta_job_site.substr(
+                                                                                  0,
+                                                                                  10
+                                                                                )
+                                                                              )
+                                                                            ) +
+                                                                            " days\n                                                                        "
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              : _vm._e()
                                                           ])
                                                         ]
                                                       )
@@ -23080,6 +23147,67 @@ var render = function() {
                                                                   : "-"
                                                               )
                                                             )
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c("p", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                batch.ata_job_site
+                                                                  ? batch.ata_job_site.substr(
+                                                                      0,
+                                                                      10
+                                                                    )
+                                                                  : "-"
+                                                              )
+                                                            )
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c("p", [
+                                                            batch.actual_production_completion &&
+                                                            batch.ata_job_site
+                                                              ? _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "label label-default"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "i",
+                                                                      {
+                                                                        attrs: {
+                                                                          "data-toggle":
+                                                                            "tooltip",
+                                                                          "data-placement":
+                                                                            "top",
+                                                                          title:
+                                                                            "",
+                                                                          "data-original-title":
+                                                                            "Time consuming"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "\n                                                                            " +
+                                                                            _vm._s(
+                                                                              _vm.dateDifference(
+                                                                                batch.actual_production_completion.substr(
+                                                                                  0,
+                                                                                  10
+                                                                                ),
+                                                                                batch.ata_job_site.substr(
+                                                                                  0,
+                                                                                  10
+                                                                                )
+                                                                              )
+                                                                            ) +
+                                                                            " days\n                                                                        "
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              : _vm._e()
                                                           ])
                                                         ]
                                                       )
@@ -27134,7 +27262,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("p", [_c("i", [_vm._v("ETD Port：")])]),
         _vm._v(" "),
-        _c("p", [_c("i", [_vm._v("ETA Port：")])])
+        _c("p", [_c("i", [_vm._v("ETA Port：")])]),
+        _vm._v(" "),
+        _c("p", [_c("i", [_vm._v("ETA Job Site：")])])
       ]
     )
   },
@@ -27163,7 +27293,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("p", [_c("i", [_vm._v("ATD Port：")])]),
         _vm._v(" "),
-        _c("p", [_c("i", [_vm._v("ATA Port：")])])
+        _c("p", [_c("i", [_vm._v("ATA Port：")])]),
+        _vm._v(" "),
+        _c("p", [_c("i", [_vm._v("ATA Job Site：")])])
       ]
     )
   },
