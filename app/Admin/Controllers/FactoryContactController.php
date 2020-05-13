@@ -8,6 +8,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Illuminate\Support\MessageBag;
 
 class FactoryContactController extends AdminController
 {
@@ -79,11 +80,26 @@ class FactoryContactController extends AdminController
         $form = new Form(new FactoryContact());
 
         $factories = Factory::pluck('name', 'id');
-        $form->select('factory_id', 'Clients')->options($factories)->required();
+        $form->select('factory_id', 'Factory')->options($factories)->required();
         $form->text('name', __('Name'))->required();
         $form->text('position', __('Position'));
         $form->text('tel', __('Tel'));
         $form->email('email', __('E-mail'));
+
+        $form->saving(function (Form $form){
+
+            $contact = FactoryContact::where('factory_id', $form->factory_id)->where('name', $form->name);
+            $contact = $form->model()->id ? $contact->where('id', '!=', $form->model()->id)->count() : $contact->count();
+
+            if($contact > 0){
+                $error = new MessageBag([
+                    'title'   => 'ERROR',
+                    'message' => 'The Name has already been taken.',
+                ]);
+
+                return back()->with(compact('error'));
+            }
+        });
 
         return $form;
     }

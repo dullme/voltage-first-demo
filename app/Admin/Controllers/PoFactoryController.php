@@ -4,6 +4,7 @@
 namespace App\Admin\Controllers;
 
 use App\Container;
+use Carbon\Carbon;
 use DB;
 use App\Batch;
 use App\Enums\BatchStatus;
@@ -121,6 +122,7 @@ class PoFactoryController extends ResponseController
             'carrier'                         => 'nullable',
             'ocean_forwarder'                 => 'nullable|integer',
             'inland_forwarder'                => 'nullable|integer',
+            'china_inland_forwarder'          => 'nullable|integer',
             'b_l'                             => 'nullable',
             'shipping_method'                 => 'nullable',
             'vessel'                          => 'nullable',
@@ -130,11 +132,11 @@ class PoFactoryController extends ResponseController
             'rmb'                             => 'nullable|numeric',
             'foreign_currency'                => 'nullable|numeric',
             'foreign_currency_type'           => 'required_with:foreign_currency',
-            'estimated_production_completion' => 'nullable|date',
-            'etd_port'                        => 'nullable|date',
+            'estimated_production_completion' => 'required_with:etd_port|nullable|date',
+            'etd_port'                        => 'required_with:eta_port|nullable|date',
             'eta_port'                        => 'nullable|date',
-            'actual_production_completion'    => 'nullable|date',
-            'atd_port'                        => 'nullable|date',
+            'actual_production_completion'    => 'required_with:atd_port|nullable|date',
+            'atd_port'                        => 'required_with:ata_port|nullable|date',
             'ata_port'                        => 'nullable|date',
         ], [
             'name.required' => 'The sequence field is required.',
@@ -144,6 +146,27 @@ class PoFactoryController extends ResponseController
             return $this->setStatusCode(422)->responseError($validator->errors()->first());
         }
 
+        if ($request->input('etd_port') && $request->input('etd_port') < $request->input('estimated_production_completion')) {
+            return $this->setStatusCode(422)->responseError('ETD Port 必须大于等于 EPC');
+        }
+
+        if ($request->input('eta_port') && $request->input('eta_port') < $request->input('etd_port')) {
+            return $this->setStatusCode(422)->responseError('ETA Port 必须大于等于 ETD Port');
+        }
+
+        if ($request->input('atd_port') && $request->input('atd_port') < $request->input('actual_production_completion')) {
+            return $this->setStatusCode(422)->responseError('ATD Port 必须大于等于 APC');
+        }
+
+        if ($request->input('ata_port')) {
+            if ($request->input('ata_port') < $request->input('atd_port')) {
+                return $this->setStatusCode(422)->responseError('ATA Port 必须大于等于 ATD Port');
+            }
+            if ($request->input('ata_port') > Carbon::today()->toDateString()) {
+                return $this->setStatusCode(422)->responseError('ATA Port 必须小于等于今天');
+            }
+        }
+
         $data = $validator->validated();
 
         if (isset($data['actual_production_completion']) && $data['actual_production_completion']) {
@@ -151,6 +174,27 @@ class PoFactoryController extends ResponseController
         } else {
             $data['status'] = BatchStatus::InProduction;
         }
+
+        $data['epc_history'] = isset($data['estimated_production_completion']) && $data['estimated_production_completion'] ? [
+            [
+                'estimated'  => $data['estimated_production_completion'],
+                'created_at' => Carbon::now()->toDateTimeString()
+            ]
+        ] : [];
+
+        $data['etd_port_history'] = isset($data['etd_port']) && $data['etd_port'] ? [
+            [
+                'estimated'  => $data['etd_port'],
+                'created_at' => Carbon::now()->toDateTimeString()
+            ]
+        ] : [];
+
+        $data['eta_port_history'] = isset($data['eta_port']) && $data['eta_port'] ? [
+            [
+                'estimated'  => $data['eta_port'],
+                'created_at' => Carbon::now()->toDateTimeString()
+            ]
+        ] : [];
 
         Batch::create($data);
 
@@ -210,7 +254,7 @@ class PoFactoryController extends ResponseController
 
     public function showBatch($id, Content $content)
     {
-        $batch = Batch::with('poFactory.poClient.project', 'containers', 'oceanForwarder.forwarder', 'inlandForwarder.forwarder')->findOrFail($id);
+        $batch = Batch::with('poFactory.poClient.project', 'containers', 'oceanForwarder.forwarder', 'inlandForwarder.forwarder', 'chinaInlandForwarder.forwarder')->findOrFail($id);
 
         return $content
             ->title(getSequence($batch->sequence))
@@ -226,6 +270,7 @@ class PoFactoryController extends ResponseController
             'carrier'                         => 'nullable',
             'ocean_forwarder'                 => 'nullable|integer',
             'inland_forwarder'                => 'nullable|integer',
+            'china_inland_forwarder'          => 'nullable|integer',
             'b_l'                             => [
                 'nullable',
 //                Rule::unique('batches')->ignore($id),
@@ -238,11 +283,11 @@ class PoFactoryController extends ResponseController
             'rmb'                             => 'nullable|numeric',
             'foreign_currency'                => 'nullable|numeric',
             'foreign_currency_type'           => 'required_with:foreign_currency',
-            'estimated_production_completion' => 'nullable|date',
-            'etd_port'                        => 'nullable|date',
+            'estimated_production_completion' => 'required_with:etd_port|nullable|date',
+            'etd_port'                        => 'required_with:eta_port|nullable|date',
             'eta_port'                        => 'nullable|date',
-            'actual_production_completion'    => 'nullable|date',
-            'atd_port'                        => 'nullable|date',
+            'actual_production_completion'    => 'required_with:atd_port|nullable|date',
+            'atd_port'                        => 'required_with:ata_port|nullable|date',
             'ata_port'                        => 'nullable|date',
         ], [
             'name.required' => 'The sequence field is required.',
@@ -252,37 +297,81 @@ class PoFactoryController extends ResponseController
             return $this->setStatusCode(422)->responseError($validator->errors()->first());
         }
 
+        if ($request->input('etd_port') && $request->input('etd_port') < $request->input('estimated_production_completion')) {
+            return $this->setStatusCode(422)->responseError('ETD Port 必须大于等于 EPC');
+        }
+
+        if ($request->input('eta_port') && $request->input('eta_port') < $request->input('etd_port')) {
+            return $this->setStatusCode(422)->responseError('ETA Port 必须大于等于 ETD Port');
+        }
+
+        if ($request->input('atd_port') && $request->input('atd_port') < $request->input('actual_production_completion')) {
+            return $this->setStatusCode(422)->responseError('ATD Port 必须大于等于 APC');
+        }
+
+        if ($request->input('ata_port')) {
+            if ($request->input('ata_port') < $request->input('atd_port')) {
+                return $this->setStatusCode(422)->responseError('ATA Port 必须大于等于 ATD Port');
+            }
+            if ($request->input('ata_port') > Carbon::today()->toDateString()) {
+                return $this->setStatusCode(422)->responseError('ATA Port 必须小于等于今天');
+            }
+        }
+
         $data = $validator->validated();
 
         $eta_job_site = Container::where('batch_id', $id)->where('eta_job_site', '!=', null)->orderBy('eta_job_site', 'DESC')->first();
         $ata_job_site = Container::where('batch_id', $id)->where('ata_job_site', '!=', null)->orderBy('ata_job_site', 'DESC')->first();
 
-        if($eta_job_site && $data['eta_port'] > $eta_job_site->eta_job_site){
-            return $this->setStatusCode(422)->responseError('ETA Port must be less than or equal to '. $eta_job_site->eta_job_site);
+        if ($eta_job_site && $data['eta_port'] > $eta_job_site->eta_job_site) {
+            return $this->setStatusCode(422)->responseError('ETA Port must be less than or equal to ' . $eta_job_site->eta_job_site);
         }
 
-        if($ata_job_site && $data['ata_port'] > $ata_job_site->ata_job_site){
-            return $this->setStatusCode(422)->responseError('ATA Port must be less than or equal to '. $ata_job_site->ata_job_site);
+        if ($ata_job_site && $data['ata_port'] > $ata_job_site->ata_job_site) {
+            return $this->setStatusCode(422)->responseError('ATA Port must be less than or equal to ' . $ata_job_site->ata_job_site);
         }
 
-        if(is_null($data['eta_port']) && $eta_job_site){
+        if (is_null($data['eta_port']) && $eta_job_site) {
             return $this->setStatusCode(422)->responseError('Please set eta port');
         }
 
-        if(is_null($data['ata_port']) && $ata_job_site){
+        if (is_null($data['ata_port']) && $ata_job_site) {
             return $this->setStatusCode(422)->responseError('Please set ata port');
         }
 
         $containerCount = Container::where('batch_id', $id)->count();
         $containerAtaJobSiteCount = Container::where('batch_id', $id)->where('ata_job_site', '!=', null)->count();
 
-        if($containerCount > 0 && $containerCount == $containerAtaJobSiteCount){
+        if ($containerCount > 0 && $containerCount == $containerAtaJobSiteCount) {
             $data['status'] = BatchStatus::Finished;
-        }else if (isset($data['actual_production_completion']) && $data['actual_production_completion']) {
+        } else if (isset($data['actual_production_completion']) && $data['actual_production_completion']) {
             $data['status'] = BatchStatus::Shipping;
         } else {
             $data['status'] = BatchStatus::InProduction;
         }
+
+        $batch = Batch::findOrFail($id);
+
+        $data['epc_history'] = isset($data['estimated_production_completion']) && $data['estimated_production_completion'] != optional($batch->estimated_production_completion)->toDateString() ? array_merge($batch->epc_history, [
+            [
+                'estimated'  => $data['estimated_production_completion'],
+                'created_at' => Carbon::now()->toDateTimeString()
+            ]
+        ]) : $batch->epc_history;
+
+        $data['etd_port_history'] = isset($data['etd_port']) && $data['etd_port'] != optional($batch->etd_port)->toDateString() ? array_merge($batch->etd_port_history, [
+            [
+                'estimated'  => $data['etd_port'],
+                'created_at' => Carbon::now()->toDateTimeString()
+            ]
+        ]) : $batch->etd_port_history;
+
+        $data['eta_port_history'] = isset($data['eta_port']) && $data['eta_port'] != optional($batch->eta_port)->toDateString() ? array_merge($batch->eta_port_history, [
+            [
+                'estimated'  => $data['eta_port'],
+                'created_at' => Carbon::now()->toDateTimeString()
+            ]
+        ]) : $batch->eta_port_history;
 
         Batch::where('id', $id)->update($data);
 
@@ -310,25 +399,32 @@ class PoFactoryController extends ResponseController
 
         $batch = Batch::findOrFail($data['batch_id']);
 
-        if($batch->ata_port){
+        if ($batch->ata_port) {
             return $this->setStatusCode(422)->responseError('Can\'t add');
         }
 
         $save = false;
         $maxEtaJobSite = $this->getMaxEtaJobSite($data['batch_id']);
 
-        if($data['eta_job_site'] > $maxEtaJobSite){
+        if ($data['eta_job_site'] > $maxEtaJobSite) {
             $batch->eta_job_site = $data['eta_job_site'];
-            $save= true;
+            $save = true;
         }
 
         $maxAtaJobSite = $this->getMaxAtaJobSite($data['batch_id']);
-        if($data['ata_job_site'] > $maxAtaJobSite){
+        if ($data['ata_job_site'] > $maxAtaJobSite) {
             $batch->ata_job_site = $data['ata_job_site'];
             $save = true;
         }
 
         $save ? $batch->save() : '';
+
+        $data['eta_job_site_history'] = isset($data['eta_job_site']) && $data['eta_job_site'] ? [
+            [
+                'estimated'  => $data['eta_job_site'],
+                'created_at' => Carbon::now()->toDateTimeString()
+            ]
+        ] : [];
 
         Container::create($data);
 
@@ -342,18 +438,18 @@ class PoFactoryController extends ResponseController
 
         $save = false;
         $maxEtaJobSite = $this->getMaxEtaJobSite($container->batch_id, $container->id);
-        if(is_null($maxEtaJobSite)){
+        if (is_null($maxEtaJobSite)) {
             $batch->eta_job_site = null;
             $save = true;
         }
 
         $maxAtaJobSite = $this->getMaxAtaJobSite($container->batch_id, $container->id);
-        if(is_null($maxAtaJobSite)){
+        if (is_null($maxAtaJobSite)) {
             $batch->ata_job_site = null;
             $save = true;
         }
 
-        if(Container::where('batch_id', $container->batch_id)->count() == 1){
+        if (Container::where('batch_id', $container->batch_id)->count() == 1) {
             if (!is_null($batch->actual_production_completion)) {
                 $batch->status = BatchStatus::Shipping;
             } else {
@@ -397,26 +493,26 @@ class PoFactoryController extends ResponseController
 
         $maxEtaJobSite = $this->getMaxEtaJobSite($container->batch_id, $container->id);
         $batch->eta_job_site = $maxEtaJobSite;
-        if($data['eta_job_site'] && $data['eta_job_site'] > $maxEtaJobSite){
+        if ($data['eta_job_site'] && $data['eta_job_site'] > $maxEtaJobSite) {
             $batch->eta_job_site = $data['eta_job_site'];
         }
 
         $maxAtaJobSite = $this->getMaxAtaJobSite($container->batch_id, $container->id);
         $batch->ata_job_site = $maxAtaJobSite;
-        if($data['ata_job_site'] && $data['ata_job_site'] > $maxAtaJobSite){
+        if ($data['ata_job_site'] && $data['ata_job_site'] > $maxAtaJobSite) {
             $batch->ata_job_site = $data['ata_job_site'];
         }
 
         $res = Container::where([
-            'batch_id' => $container->batch_id,
+            'batch_id'     => $container->batch_id,
             'ata_job_site' => null,
-        ])->where('id', '!=',$container->id)->count();
+        ])->where('id', '!=', $container->id)->count();
 
         if (!is_null($data['ata_job_site']) && $res == 0) {
             $batch->status = BatchStatus::Finished;
         }
 
-        if(is_null($data['ata_job_site'])){
+        if (is_null($data['ata_job_site'])) {
             if (!is_null($batch->actual_production_completion)) {
                 $batch->status = BatchStatus::Shipping;
             } else {
@@ -424,13 +520,21 @@ class PoFactoryController extends ResponseController
             }
         }
 
+        $data['eta_job_site_history'] = isset($data['eta_job_site']) && $data['eta_job_site'] != optional($container->eta_job_site)->toDateString() ? array_merge($container->eta_job_site_history, [
+            [
+                'estimated'  => $data['eta_job_site'],
+                'created_at' => Carbon::now()->toDateTimeString()
+            ]
+        ]) : $container->eta_job_site_history;
+
         $batch->save();
+
         Container::where('id', $id)->update($data);
 
         return $this->responseSuccess(true, 'Updated');
     }
 
-    public function getMaxEtaJobSite($batchId, $withoutContainerId=null)
+    public function getMaxEtaJobSite($batchId, $withoutContainerId = null)
     {
         $etaJobSite = Container::where('batch_id', $batchId)->orderBy('eta_job_site', 'DESC');
         $etaJobSite = $withoutContainerId ? $etaJobSite->where('id', '!=', $withoutContainerId)->first() : $etaJobSite->first();
@@ -438,7 +542,7 @@ class PoFactoryController extends ResponseController
         return $etaJobSite && $etaJobSite->eta_job_site ? $etaJobSite->eta_job_site : null;
     }
 
-    public function getMaxAtaJobSite($batchId, $withoutContainerId=null)
+    public function getMaxAtaJobSite($batchId, $withoutContainerId = null)
     {
         $ataJobSite = Container::where('batch_id', $batchId)->orderBy('ata_job_site', 'DESC');
         $ataJobSite = $withoutContainerId ? $ataJobSite->where('id', '!=', $withoutContainerId)->first() : $ataJobSite->first();

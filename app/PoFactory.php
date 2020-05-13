@@ -26,11 +26,6 @@ class PoFactory extends Model
         return $this->hasMany(Batch::class);
     }
 
-    public function factory()
-    {
-        return $this->belongsTo(Factory::class);
-    }
-
     public function poClient()
     {
         return $this->belongsTo(PoClient::class);
@@ -39,5 +34,10 @@ class PoFactory extends Model
     public function poFactoryHistories()
     {
         return $this->hasMany(PoFactoryHistory::class);
+    }
+
+    public function poFactoryFactories()
+    {
+        return $this->hasMany(PoFactoryFactory::class);
     }
 }

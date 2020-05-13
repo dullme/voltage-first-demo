@@ -32,3 +32,12 @@ function getForeignCurrencyType($type){
             return '';
     }
 }
+
+function popover($history){
+    $text = '';
+    foreach ($history as $key=>$item){
+        $text .= ($key+1) . '、' . $history[$key]['estimated'] . ' : ' .  $history[$key]['created_at'] . '<br />';
+    }
+
+    return $text;
+}

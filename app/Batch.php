@@ -19,6 +19,7 @@ class Batch extends Model
         'carrier',
         'ocean_forwarder',
         'inland_forwarder',
+        'china_inland_forwarder',
         'b_l',
         'shipping_method',
         'vessel',
@@ -36,6 +37,9 @@ class Batch extends Model
         'foreign_currency_type',
         'port_of_departure',
         'destination_port',
+        'epc_history',
+        'etd_port_history',
+        'eta_port_history',
     ];
 
     protected $dates = [
@@ -50,6 +54,9 @@ class Batch extends Model
     ];
 
     protected $casts = [
+        'epc_history'                     => 'array',
+        'etd_port_history'                => 'array',
+        'eta_port_history'                => 'array',
         'created_at'                      => 'datetime:Y-m-d H:i:s',
         'updated_at'                      => 'datetime:Y-m-d',
         'estimated_production_completion' => 'datetime:Y-m-d',
@@ -80,6 +87,11 @@ class Batch extends Model
     public function inlandForwarder()
     {
         return $this->belongsTo(ForwarderContact::class, 'inland_forwarder', 'id');
+    }
+
+    public function chinaInlandForwarder()
+    {
+        return $this->belongsTo(ForwarderContact::class, 'china_inland_forwarder', 'id');
     }
 
     public function getDeletedAtAttribute($value)

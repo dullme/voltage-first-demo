@@ -19,6 +19,7 @@ class CreateContainersTable extends Migration
             $table->string('no');
             $table->string('type')->nullable();
             $table->timestamp('eta_job_site')->nullable()->comment('预计到项目点时间');
+            $table->text('eta_job_site_history')->nullable()->comment('预计到项目点时间');
             $table->timestamp('ata_job_site')->nullable()->comment('实际到项目点时间');
             $table->text('remarks')->nullable();
             $table->timestamps();

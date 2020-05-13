@@ -65,7 +65,8 @@ class ForwarderController extends AdminController
     {
         $form = new Form(new Forwarder());
 
-        $form->text('name', __('Name'))->required();
+        $form->text('name', __('Name'))->creationRules(['required', "unique:forwarders"])
+            ->updateRules(['required', "unique:forwarders,name,{{id}}"]);
         $form->text('address', __('Address'));
 
         return $form;

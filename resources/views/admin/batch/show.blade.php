@@ -41,6 +41,7 @@
                                 <p>Shipment #：{{ $batch->name }}</p>
                                 <p>Vessel：{{ $batch->vessel }}</p>
                                 <p>Inland Forwarder：{{ $batch->inlandForwarder ? optional($batch->inlandForwarder)->forwarder->name : '' }} : {{ $batch->inlandForwarder ? optional($batch->inlandForwarder)->name : '' }}</p>
+                                <p>China Inland Forwarder：{{ $batch->chinaInlandForwarder ? optional($batch->chinaInlandForwarder)->forwarder->name : '' }} : {{ $batch->chinaInlandForwarder ? optional($batch->chinaInlandForwarder)->name : '' }}</p>
                                 <p>Foreign Currency：{{ $batch->foreign_currency }}/{{ getForeignCurrencyType($batch->foreign_currency_type) }}</p>
                                 <p>Destination Port：{{ $batch->destination_port }}</p>
                                 <p>Remarks：{{ $batch->remarks }}</p>
@@ -107,7 +108,10 @@
                                                 <td>{{ $container->no }}</td>
                                                 <td>{{ $container->type }}</td>
                                                 <td style="vertical-align: middle">
-                                                    <p><b>{{ $container->eta_job_site ? $container->eta_job_site : '-' }}</b></p>
+
+                                                    <p>
+                                                        <span class="popover-t" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="ETA Job Site" data-content="{{ popover($container->eta_job_site_history) }}">{{ $container->eta_job_site ? $container->eta_job_site : '-' }}</span>
+                                                    </p>
 {{--                                                    <div style="width:50%;text-align: right;float: left">--}}
 {{--                                                        <p><i data-toggle="tooltip"--}}
 {{--                                                              data-placement="top" title=""--}}
@@ -499,6 +503,10 @@
     var can_edit_submit = true;
 
     $(function () {
+        $('.popover-t').popover({
+            html: true
+        })
+
         @if($batch->eta_port)
             $('#eta_job_site').datetimepicker({
                 'format': 'YYYY-MM-DD',

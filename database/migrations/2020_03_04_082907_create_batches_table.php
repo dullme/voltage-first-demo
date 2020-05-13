@@ -18,13 +18,19 @@ class CreateBatchesTable extends Migration
             $table->integer('po_factory_id')->unsigned()->comment('Po Factory ID');
             $table->integer('ocean_forwarder')->unsigned()->nullable();
             $table->integer('inland_forwarder')->unsigned()->nullable();
+            $table->integer('china_inland_forwarder')->unsigned()->nullable();
             $table->string('name')->nullable()->comment('发货批次');
             $table->integer('sequence')->unsigned()->comment('序号');
             $table->integer('status')->unsigned()->default(\App\Enums\BatchStatus::InProduction)->comment('状态');
+
             $table->timestamp('estimated_production_completion')->nullable()->comment('预计生产完成时间');
             $table->timestamp('etd_port')->nullable()->comment('预计离岗时间');
             $table->timestamp('eta_port')->nullable()->comment('预计到港时间');
             $table->timestamp('eta_job_site')->nullable()->comment('预计到项目点时间');
+            $table->text('epc_history')->nullable()->comment('预计生产完成时间');
+            $table->text('etd_port_history')->nullable()->comment('预计离岗时间');
+            $table->text('eta_port_history')->nullable()->comment('预计到港时间');
+
             $table->timestamp('actual_production_completion')->nullable()->comment('实际生产完成时间');
             $table->timestamp('atd_port')->nullable()->comment('实际离岗时间');
             $table->timestamp('ata_port')->nullable()->comment('实际到港时间');

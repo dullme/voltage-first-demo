@@ -10,6 +10,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
 
 class ContactController extends AdminController
 {
@@ -85,6 +86,21 @@ class ContactController extends AdminController
         $form->text('name', __('Name'))->required();
         $form->text('tel', __('Tel'));
         $form->email('email', __('E-mail'));
+
+        $form->saving(function (Form $form){
+
+            $contact = Contact::where('client_id', $form->client_id)->where('name', $form->name);
+            $contact = $form->model()->id ? $contact->where('id', '!=', $form->model()->id)->count() : $contact->count();
+
+            if($contact > 0){
+                $error = new MessageBag([
+                    'title'   => 'ERROR',
+                    'message' => 'The Name has already been taken.',
+                ]);
+
+                return back()->with(compact('error'));
+            }
+        });
 
         return $form;
     }

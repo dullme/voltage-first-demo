@@ -3249,6 +3249,142 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // import Common from '../util'
 __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/vendor/date-js/date-zh-CN.js");
 
@@ -3295,17 +3431,24 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
       },
       po_factory_form: {
         po_client_id: '',
-        factory_id: '',
         no: '',
-        type: '',
-        remarks: '',
-        product: ''
+        type: ''
       },
       po_factory_edit_form: {
         id: '',
-        factory_id: '',
         no: '',
-        type: '',
+        type: ''
+      },
+      po_factory_factory_form: {
+        po_factory_id: '',
+        factory_id: '',
+        remarks: '',
+        product: ''
+      },
+      po_factory_factory_edit_form: {
+        id: '',
+        po_factory_id: '',
+        factory_id: '',
         remarks: '',
         product: ''
       },
@@ -3318,6 +3461,7 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         carrier: '',
         ocean_forwarder: '',
         inland_forwarder: '',
+        china_inland_forwarder: '',
         b_l: '',
         vessel: '',
         remarks: '',
@@ -3343,6 +3487,7 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         carrier: '',
         ocean_forwarder: '',
         inland_forwarder: '',
+        china_inland_forwarder: '',
         b_l: '',
         vessel: '',
         remarks: '',
@@ -3397,6 +3542,9 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
   mounted: function mounted() {
     var _this2 = this;
 
+    $('.popover-t').popover({
+      html: true
+    });
     $('.port_of_departure').select2({
       placeholder: 'Please choose',
       allowClear: true //选中项可清空
@@ -3479,32 +3627,35 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         $("#addShipment input[name='ata_port']").data("DateTimePicker").minDate(e.currentTarget.value);
         _this2.shipment_form.ata_port = '';
       }
-    }); //editShipment
+    }); // //editShipment
+    // $('#editShipment input[name="estimated_production_completion"]').on('dp.change', (e) => {
+    //     if (e.currentTarget.value) {
+    //         $("#editShipment input[name='etd_port']").data("DateTimePicker").minDate(e.currentTarget.value)
+    //         this.shipment_edit_form.etd_port = '';
+    //     }
+    // })
+    //
+    // $('#editShipment input[name="etd_port"]').on('dp.change', (e) => {
+    //     if (e.currentTarget.value) {
+    //         $("#editShipment input[name='eta_port']").data("DateTimePicker").minDate(e.currentTarget.value)
+    //         this.shipment_edit_form.eta_port = '';
+    //     }
+    // })
+    //
+    // $('#editShipment input[name="actual_production_completion"]').on('dp.change', (e) => {
+    //     if (e.currentTarget.value) {
+    //         $("#editShipment input[name='atd_port']").data("DateTimePicker").minDate(e.currentTarget.value)
+    //         this.shipment_edit_form.atd_port = '';
+    //     }
+    // })
+    //
+    // $('#editShipment input[name="atd_port"]').on('dp.change', (e) => {
+    //     if (e.currentTarget.value) {
+    //         $("#editShipment input[name='ata_port']").data("DateTimePicker").minDate(e.currentTarget.value)
+    //         this.shipment_edit_form.ata_port = '';
+    //     }
+    // })
 
-    $('#editShipment input[name="estimated_production_completion"]').on('dp.change', function (e) {
-      if (e.currentTarget.value) {
-        $("#editShipment input[name='etd_port']").data("DateTimePicker").minDate(e.currentTarget.value);
-        _this2.shipment_edit_form.etd_port = '';
-      }
-    });
-    $('#editShipment input[name="etd_port"]').on('dp.change', function (e) {
-      if (e.currentTarget.value) {
-        $("#editShipment input[name='eta_port']").data("DateTimePicker").minDate(e.currentTarget.value);
-        _this2.shipment_edit_form.eta_port = '';
-      }
-    });
-    $('#editShipment input[name="actual_production_completion"]').on('dp.change', function (e) {
-      if (e.currentTarget.value) {
-        $("#editShipment input[name='atd_port']").data("DateTimePicker").minDate(e.currentTarget.value);
-        _this2.shipment_edit_form.atd_port = '';
-      }
-    });
-    $('#editShipment input[name="atd_port"]').on('dp.change', function (e) {
-      if (e.currentTarget.value) {
-        $("#editShipment input[name='ata_port']").data("DateTimePicker").minDate(e.currentTarget.value);
-        _this2.shipment_edit_form.ata_port = '';
-      }
-    });
     $('#editPoFactory').on('hide.bs.modal', function () {
       _this2.po_factory_history_active = '';
       _this2.po_factory_history = {};
@@ -3633,6 +3784,11 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
       this.po_factory_form.po_client_id = po_client_id;
       $('#addPoFactory').modal('show');
     },
+    showAddPoFactoryFactory: function showAddPoFactoryFactory(po_factory_id, po_factory_no) {
+      $('#addPoFactoryFactory .po_factory_no').html(po_factory_no);
+      this.po_factory_factory_form.po_factory_id = po_factory_id;
+      $('#addPoFactoryFactory').modal('show');
+    },
     addPoFactory: function addPoFactory() {
       var _this6 = this;
 
@@ -3667,20 +3823,61 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         toastr.error(error.response.data.message);
       });
     },
-    editPoFactory: function editPoFactory(id, no) {
+    addPoFactoryFactory: function addPoFactoryFactory() {
       var _this7 = this;
+
+      this.loading.po_factory_factory = true;
+      axios({
+        method: 'post',
+        url: '/admin/po-factory-factory/add',
+        data: this.po_factory_factory_form
+      }).then(function (response) {
+        swal(response.data.message, '', 'success').then(function () {
+          _this7.loading.po_factory_factory = false;
+          $('#addPoFactoryFactory').modal('hide');
+          location.reload();
+        });
+      })["catch"](function (error) {
+        _this7.loading.po_factory_factory = false;
+        toastr.error(error.response.data.message);
+      });
+    },
+    deletePoFactoryFactory: function deletePoFactoryFactory(id) {
+      swal({
+        title: 'Are you sure to delete this item ?',
+        type: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Submit',
+        cancelButtonText: 'Cancel'
+      }).then(function (isConfirm) {
+        if (isConfirm.value == true) {
+          axios({
+            method: 'post',
+            url: '/admin/delete/factory-factory/' + id
+          }).then(function (response) {
+            swal("SUCCESS", response.data.message, 'success').then(function () {
+              location.reload();
+            });
+          })["catch"](function (error) {
+            swal(error.response.data.message, '', 'error');
+          });
+        }
+      });
+    },
+    editPoFactory: function editPoFactory(id, no) {
+      var _this8 = this;
 
       axios({
         method: 'get',
         url: '/admin/po-factory/edit/' + id
       }).then(function (response) {
-        _this7.po_factory_edit_form = response.data.data;
+        _this8.po_factory_edit_form = response.data.data;
         $('#editPoFactory .po_factory_no').html(no);
         $('#editPoFactory').modal('show');
       });
     },
     savePoFactory: function savePoFactory() {
-      var _this8 = this;
+      var _this9 = this;
 
       this.loading.po_factory = true;
       axios({
@@ -3691,9 +3888,9 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         swal("SUCCESS", response.data.message, 'success').then(function () {
           location.reload();
         });
-        _this8.loading.po_factory = false;
+        _this9.loading.po_factory = false;
       })["catch"](function (error) {
-        _this8.loading.po_factory = false;
+        _this9.loading.po_factory = false;
         toastr.error(error.response.data.message);
       });
     },
@@ -3725,7 +3922,7 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
       $('#addShipment').modal('show');
     },
     addShipment: function addShipment() {
-      var _this9 = this;
+      var _this10 = this;
 
       var data = this.shipment_form;
 
@@ -3747,25 +3944,25 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
           });
         }
 
-        _this9.loading.shipment = false;
+        _this10.loading.shipment = false;
       })["catch"](function (error) {
-        _this9.loading.shipment = false;
+        _this10.loading.shipment = false;
 
-        if (_this9.shipment_form.customize_shipping_method) {
-          _this9.shipment_form.shipping_method = 'Customize';
+        if (_this10.shipment_form.customize_shipping_method) {
+          _this10.shipment_form.shipping_method = 'Customize';
         }
 
         toastr.error(error.response.data.message);
       });
     },
     editShipment: function editShipment(id) {
-      var _this10 = this;
+      var _this11 = this;
 
       axios({
         method: 'get',
         url: '/admin/batch/' + id
       }).then(function (response) {
-        _this10.shipment_edit_form = {
+        _this11.shipment_edit_form = {
           id: response.data.data.id,
           name: response.data.data.name,
           sequence: response.data.data.sequence,
@@ -3787,35 +3984,33 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
           rmb: response.data.data.rmb,
           foreign_currency: response.data.data.foreign_currency,
           foreign_currency_type: response.data.data.foreign_currency_type
-        };
+        }; // if (response.data.data.estimated_production_completion) {
+        //     $("#editShipment input[name='etd_port']").data("DateTimePicker").minDate(response.data.data.estimated_production_completion)
+        //     this.shipment_edit_form.etd_port = response.data.data.etd_port ? response.data.data.etd_port : '';
+        // }
+        //
+        // if (response.data.data.etd_port) {
+        //     $("#editShipment input[name='eta_port']").data("DateTimePicker").minDate(response.data.data.etd_port)
+        //     this.shipment_edit_form.eta_port = response.data.data.eta_port ? response.data.data.eta_port : '';
+        // }
+        //
+        // if (response.data.data.actual_production_completion) {
+        //     $("#editShipment input[name='atd_port']").data("DateTimePicker").minDate(response.data.data.actual_production_completion)
+        //     this.shipment_edit_form.atd_port = response.data.data.atd_port ? response.data.data.atd_port : '';
+        // }
+        //
+        // if (response.data.data.atd_port) {
+        //     $("#editShipment input[name='ata_port']").data("DateTimePicker").minDate(response.data.data.atd_port)
+        //     this.shipment_edit_form.ata_port = response.data.data.ata_port ? response.data.data.ata_port : '';
+        // }
 
-        if (response.data.data.estimated_production_completion) {
-          $("#editShipment input[name='etd_port']").data("DateTimePicker").minDate(response.data.data.estimated_production_completion);
-          _this10.shipment_edit_form.etd_port = response.data.data.etd_port ? response.data.data.etd_port : '';
-        }
-
-        if (response.data.data.etd_port) {
-          $("#editShipment input[name='eta_port']").data("DateTimePicker").minDate(response.data.data.etd_port);
-          _this10.shipment_edit_form.eta_port = response.data.data.eta_port ? response.data.data.eta_port : '';
-        }
-
-        if (response.data.data.actual_production_completion) {
-          $("#editShipment input[name='atd_port']").data("DateTimePicker").minDate(response.data.data.actual_production_completion);
-          _this10.shipment_edit_form.atd_port = response.data.data.atd_port ? response.data.data.atd_port : '';
-        }
-
-        if (response.data.data.atd_port) {
-          $("#editShipment input[name='ata_port']").data("DateTimePicker").minDate(response.data.data.atd_port);
-          _this10.shipment_edit_form.ata_port = response.data.data.ata_port ? response.data.data.ata_port : '';
-        }
-
-        var shipping_method = _this10.inArray(response.data.data.shipping_method, ['Regular Ocean Shipping', 'Fast Ocean Shipping', 'Expedited', 'Ocean+Rail+Truck', 'Ocean+Flatbed', 'Air Freight']);
+        var shipping_method = _this11.inArray(response.data.data.shipping_method, ['Regular Ocean Shipping', 'Fast Ocean Shipping', 'Expedited', 'Ocean+Rail+Truck', 'Ocean+Flatbed', 'Air Freight']);
 
         if (shipping_method) {
-          _this10.shipment_edit_form.customize_shipping_method = '';
+          _this11.shipment_edit_form.customize_shipping_method = '';
         } else {
-          _this10.shipment_edit_form.shipping_method = 'Customize';
-          _this10.shipment_edit_form.customize_shipping_method = response.data.data.shipping_method;
+          _this11.shipment_edit_form.shipping_method = 'Customize';
+          _this11.shipment_edit_form.customize_shipping_method = response.data.data.shipping_method;
         }
 
         $('#editShipment .po_factory_no').html(response.data.data.po_factory.no);
@@ -3826,7 +4021,7 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
       });
     },
     saveShipment: function saveShipment() {
-      var _this11 = this;
+      var _this12 = this;
 
       var data = this.shipment_edit_form;
 
@@ -3843,9 +4038,9 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         swal("SUCCESS", response.data.message, 'success').then(function () {
           location.reload();
         });
-        _this11.loading.shipment = false;
+        _this12.loading.shipment = false;
       })["catch"](function (error) {
-        _this11.loading.shipment = false;
+        _this12.loading.shipment = false;
         toastr.error(error.response.data.message);
       });
     },
@@ -3880,7 +4075,7 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
       });
     },
     deletedShipment: function deletedShipment(id, no) {
-      var _this12 = this;
+      var _this13 = this;
 
       console.log(123);
       $('#deleted_factory_no').html(no);
@@ -3888,7 +4083,7 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         method: 'post',
         url: '/admin/deleted/batch/' + id
       }).then(function (response) {
-        _this12.deleted_shipments = response.data.data;
+        _this13.deleted_shipments = response.data.data;
         $('#deletedShipment').modal('show');
       });
     },
@@ -3921,6 +4116,15 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
       dateSpan = Math.abs(dateSpan);
       iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
       return iDays;
+    },
+    popover: function popover(history) {
+      var text = '';
+
+      for (var h in history) {
+        text += Number(h) + 1 + '、' + history[h].estimated + ' : ' + history[h].created_at + '<br />';
+      }
+
+      return text;
     }
   }
 });
@@ -4104,10 +4308,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&id=909a2404&scoped=true&lang=css&":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&id=909a2404&scoped=true&lang=css& ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4116,7 +4320,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.panel-heading[data-v-909a2404] {\n    padding-bottom: unset;\n}\n.nav-tabs > li.active > a[data-v-909a2404], .nav-tabs > li.active > a[data-v-909a2404]:focus, .nav-tabs > li.active > a[data-v-909a2404]:hover {\n    border-color: #bce8f1;\n    border-bottom: unset;\n    border-bottom-color: unset;\n}\n.nav-tabs[data-v-909a2404] {\n    border-bottom: unset;\n}\n.nav > li > a[data-v-909a2404] {\n    padding: 5px 15px;\n}\n.table td[data-v-909a2404] {\n    vertical-align: middle;\n}\n.panel-info > .panel-heading .badge[data-v-909a2404] {\n    color: #d9edf7;\n    background-color: #31708f;\n    margin-top: -3px;\n    margin-left: 5px;\n}\n#history-list > .active[data-v-909a2404] {\n    background-color: #00a65a !important;\n    color: #ffffff !important;\n}\n.contact[data-v-909a2404]{\n    padding: 10px;\n    margin-bottom: 10px;\n    border-radius: 4px;\n    border: 2px solid #02a65a;\n}\n.contact p[data-v-909a2404]:last-child{\n    margin: unset;\n}\n", ""]);
+exports.push([module.i, "\n.panel-heading {\n    padding-bottom: unset;\n}\n.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {\n    border-color: #bce8f1;\n    border-bottom: unset;\n    border-bottom-color: unset;\n}\n.nav-tabs {\n    border-bottom: unset;\n}\n.nav > li > a {\n    padding: 5px 15px;\n}\n.table td {\n    vertical-align: middle !important;\n}\n.panel-info > .panel-heading .badge {\n    color: #d9edf7;\n    background-color: #31708f;\n    margin-top: -3px;\n    margin-left: 5px;\n}\n#history-list > .active {\n    background-color: #00a65a !important;\n    color: #ffffff !important;\n}\n.contact{\n    padding: 10px;\n    margin-bottom: 10px;\n    border-radius: 4px;\n    border: 2px solid #02a65a;\n}\n.contact p:last-child{\n    margin: unset;\n}\n.factory_factory{\n    padding: 10px;\n    margin-bottom: 10px;\n    border-radius: 4px;\n    border: 2px solid #dedede;\n}\n.factory_factory pre{\n    margin: unset;\n}\n.popover{\n    width: unset !important;\n}\n", ""]);
 
 // exports
 
@@ -21738,15 +21942,15 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&id=909a2404&scoped=true&lang=css&":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&id=909a2404&scoped=true&lang=css& ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./ProjectDetailComponent.vue?vue&type=style&index=0&id=909a2404&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&id=909a2404&scoped=true&lang=css&");
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./ProjectDetailComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&lang=css&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -22382,10 +22586,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProjectDetailComponent.vue?vue&type=template&id=909a2404&scoped=true&":
-/*!*************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProjectDetailComponent.vue?vue&type=template&id=909a2404&scoped=true& ***!
-  \*************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProjectDetailComponent.vue?vue&type=template&id=909a2404&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProjectDetailComponent.vue?vue&type=template&id=909a2404& ***!
+  \*************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -22730,185 +22934,328 @@ var render = function() {
                               },
                               [
                                 _c("div", { staticClass: "panel-body" }, [
-                                  po_factory.factory
-                                    ? _c("p", [
-                                        _c("span", [
-                                          _c("b", [_vm._v("Factory name：")]),
-                                          _vm._v(
-                                            _vm._s(po_factory.factory.name)
-                                          )
-                                        ]),
-                                        _vm._v(" "),
-                                        po_factory.factory.address
-                                          ? _c(
-                                              "span",
-                                              {
-                                                staticStyle: {
-                                                  "margin-left": "20px"
-                                                }
-                                              },
-                                              [
-                                                _c("b", [
-                                                  _vm._v("Factory address：")
-                                                ]),
-                                                _vm._v(
-                                                  _vm._s(
-                                                    po_factory.factory.address
+                                  _c("div", { staticClass: "col-sm-12" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "row" },
+                                      _vm._l(
+                                        po_factory.po_factory_factories,
+                                        function(po_factory_factory) {
+                                          return _c(
+                                            "div",
+                                            { staticClass: "col-sm-12" },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass: "factory_factory"
+                                                },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    {
+                                                      staticClass:
+                                                        "factory_factory_res"
+                                                    },
+                                                    [
+                                                      _c("p", [
+                                                        _c("span", [
+                                                          _c("b", [
+                                                            _vm._v(
+                                                              "Factory name："
+                                                            )
+                                                          ]),
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              po_factory_factory
+                                                                .factory.name
+                                                            )
+                                                          )
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        po_factory_factory
+                                                          .factory.address
+                                                          ? _c(
+                                                              "span",
+                                                              {
+                                                                staticStyle: {
+                                                                  "margin-left":
+                                                                    "20px"
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("b", [
+                                                                  _vm._v(
+                                                                    "Factory address："
+                                                                  )
+                                                                ]),
+                                                                _vm._v(
+                                                                  _vm._s(
+                                                                    po_factory_factory
+                                                                      .factory
+                                                                      .address
+                                                                  )
+                                                                )
+                                                              ]
+                                                            )
+                                                          : _vm._e(),
+                                                        _vm._v(" "),
+                                                        po_factory_factory
+                                                          .factory.tel
+                                                          ? _c(
+                                                              "span",
+                                                              {
+                                                                staticStyle: {
+                                                                  "margin-left":
+                                                                    "20px"
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("b", [
+                                                                  _vm._v(
+                                                                    "Factory tel："
+                                                                  )
+                                                                ]),
+                                                                _vm._v(
+                                                                  _vm._s(
+                                                                    po_factory_factory
+                                                                      .factory
+                                                                      .tel
+                                                                  )
+                                                                )
+                                                              ]
+                                                            )
+                                                          : _vm._e(),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "button",
+                                                          {
+                                                            staticClass:
+                                                              "btn btn-danger btn-xs pull-right",
+                                                            staticStyle: {
+                                                              "margin-right":
+                                                                "5px"
+                                                            },
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                return _vm.deletePoFactoryFactory(
+                                                                  po_factory_factory.id
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("i", {
+                                                              staticClass:
+                                                                "fa fa-minus",
+                                                              staticStyle: {
+                                                                "padding-right":
+                                                                  "2px"
+                                                              }
+                                                            }),
+                                                            _vm._v(
+                                                              " Delete\n                                                                        "
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _vm._m(1, true)
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      po_factory_factory.product
+                                                        ? _c("p", [
+                                                            _c("b", [
+                                                              _vm._v(
+                                                                "Product："
+                                                              )
+                                                            ]),
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                po_factory_factory.product
+                                                              )
+                                                            )
+                                                          ])
+                                                        : _vm._e(),
+                                                      _vm._v(" "),
+                                                      po_factory_factory.remarks
+                                                        ? _c(
+                                                            "pre",
+                                                            {
+                                                              staticStyle: {
+                                                                "background-color":
+                                                                  "unset",
+                                                                border: "unset",
+                                                                padding: "0"
+                                                              }
+                                                            },
+                                                            [
+                                                              _c("b", [
+                                                                _vm._v(
+                                                                  "Remarks："
+                                                                )
+                                                              ]),
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  po_factory_factory.remarks
+                                                                )
+                                                              )
+                                                            ]
+                                                          )
+                                                        : _vm._e()
+                                                    ]
                                                   )
-                                                )
-                                              ]
-                                            )
-                                          : _vm._e(),
-                                        _vm._v(" "),
-                                        po_factory.factory.tel
-                                          ? _c(
-                                              "span",
-                                              {
-                                                staticStyle: {
-                                                  "margin-left": "20px"
-                                                }
-                                              },
-                                              [
-                                                _c("b", [
-                                                  _vm._v("Factory tel：")
-                                                ]),
-                                                _vm._v(
-                                                  _vm._s(po_factory.factory.tel)
-                                                )
-                                              ]
-                                            )
-                                          : _vm._e()
-                                      ])
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  po_factory.product
-                                    ? _c("p", [
-                                        _c("b", [_vm._v("Product：")]),
-                                        _vm._v(_vm._s(po_factory.product))
-                                      ])
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  po_factory.remarks
-                                    ? _c(
-                                        "pre",
-                                        {
-                                          staticStyle: {
-                                            "background-color": "unset",
-                                            border: "unset",
-                                            padding: "0"
-                                          }
-                                        },
-                                        [
-                                          _c("b", [_vm._v("Remarks：")]),
-                                          _vm._v(_vm._s(po_factory.remarks))
-                                        ]
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-success btn-xs",
-                                      staticStyle: { "margin-right": "5px" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.showAddShipment(
-                                            po_factory.id,
-                                            po_factory.no
-                                          )
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("i", {
-                                        staticClass: "fa fa-plus",
-                                        staticStyle: { "padding-right": "2px" }
-                                      }),
-                                      _vm._v(
-                                        " Add Shipment #\n                                                "
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  !po_factory.batches.length
-                                    ? _c(
-                                        "button",
-                                        {
-                                          staticClass: "btn btn-danger btn-xs",
-                                          staticStyle: {
-                                            "margin-right": "5px"
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.deletePoFactory(
-                                                po_factory.id
+                                                ]
                                               )
-                                            }
+                                            ]
+                                          )
+                                        }
+                                      ),
+                                      0
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-sm-12" }, [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-success btn-xs",
+                                        staticStyle: { "margin-right": "5px" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.showAddPoFactoryFactory(
+                                              po_factory.id,
+                                              po_factory.no
+                                            )
                                           }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass: "fa fa-minus",
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-plus",
+                                          staticStyle: {
+                                            "padding-right": "2px"
+                                          }
+                                        }),
+                                        _vm._v(
+                                          " Add Factory\n                                                    "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-success btn-xs",
+                                        staticStyle: { "margin-right": "5px" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.showAddShipment(
+                                              po_factory.id,
+                                              po_factory.no
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-plus",
+                                          staticStyle: {
+                                            "padding-right": "2px"
+                                          }
+                                        }),
+                                        _vm._v(
+                                          " Add Shipment #\n                                                    "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    !po_factory.batches.length
+                                      ? _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-danger btn-xs",
                                             staticStyle: {
-                                              "padding-right": "2px"
+                                              "margin-right": "5px"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.deletePoFactory(
+                                                  po_factory.id
+                                                )
+                                              }
                                             }
-                                          }),
-                                          _vm._v(
-                                            " Delete PO#\n                                                    Factory\n                                                "
-                                          )
-                                        ]
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-default btn-xs",
-                                      staticStyle: { "margin-right": "5px" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.editPoFactory(
-                                            po_factory.id,
-                                            po_factory.no
-                                          )
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-minus",
+                                              staticStyle: {
+                                                "padding-right": "2px"
+                                              }
+                                            }),
+                                            _vm._v(
+                                              " Delete PO#\n                                                        Factory\n                                                    "
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-default btn-xs",
+                                        staticStyle: { "margin-right": "5px" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.editPoFactory(
+                                              po_factory.id,
+                                              po_factory.no
+                                            )
+                                          }
                                         }
-                                      }
-                                    },
-                                    [
-                                      _c("i", {
-                                        staticClass: "fa fa-pencil",
-                                        staticStyle: { "padding-right": "2px" }
-                                      }),
-                                      _vm._v(
-                                        " Edit PO#\n                                                    Factory\n                                                "
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-default btn-xs",
-                                      staticStyle: { "margin-right": "5px" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.deletedShipment(
-                                            po_factory.id,
-                                            po_factory.no
-                                          )
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-pencil",
+                                          staticStyle: {
+                                            "padding-right": "2px"
+                                          }
+                                        }),
+                                        _vm._v(
+                                          " Edit PO#\n                                                        Factory\n                                                    "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-default btn-xs",
+                                        staticStyle: { "margin-right": "5px" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.deletedShipment(
+                                              po_factory.id,
+                                              po_factory.no
+                                            )
+                                          }
                                         }
-                                      }
-                                    },
-                                    [
-                                      _c("i", {
-                                        staticClass: "fa fa-history",
-                                        staticStyle: { "padding-right": "2px" }
-                                      }),
-                                      _vm._v(
-                                        " Factory\n                                                    Shipment #\n                                                "
-                                      )
-                                    ]
-                                  )
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-history",
+                                          staticStyle: {
+                                            "padding-right": "2px"
+                                          }
+                                        }),
+                                        _vm._v(
+                                          " Factory\n                                                        Shipment #\n                                                    "
+                                        )
+                                      ]
+                                    )
+                                  ])
                                 ]),
                                 _vm._v(" "),
                                 _c(
@@ -22924,7 +23271,7 @@ var render = function() {
                                       "table",
                                       { staticClass: "table text-center" },
                                       [
-                                        _vm._m(1, true),
+                                        _vm._m(2, true),
                                         _vm._v(" "),
                                         _c(
                                           "tbody",
@@ -23025,7 +23372,7 @@ var render = function() {
                                                     ]),
                                                     _vm._v(" "),
                                                     _c("td", [
-                                                      _vm._m(2, true),
+                                                      _vm._m(3, true),
                                                       _vm._v(" "),
                                                       _c(
                                                         "div",
@@ -23039,41 +23386,110 @@ var render = function() {
                                                         },
                                                         [
                                                           _c("p", [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                batch.estimated_production_completion
-                                                                  ? batch.estimated_production_completion.substr(
-                                                                      0,
-                                                                      10
-                                                                    )
-                                                                  : "-"
-                                                              )
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "popover-t",
+                                                                attrs: {
+                                                                  tabindex: "0",
+                                                                  role:
+                                                                    "button",
+                                                                  "data-toggle":
+                                                                    "popover",
+                                                                  "data-trigger":
+                                                                    "focus",
+                                                                  title:
+                                                                    "EPC History",
+                                                                  "data-content": _vm.popover(
+                                                                    batch.epc_history
+                                                                  )
+                                                                }
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  _vm._s(
+                                                                    batch.estimated_production_completion
+                                                                      ? batch.estimated_production_completion.substr(
+                                                                          0,
+                                                                          10
+                                                                        )
+                                                                      : "-"
+                                                                  )
+                                                                )
+                                                              ]
                                                             )
                                                           ]),
                                                           _vm._v(" "),
                                                           _c("p", [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                batch.etd_port
-                                                                  ? batch.etd_port.substr(
-                                                                      0,
-                                                                      10
-                                                                    )
-                                                                  : "-"
-                                                              )
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "popover-t",
+                                                                attrs: {
+                                                                  tabindex: "0",
+                                                                  role:
+                                                                    "button",
+                                                                  "data-toggle":
+                                                                    "popover",
+                                                                  "data-trigger":
+                                                                    "focus",
+                                                                  title:
+                                                                    "ETD Port History",
+                                                                  "data-content": _vm.popover(
+                                                                    batch.etd_port_history
+                                                                  )
+                                                                }
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  _vm._s(
+                                                                    batch.etd_port
+                                                                      ? batch.etd_port.substr(
+                                                                          0,
+                                                                          10
+                                                                        )
+                                                                      : "-"
+                                                                  )
+                                                                )
+                                                              ]
                                                             )
                                                           ]),
                                                           _vm._v(" "),
                                                           _c("p", [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                batch.eta_port
-                                                                  ? batch.eta_port.substr(
-                                                                      0,
-                                                                      10
-                                                                    )
-                                                                  : "-"
-                                                              )
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "popover-t",
+                                                                attrs: {
+                                                                  tabindex: "0",
+                                                                  role:
+                                                                    "button",
+                                                                  "data-toggle":
+                                                                    "popover",
+                                                                  "data-trigger":
+                                                                    "focus",
+                                                                  title:
+                                                                    "ETA Port History",
+                                                                  "data-content": _vm.popover(
+                                                                    batch.eta_port_history
+                                                                  )
+                                                                }
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  _vm._s(
+                                                                    batch.eta_port
+                                                                      ? batch.eta_port.substr(
+                                                                          0,
+                                                                          10
+                                                                        )
+                                                                      : "-"
+                                                                  )
+                                                                )
+                                                              ]
                                                             )
                                                           ]),
                                                           _vm._v(" "),
@@ -23142,7 +23558,7 @@ var render = function() {
                                                     ]),
                                                     _vm._v(" "),
                                                     _c("td", [
-                                                      _vm._m(3, true),
+                                                      _vm._m(4, true),
                                                       _vm._v(" "),
                                                       _c(
                                                         "div",
@@ -23304,7 +23720,7 @@ var render = function() {
                                                               "grid-dropdown-actions dropdown"
                                                           },
                                                           [
-                                                            _vm._m(4, true),
+                                                            _vm._m(5, true),
                                                             _vm._v(" "),
                                                             _c(
                                                               "ul",
@@ -23459,7 +23875,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "poClient" } }, [
       _c("div", { staticClass: "modal-dialog" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(5),
+          _vm._m(6),
           _vm._v(" "),
           _c("div", { staticClass: "modal-body" }, [
             _c("div", { staticClass: "form-horizontal" }, [
@@ -23471,7 +23887,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(6),
+                      _vm._m(7),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23507,7 +23923,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(7),
+                      _vm._m(8),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23537,9 +23953,9 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(8),
+                  _vm._m(9),
                   _vm._v(" "),
-                  _vm._m(9)
+                  _vm._m(10)
                 ])
               ])
             ])
@@ -23581,7 +23997,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "editPoClient" } }, [
       _c("div", { staticClass: "modal-dialog" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(10),
+          _vm._m(11),
           _vm._v(" "),
           _c("div", { staticClass: "modal-body" }, [
             _c("div", { staticClass: "form-horizontal" }, [
@@ -23593,7 +24009,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(11),
+                      _vm._m(12),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23629,7 +24045,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(12),
+                      _vm._m(13),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23663,7 +24079,7 @@ var render = function() {
                     _c("label", [_vm._v("Client delivery time")]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(13),
+                      _vm._m(14),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23704,7 +24120,7 @@ var render = function() {
                     _c("label", [_vm._v("Po date")]),
                     _vm._v(" "),
                     _c("div", { staticClass: "input-group" }, [
-                      _vm._m(14),
+                      _vm._m(15),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -23778,7 +24194,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "addPoFactory" } }, [
       _c("div", { staticClass: "modal-dialog" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(15),
+          _vm._m(16),
           _vm._v(" "),
           _c("div", { staticClass: "form-horizontal" }, [
             _c("div", { staticClass: "modal-body" }, [
@@ -23861,118 +24277,6 @@ var render = function() {
                       }
                     }
                   })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Factory")]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.po_factory_form.factory_id,
-                          expression: "po_factory_form.factory_id"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.po_factory_form,
-                            "factory_id",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        }
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("Please choose")
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.factories, function(factory) {
-                        return _c(
-                          "option",
-                          { domProps: { value: factory.id } },
-                          [_vm._v(_vm._s(factory.text))]
-                        )
-                      })
-                    ],
-                    2
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Product")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.po_factory_form.product,
-                        expression: "po_factory_form.product"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { placeholder: "Product" },
-                    domProps: { value: _vm.po_factory_form.product },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.po_factory_form,
-                          "product",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Remarks")]),
-                  _vm._v(" "),
-                  _c("textarea", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.po_factory_form.remarks,
-                        expression: "po_factory_form.remarks"
-                      }
-                    ],
-                    staticClass: "form-control remark",
-                    attrs: { rows: "5", placeholder: "Remarks" },
-                    domProps: { value: _vm.po_factory_form.remarks },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.po_factory_form,
-                          "remarks",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
                 ])
               ])
             ]),
@@ -24017,7 +24321,7 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(16),
+            _vm._m(17),
             _vm._v(" "),
             _c("div", { staticClass: "form-horizontal" }, [
               _c("div", { staticClass: "modal-body" }, [
@@ -24057,6 +24361,331 @@ var render = function() {
                   0
                 ),
                 _vm._v(" "),
+                _c("div", { staticClass: "col-lg-12" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "asterisk" }, [
+                      _vm._v("Type of PO")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.po_factory_edit_form.type,
+                            expression: "po_factory_edit_form.type"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.po_factory_edit_form,
+                              "type",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Please choose")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.type_of_po, function(item, key) {
+                          return _c("option", { domProps: { value: key } }, [
+                            _vm._v(_vm._s(item))
+                          ])
+                        })
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _vm.po_factory_history.id
+                      ? _c(
+                          "span",
+                          {
+                            staticStyle: {
+                              color: "#9e9e9e",
+                              padding: "0 10px",
+                              display: "block",
+                              "margin-top": "10px"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                        " +
+                                _vm._s(_vm.po_factory_history.number) +
+                                ". " +
+                                _vm._s(
+                                  _vm.type_of_po[_vm.po_factory_history.type]
+                                ) +
+                                "\n                                    "
+                            )
+                          ]
+                        )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "asterisk" }, [
+                      _vm._v("PO Factory")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.po_factory_edit_form.no,
+                          expression: "po_factory_edit_form.no"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "PO Factory" },
+                      domProps: { value: _vm.po_factory_edit_form.no },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.po_factory_edit_form,
+                            "no",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "modal-footer", staticStyle: { clear: "both" } },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-default",
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [_vm._v("Close")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: {
+                        type: "button",
+                        disabled: _vm.loading.po_factory
+                      },
+                      on: { click: _vm.savePoFactory }
+                    },
+                    [
+                      _vm._v("Submit "),
+                      _vm.loading.po_factory
+                        ? _c("i", { staticClass: "fa fa-spinner fa-spin" })
+                        : _vm._e()
+                    ]
+                  )
+                ]
+              )
+            ])
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "modal fade in", attrs: { id: "addPoFactoryFactory" } },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(18),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-horizontal" }, [
+              _c("div", { staticClass: "modal-body" }, [
+                _c("div", { staticClass: "col-lg-12" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "asterisk" }, [
+                      _vm._v("Factory")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.po_factory_factory_form.factory_id,
+                            expression: "po_factory_factory_form.factory_id"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.po_factory_factory_form,
+                              "factory_id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Please choose")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.factories, function(factory) {
+                          return _c(
+                            "option",
+                            { domProps: { value: factory.id } },
+                            [_vm._v(_vm._s(factory.text))]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", [_vm._v("Product")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.po_factory_factory_form.product,
+                          expression: "po_factory_factory_form.product"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Product" },
+                      domProps: { value: _vm.po_factory_factory_form.product },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.po_factory_factory_form,
+                            "product",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", [_vm._v("Remarks")]),
+                    _vm._v(" "),
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.po_factory_factory_form.remarks,
+                          expression: "po_factory_factory_form.remarks"
+                        }
+                      ],
+                      staticClass: "form-control remark",
+                      attrs: { rows: "5", placeholder: "Remarks" },
+                      domProps: { value: _vm.po_factory_factory_form.remarks },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.po_factory_factory_form,
+                            "remarks",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "modal-footer", staticStyle: { clear: "both" } },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-default",
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [_vm._v("Close")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: {
+                        type: "button",
+                        disabled: _vm.loading.po_factory_factory
+                      },
+                      on: { click: _vm.addPoFactoryFactory }
+                    },
+                    [
+                      _vm._v("Submit "),
+                      _vm.loading.po_factory_factory
+                        ? _c("i", { staticClass: "fa fa-spinner fa-spin" })
+                        : _vm._e()
+                    ]
+                  )
+                ]
+              )
+            ])
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "modal fade in", attrs: { id: "editPoFactoryFactory" } },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(19),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-horizontal" }, [
+              _c("div", { staticClass: "modal-body" }, [
                 _c("div", { staticClass: "col-lg-12" }, [
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", { staticClass: "asterisk" }, [
@@ -24372,7 +25001,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "addShipment" } }, [
       _c("div", { staticClass: "modal-dialog modal-lg" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(17),
+          _vm._m(20),
           _vm._v(" "),
           _c("div", { staticClass: "form-horizontal" }, [
             _c("div", { staticClass: "modal-body" }, [
@@ -24529,11 +25158,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group  " }, [
-                            _c(
-                              "label",
-                              { staticClass: "col-sm-4 control-label" },
-                              [_vm._v("Ocean forwarder")]
-                            ),
+                            _vm._m(21),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c(
@@ -24601,7 +25226,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(18),
+                                _vm._m(22),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -24644,7 +25269,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(19),
+                                _vm._m(23),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -24744,7 +25369,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group  " }, [
-                            _vm._m(20),
+                            _vm._m(24),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c(
@@ -24841,7 +25466,59 @@ var render = function() {
                                 ]
                               )
                             ])
-                          ])
+                          ]),
+                          _vm._v(" "),
+                          _vm.shipment_form.shipping_method == "Customize"
+                            ? _c("div", { staticClass: "form-group" }, [
+                                _c(
+                                  "label",
+                                  { staticClass: "col-sm-4 control-label" },
+                                  [_vm._v("Customize")]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-sm-7" }, [
+                                  _c("div", { staticClass: "input-group" }, [
+                                    _vm._m(25),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value:
+                                            _vm.shipment_form
+                                              .customize_shipping_method,
+                                          expression:
+                                            "shipment_form.customize_shipping_method"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "text",
+                                        placeholder: "Input Remarks"
+                                      },
+                                      domProps: {
+                                        value:
+                                          _vm.shipment_form
+                                            .customize_shipping_method
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.shipment_form,
+                                            "customize_shipping_method",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ])
+                              ])
+                            : _vm._e()
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-6" }, [
@@ -24854,7 +25531,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(21),
+                                _vm._m(26),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -24897,7 +25574,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(22),
+                                _vm._m(27),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -24932,11 +25609,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group  " }, [
-                            _c(
-                              "label",
-                              { staticClass: "col-sm-4 control-label" },
-                              [_vm._v("Inland forwarder")]
-                            ),
+                            _vm._m(28),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c(
@@ -24968,6 +25641,68 @@ var render = function() {
                                       _vm.$set(
                                         _vm.shipment_form,
                                         "inland_forwarder",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("option", { attrs: { value: "" } }, [
+                                    _vm._v("Please choose")
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.forwarder_contacts, function(
+                                    contact
+                                  ) {
+                                    return _c(
+                                      "option",
+                                      { domProps: { value: contact.id } },
+                                      [_vm._v(_vm._s(contact.text))]
+                                    )
+                                  })
+                                ],
+                                2
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group  " }, [
+                            _vm._m(29),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-sm-7" }, [
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value:
+                                        _vm.shipment_form
+                                          .china_inland_forwarder,
+                                      expression:
+                                        "shipment_form.china_inland_forwarder"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.shipment_form,
+                                        "china_inland_forwarder",
                                         $event.target.multiple
                                           ? $$selectedVal
                                           : $$selectedVal[0]
@@ -25171,7 +25906,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(23),
+                                _vm._m(30),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -25205,59 +25940,7 @@ var render = function() {
                                 })
                               ])
                             ])
-                          ]),
-                          _vm._v(" "),
-                          _vm.shipment_form.shipping_method == "Customize"
-                            ? _c("div", { staticClass: "form-group" }, [
-                                _c(
-                                  "label",
-                                  { staticClass: "col-sm-4 control-label" },
-                                  [_vm._v("Customize")]
-                                ),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "col-sm-7" }, [
-                                  _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(24),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value:
-                                            _vm.shipment_form
-                                              .customize_shipping_method,
-                                          expression:
-                                            "shipment_form.customize_shipping_method"
-                                        }
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: {
-                                        type: "text",
-                                        placeholder: "Input Remarks"
-                                      },
-                                      domProps: {
-                                        value:
-                                          _vm.shipment_form
-                                            .customize_shipping_method
-                                      },
-                                      on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.$set(
-                                            _vm.shipment_form,
-                                            "customize_shipping_method",
-                                            $event.target.value
-                                          )
-                                        }
-                                      }
-                                    })
-                                  ])
-                                ])
-                              ])
-                            : _vm._e()
+                          ])
                         ])
                       ])
                     ]),
@@ -25277,11 +25960,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(25),
+                                _vm._m(31),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(26),
+                                    _vm._m(32),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -25337,7 +26020,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(27),
+                                    _vm._m(33),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -25396,7 +26079,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(28),
+                                      _vm._m(34),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -25455,11 +26138,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(29),
+                                _vm._m(35),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(30),
+                                    _vm._m(36),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -25515,7 +26198,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(31),
+                                    _vm._m(37),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -25574,7 +26257,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(32),
+                                      _vm._m(38),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -25659,7 +26342,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "editShipment" } }, [
       _c("div", { staticClass: "modal-dialog modal-lg" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(33),
+          _vm._m(39),
           _vm._v(" "),
           _c("div", { staticClass: "form-horizontal" }, [
             _c("div", { staticClass: "modal-body" }, [
@@ -25816,11 +26499,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group  " }, [
-                            _c(
-                              "label",
-                              { staticClass: "col-sm-4 control-label" },
-                              [_vm._v("Ocean forwarder")]
-                            ),
+                            _vm._m(40),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c(
@@ -25889,7 +26568,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(34),
+                                _vm._m(41),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -25934,7 +26613,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(35),
+                                _vm._m(42),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -26046,7 +26725,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group  " }, [
-                            _vm._m(36),
+                            _vm._m(43),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c(
@@ -26144,7 +26823,59 @@ var render = function() {
                                 ]
                               )
                             ])
-                          ])
+                          ]),
+                          _vm._v(" "),
+                          _vm.shipment_edit_form.shipping_method == "Customize"
+                            ? _c("div", { staticClass: "form-group" }, [
+                                _c(
+                                  "label",
+                                  { staticClass: "col-sm-4 control-label" },
+                                  [_vm._v("Customize")]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-sm-7" }, [
+                                  _c("div", { staticClass: "input-group" }, [
+                                    _vm._m(44),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value:
+                                            _vm.shipment_edit_form
+                                              .customize_shipping_method,
+                                          expression:
+                                            "shipment_edit_form.customize_shipping_method"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "text",
+                                        placeholder: "Input Remarks"
+                                      },
+                                      domProps: {
+                                        value:
+                                          _vm.shipment_edit_form
+                                            .customize_shipping_method
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.shipment_edit_form,
+                                            "customize_shipping_method",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ])
+                              ])
+                            : _vm._e()
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-6" }, [
@@ -26157,7 +26888,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(37),
+                                _vm._m(45),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -26202,7 +26933,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(38),
+                                _vm._m(46),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -26239,11 +26970,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group  " }, [
-                            _c(
-                              "label",
-                              { staticClass: "col-sm-4 control-label" },
-                              [_vm._v("Inland forwarder")]
-                            ),
+                            _vm._m(47),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c(
@@ -26276,6 +27003,68 @@ var render = function() {
                                       _vm.$set(
                                         _vm.shipment_edit_form,
                                         "inland_forwarder",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("option", { attrs: { value: "" } }, [
+                                    _vm._v("Please choose")
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.forwarder_contacts, function(
+                                    contact
+                                  ) {
+                                    return _c(
+                                      "option",
+                                      { domProps: { value: contact.id } },
+                                      [_vm._v(_vm._s(contact.text))]
+                                    )
+                                  })
+                                ],
+                                2
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group  " }, [
+                            _vm._m(48),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-sm-7" }, [
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value:
+                                        _vm.shipment_edit_form
+                                          .china_inland_forwarder,
+                                      expression:
+                                        "shipment_edit_form.china_inland_forwarder"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.shipment_edit_form,
+                                        "china_inland_forwarder",
                                         $event.target.multiple
                                           ? $$selectedVal
                                           : $$selectedVal[0]
@@ -26484,7 +27273,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(39),
+                                _vm._m(49),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -26518,59 +27307,7 @@ var render = function() {
                                 })
                               ])
                             ])
-                          ]),
-                          _vm._v(" "),
-                          _vm.shipment_edit_form.shipping_method == "Customize"
-                            ? _c("div", { staticClass: "form-group" }, [
-                                _c(
-                                  "label",
-                                  { staticClass: "col-sm-4 control-label" },
-                                  [_vm._v("Customize")]
-                                ),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "col-sm-7" }, [
-                                  _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(40),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value:
-                                            _vm.shipment_edit_form
-                                              .customize_shipping_method,
-                                          expression:
-                                            "shipment_edit_form.customize_shipping_method"
-                                        }
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: {
-                                        type: "text",
-                                        placeholder: "Input Remarks"
-                                      },
-                                      domProps: {
-                                        value:
-                                          _vm.shipment_edit_form
-                                            .customize_shipping_method
-                                      },
-                                      on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.$set(
-                                            _vm.shipment_edit_form,
-                                            "customize_shipping_method",
-                                            $event.target.value
-                                          )
-                                        }
-                                      }
-                                    })
-                                  ])
-                                ])
-                              ])
-                            : _vm._e()
+                          ])
                         ])
                       ])
                     ]),
@@ -26590,11 +27327,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(41),
+                                _vm._m(50),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(42),
+                                    _vm._m(51),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26614,11 +27351,7 @@ var render = function() {
                                         type: "text",
                                         name: "estimated_production_completion",
                                         placeholder:
-                                          "Estimated Production Completion",
-                                        readonly: _vm.shipment_edit_form
-                                          .etd_port
-                                          ? true
-                                          : false
+                                          "Estimated Production Completion"
                                       },
                                       domProps: {
                                         value:
@@ -26651,7 +27384,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(43),
+                                    _vm._m(52),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26669,13 +27402,7 @@ var render = function() {
                                       attrs: {
                                         type: "text",
                                         name: "etd_port",
-                                        placeholder: "ETD Port",
-                                        readonly:
-                                          !!!_vm.shipment_edit_form
-                                            .estimated_production_completion ||
-                                          _vm.shipment_edit_form.eta_port
-                                            ? true
-                                            : false
+                                        placeholder: "ETD Port"
                                       },
                                       domProps: {
                                         value: _vm.shipment_edit_form.etd_port
@@ -26712,7 +27439,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(44),
+                                      _vm._m(53),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -26730,11 +27457,7 @@ var render = function() {
                                         attrs: {
                                           type: "text",
                                           name: "eta_port",
-                                          placeholder: "ETA Port",
-                                          readonly: !!!_vm.shipment_edit_form
-                                            .etd_port
-                                            ? true
-                                            : false
+                                          placeholder: "ETA Port"
                                         },
                                         domProps: {
                                           value: _vm.shipment_edit_form.eta_port
@@ -26773,11 +27496,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(45),
+                                _vm._m(54),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(46),
+                                    _vm._m(55),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26797,11 +27520,7 @@ var render = function() {
                                         type: "text",
                                         name: "actual_production_completion",
                                         placeholder:
-                                          "Actual Production Completion",
-                                        readonly: _vm.shipment_edit_form
-                                          .atd_port
-                                          ? true
-                                          : false
+                                          "Actual Production Completion"
                                       },
                                       domProps: {
                                         value:
@@ -26834,7 +27553,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(47),
+                                    _vm._m(56),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26852,13 +27571,7 @@ var render = function() {
                                       attrs: {
                                         type: "text",
                                         name: "atd_port",
-                                        placeholder: "ATD Port",
-                                        readonly:
-                                          !!!_vm.shipment_edit_form
-                                            .actual_production_completion ||
-                                          _vm.shipment_edit_form.ata_port
-                                            ? true
-                                            : false
+                                        placeholder: "ATD Port"
                                       },
                                       domProps: {
                                         value: _vm.shipment_edit_form.atd_port
@@ -26895,7 +27608,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(48),
+                                      _vm._m(57),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -26913,11 +27626,7 @@ var render = function() {
                                         attrs: {
                                           type: "text",
                                           name: "ata_port",
-                                          placeholder: "ATA Port",
-                                          readonly: !!!_vm.shipment_edit_form
-                                            .atd_port
-                                            ? true
-                                            : false
+                                          placeholder: "ATA Port"
                                         },
                                         domProps: {
                                           value: _vm.shipment_edit_form.ata_port
@@ -26985,7 +27694,7 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(49),
+            _vm._m(58),
             _vm._v(" "),
             _c("div", [
               _c("div", { staticClass: "modal-body" }, [
@@ -27000,7 +27709,7 @@ var render = function() {
                   },
                   [
                     _c("table", { staticClass: "table" }, [
-                      _vm._m(50),
+                      _vm._m(59),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -27235,6 +27944,27 @@ var staticRenderFns = [
         ]
       )
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-default btn-xs pull-right",
+        staticStyle: { "margin-right": "5px" }
+      },
+      [
+        _c("i", {
+          staticClass: "fa fa-pencil",
+          staticStyle: { "padding-right": "2px" }
+        }),
+        _vm._v(
+          " Edit\n                                                                        "
+        )
+      ]
+    )
   },
   function() {
     var _vm = this
@@ -27564,9 +28294,75 @@ var staticRenderFns = [
       ),
       _vm._v(" "),
       _c("h4", { staticClass: "modal-title" }, [
+        _vm._v("Add Factory - "),
+        _c("span", { staticClass: "po_factory_no" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      ),
+      _vm._v(" "),
+      _c("h4", { staticClass: "modal-title" }, [
+        _vm._v("Edit PO# Factory Factory - "),
+        _c("span", { staticClass: "po_factory_no" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      ),
+      _vm._v(" "),
+      _c("h4", { staticClass: "modal-title" }, [
         _vm._v("PO# Factory："),
         _c("span", { staticClass: "po_factory_no" })
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "col-sm-4 control-label" }, [
+      _c(
+        "span",
+        {
+          attrs: {
+            "data-toggle": "tooltip",
+            "data-placement": "top",
+            "data-original-title": "Ocean forwarder"
+          }
+        },
+        [_vm._v("OF")]
+      )
     ])
   },
   function() {
@@ -27625,6 +28421,42 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "input-group-addon" }, [
       _c("i", { staticClass: "fa fa-pencil fa-fw" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "col-sm-4 control-label" }, [
+      _c(
+        "span",
+        {
+          attrs: {
+            "data-toggle": "tooltip",
+            "data-placement": "top",
+            "data-original-title": "Abroad inland forwarder"
+          }
+        },
+        [_vm._v("AIF")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "col-sm-4 control-label" }, [
+      _c(
+        "span",
+        {
+          attrs: {
+            "data-toggle": "tooltip",
+            "data-placement": "top",
+            "data-original-title": "China inland forwarder"
+          }
+        },
+        [_vm._v("CIF")]
+      )
     ])
   },
   function() {
@@ -27747,6 +28579,24 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "col-sm-4 control-label" }, [
+      _c(
+        "span",
+        {
+          attrs: {
+            "data-toggle": "tooltip",
+            "data-placement": "top",
+            "data-original-title": "Ocean forwarder"
+          }
+        },
+        [_vm._v("OF")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("span", { staticClass: "input-group-addon" }, [
       _c("i", { staticClass: "fa fa-pencil fa-fw" })
     ])
@@ -27799,6 +28649,42 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "input-group-addon" }, [
       _c("i", { staticClass: "fa fa-pencil fa-fw" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "col-sm-4 control-label" }, [
+      _c(
+        "span",
+        {
+          attrs: {
+            "data-toggle": "tooltip",
+            "data-placement": "top",
+            "data-original-title": "Abroad inland forwarder"
+          }
+        },
+        [_vm._v("AIF")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "col-sm-4 control-label" }, [
+      _c(
+        "span",
+        {
+          attrs: {
+            "data-toggle": "tooltip",
+            "data-placement": "top",
+            "data-original-title": "China inland forwarder"
+          }
+        },
+        [_vm._v("CIF")]
+      )
     ])
   },
   function() {
@@ -42302,9 +43188,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ProjectDetailComponent_vue_vue_type_template_id_909a2404_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProjectDetailComponent.vue?vue&type=template&id=909a2404&scoped=true& */ "./resources/js/components/ProjectDetailComponent.vue?vue&type=template&id=909a2404&scoped=true&");
+/* harmony import */ var _ProjectDetailComponent_vue_vue_type_template_id_909a2404___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProjectDetailComponent.vue?vue&type=template&id=909a2404& */ "./resources/js/components/ProjectDetailComponent.vue?vue&type=template&id=909a2404&");
 /* harmony import */ var _ProjectDetailComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProjectDetailComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ProjectDetailComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _ProjectDetailComponent_vue_vue_type_style_index_0_id_909a2404_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ProjectDetailComponent.vue?vue&type=style&index=0&id=909a2404&scoped=true&lang=css& */ "./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&id=909a2404&scoped=true&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var _ProjectDetailComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ProjectDetailComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -42316,11 +43202,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _ProjectDetailComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ProjectDetailComponent_vue_vue_type_template_id_909a2404_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ProjectDetailComponent_vue_vue_type_template_id_909a2404_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _ProjectDetailComponent_vue_vue_type_template_id_909a2404___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ProjectDetailComponent_vue_vue_type_template_id_909a2404___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  "909a2404",
+  null,
   null
   
 )
@@ -42346,35 +43232,35 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&id=909a2404&scoped=true&lang=css&":
-/*!*********************************************************************************************************************!*\
-  !*** ./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&id=909a2404&scoped=true&lang=css& ***!
-  \*********************************************************************************************************************/
+/***/ "./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&lang=css&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_style_index_0_id_909a2404_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./ProjectDetailComponent.vue?vue&type=style&index=0&id=909a2404&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&id=909a2404&scoped=true&lang=css&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_style_index_0_id_909a2404_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_style_index_0_id_909a2404_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_style_index_0_id_909a2404_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_style_index_0_id_909a2404_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_style_index_0_id_909a2404_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./ProjectDetailComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProjectDetailComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ "./resources/js/components/ProjectDetailComponent.vue?vue&type=template&id=909a2404&scoped=true&":
-/*!*******************************************************************************************************!*\
-  !*** ./resources/js/components/ProjectDetailComponent.vue?vue&type=template&id=909a2404&scoped=true& ***!
-  \*******************************************************************************************************/
+/***/ "./resources/js/components/ProjectDetailComponent.vue?vue&type=template&id=909a2404&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/ProjectDetailComponent.vue?vue&type=template&id=909a2404& ***!
+  \*******************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_template_id_909a2404_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ProjectDetailComponent.vue?vue&type=template&id=909a2404&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProjectDetailComponent.vue?vue&type=template&id=909a2404&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_template_id_909a2404_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_template_id_909a2404___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ProjectDetailComponent.vue?vue&type=template&id=909a2404& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProjectDetailComponent.vue?vue&type=template&id=909a2404&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_template_id_909a2404___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_template_id_909a2404_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectDetailComponent_vue_vue_type_template_id_909a2404___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

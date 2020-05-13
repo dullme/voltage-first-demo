@@ -9,6 +9,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\MessageBag;
 
 class ForwarderContactController extends AdminController
 {
@@ -38,7 +39,7 @@ class ForwarderContactController extends AdminController
         });
 
 //        $grid->column('id', __('Id'));
-        $grid->forwarder()->name(__('Name'));
+        $grid->forwarder()->name(__('Forwarder name'));
         $grid->column('name', __('Name'));
         $grid->column('position', __('Position'));
         $grid->column('tel', __('Tel'));
@@ -86,6 +87,22 @@ class ForwarderContactController extends AdminController
         $form->text('position', __('Position'));
         $form->text('tel', __('Tel'));
         $form->email('email', __('Email'));
+
+        $form->saving(function (Form $form){
+
+            $contact = ForwarderContact::where('forwarder_id', $form->forwarder_id)->where('name', $form->name);
+            $contact = $form->model()->id ? $contact->where('id', '!=', $form->model()->id)->count() : $contact->count();
+
+            if($contact > 0){
+                $error = new MessageBag([
+                    'title'   => 'ERROR',
+                    'message' => 'The Name has already been taken.',
+                ]);
+
+                return back()->with(compact('error'));
+            }
+        });
+
 
         return $form;
     }

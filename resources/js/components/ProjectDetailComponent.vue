@@ -96,37 +96,60 @@
                                              :id="'po_factory_'+po_factory.id"
                                              v-for="(po_factory,index) in po_client.po_factories">
                                             <div class="panel-body">
-                                                <p v-if="po_factory.factory">
-                                                    <span><b>Factory name：</b>{{ po_factory.factory.name }}</span>
-                                                    <span style="margin-left: 20px" v-if="po_factory.factory.address"><b>Factory address：</b>{{ po_factory.factory.address }}</span>
-                                                    <span style="margin-left: 20px" v-if="po_factory.factory.tel"><b>Factory tel：</b>{{ po_factory.factory.tel }}</span>
-                                                </p>
-                                                <p v-if="po_factory.product"><b>Product：</b>{{ po_factory.product }}</p>
-                                                <pre style="background-color: unset;border: unset;padding: 0" v-if="po_factory.remarks"><b>Remarks：</b>{{ po_factory.remarks }}</pre>
+                                                <div class="col-sm-12">
+                                                    <div class="row">
+                                                        <div class="col-sm-12" v-for="po_factory_factory in po_factory.po_factory_factories">
+                                                            <div class="factory_factory">
+                                                                <div class="factory_factory_res">
+                                                                    <p>
+                                                                        <span><b>Factory name：</b>{{ po_factory_factory.factory.name }}</span>
+                                                                        <span style="margin-left: 20px" v-if="po_factory_factory.factory.address"><b>Factory address：</b>{{ po_factory_factory.factory.address }}</span>
+                                                                        <span style="margin-left: 20px" v-if="po_factory_factory.factory.tel"><b>Factory tel：</b>{{ po_factory_factory.factory.tel }}</span>
+                                                                        <button @click="deletePoFactoryFactory(po_factory_factory.id)" class="btn btn-danger btn-xs pull-right" style="margin-right: 5px;">
+                                                                            <i class="fa fa-minus" style="padding-right: 2px;"></i> Delete
+                                                                        </button>
+                                                                        <button class="btn btn-default btn-xs pull-right" style="margin-right: 5px;">
+                                                                            <i class="fa fa-pencil" style="padding-right: 2px;"></i> Edit
+                                                                        </button>
+                                                                    </p>
+                                                                    <p v-if="po_factory_factory.product"><b>Product：</b>{{ po_factory_factory.product }}</p>
+                                                                    <pre style="background-color: unset;border: unset;padding: 0" v-if="po_factory_factory.remarks"><b>Remarks：</b>{{ po_factory_factory.remarks }}</pre>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                                <button class="btn btn-success btn-xs" style="margin-right: 5px"
-                                                        v-on:click="showAddShipment(po_factory.id, po_factory.no)">
-                                                    <i class="fa fa-plus" style="padding-right: 2px"></i> Add Shipment #
-                                                </button>
+                                                <div class="col-sm-12">
+                                                    <button class="btn btn-success btn-xs" style="margin-right: 5px"
+                                                            v-on:click="showAddPoFactoryFactory(po_factory.id, po_factory.no)">
+                                                        <i class="fa fa-plus" style="padding-right: 2px"></i> Add Factory
+                                                    </button>
 
-                                                <button class="btn btn-danger btn-xs" style="margin-right: 5px"
-                                                        v-if="!po_factory.batches.length"
-                                                        v-on:click="deletePoFactory(po_factory.id)">
-                                                    <i class="fa fa-minus" style="padding-right: 2px"></i> Delete PO#
-                                                    Factory
-                                                </button>
+                                                    <button class="btn btn-success btn-xs" style="margin-right: 5px"
+                                                            v-on:click="showAddShipment(po_factory.id, po_factory.no)">
+                                                        <i class="fa fa-plus" style="padding-right: 2px"></i> Add Shipment #
+                                                    </button>
 
-                                                <button class="btn btn-default btn-xs" style="margin-right: 5px"
-                                                        v-on:click="editPoFactory(po_factory.id, po_factory.no)">
-                                                    <i class="fa fa-pencil" style="padding-right: 2px"></i> Edit PO#
-                                                    Factory
-                                                </button>
+                                                    <button class="btn btn-danger btn-xs" style="margin-right: 5px"
+                                                            v-if="!po_factory.batches.length"
+                                                            v-on:click="deletePoFactory(po_factory.id)">
+                                                        <i class="fa fa-minus" style="padding-right: 2px"></i> Delete PO#
+                                                        Factory
+                                                    </button>
 
-                                                <button class="btn btn-default btn-xs" style="margin-right: 5px"
-                                                        v-on:click="deletedShipment(po_factory.id, po_factory.no)">
-                                                    <i class="fa fa-history" style="padding-right: 2px"></i> Factory
-                                                    Shipment #
-                                                </button>
+                                                    <button class="btn btn-default btn-xs" style="margin-right: 5px"
+                                                            v-on:click="editPoFactory(po_factory.id, po_factory.no)">
+                                                        <i class="fa fa-pencil" style="padding-right: 2px"></i> Edit PO#
+                                                        Factory
+                                                    </button>
+
+                                                    <button class="btn btn-default btn-xs" style="margin-right: 5px"
+                                                            v-on:click="deletedShipment(po_factory.id, po_factory.no)">
+                                                        <i class="fa fa-history" style="padding-right: 2px"></i> Factory
+                                                        Shipment #
+                                                    </button>
+                                                </div>
                                             </div>
 
                                             <div style="overflow: auto; width: 100%;">
@@ -177,15 +200,16 @@
                                                                 <p><i>ETA Job Site：</i></p>
                                                             </div>
                                                             <div style="width:50%;text-align: left;float: right">
-                                                                <p>{{ batch.estimated_production_completion ?
-                                                                    batch.estimated_production_completion.substr(0,10) :
-                                                                    '-' }}</p>
-                                                                <p>{{ batch.etd_port ? batch.etd_port.substr(0,10) : '-'
-                                                                    }}</p>
-                                                                <p>{{ batch.eta_port ? batch.eta_port.substr(0,10) : '-'
-                                                                    }}</p>
-                                                                <p>{{ batch.eta_job_site ? batch.eta_job_site.substr(0,10) : '-'
-                                                                    }}</p>
+                                                                <p>
+                                                                    <span class="popover-t" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="EPC History" :data-content="popover(batch.epc_history)">{{ batch.estimated_production_completion ? batch.estimated_production_completion.substr(0,10) : '-' }}</span>
+                                                                </p>
+                                                                <p>
+                                                                    <span class="popover-t" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="ETD Port History" :data-content="popover(batch.etd_port_history)">{{ batch.etd_port ? batch.etd_port.substr(0,10) : '-' }}</span>
+                                                                </p>
+                                                                <p>
+                                                                    <span class="popover-t" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="ETA Port History" :data-content="popover(batch.eta_port_history)">{{ batch.eta_port ? batch.eta_port.substr(0,10) : '-' }}</span>
+                                                                </p>
+                                                                <p>{{ batch.eta_job_site ? batch.eta_job_site.substr(0,10) : '-' }}</p>
                                                                 <p>
                                                                     <span class="label label-default"
                                                                           v-if="batch.estimated_production_completion && batch.eta_job_site">
@@ -466,22 +490,6 @@
                                     <input placeholder="PO Factory" class="form-control" v-model="po_factory_form.no">
                                 </div>
 
-                                <div class="form-group">
-                                    <label>Factory</label>
-                                    <select class="form-control" v-model="po_factory_form.factory_id">
-                                        <option value="">Please choose</option>
-                                        <option v-for="factory in factories" :value="factory.id">{{ factory.text }}</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Product</label>
-                                    <input placeholder="Product" class="form-control"  v-model="po_factory_form.product">
-                                </div>
-                                <div class="form-group">
-                                    <label>Remarks</label>
-                                    <textarea rows="5" placeholder="Remarks" class="form-control remark"
-                                              v-model="po_factory_form.remarks"></textarea>
-                                </div>
                             </div>
                         </div>
                         <div class="modal-footer" style="clear: both">
@@ -513,6 +521,101 @@
                             <div class="col-lg-12" id="history-list">
                                 <a v-for="(item,key) in po_factory_edit_form.po_factory_histories" :class="po_factory_history_active === key? 'active' : ''" @click="poFactoryHistory(key)" style="margin: 0 5px;border-radius: 4px;cursor: pointer;display:inline-block;padding: 2px 18px;margin-bottom:10px;background-color: #f4f4f4;color: #636363">{{ item.number }}</a>
                             </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="asterisk">Type of PO</label>
+                                    <select class="form-control" v-model="po_factory_edit_form.type">
+                                        <option value="">Please choose</option>
+                                        <option :value="key" v-for="(item,key) in type_of_po">{{ item }}</option>
+                                    </select>
+                                    <span style="color: #9e9e9e;padding:0 10px;display: block;margin-top: 10px" v-if="po_factory_history.id">
+                                        {{ po_factory_history.number }}. {{ type_of_po[po_factory_history.type] }}
+                                    </span>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="asterisk">PO Factory</label>
+                                    <input placeholder="PO Factory" class="form-control" v-model="po_factory_edit_form.no">
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="clear: both">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button v-on:click="savePoFactory" type="button" class="btn btn-primary"
+                                    :disabled="loading.po_factory">Submit <i v-if="loading.po_factory"
+                                                                             class="fa fa-spinner fa-spin"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+
+
+        <!-- Add PO# Factory Factory -->
+        <div class="modal fade in" id="addPoFactoryFactory">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Add Factory - <span class="po_factory_no"></span>
+                        </h4>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="modal-body">
+                            <div class="col-lg-12">
+
+                                <div class="form-group">
+                                    <label class="asterisk">Factory</label>
+                                    <select class="form-control" v-model="po_factory_factory_form.factory_id">
+                                        <option value="">Please choose</option>
+                                        <option v-for="factory in factories" :value="factory.id">{{ factory.text }}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Product</label>
+                                    <input placeholder="Product" class="form-control"  v-model="po_factory_factory_form.product">
+                                </div>
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    <textarea rows="5" placeholder="Remarks" class="form-control remark"
+                                              v-model="po_factory_factory_form.remarks"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="clear: both">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button v-on:click="addPoFactoryFactory" type="button" class="btn btn-primary"
+                                    :disabled="loading.po_factory_factory">Submit <i v-if="loading.po_factory_factory"
+                                                                             class="fa fa-spinner fa-spin"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+        <!-- Edit PO# Factory Factory -->
+        <div class="modal fade in" id="editPoFactoryFactory">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Edit PO# Factory Factory - <span class="po_factory_no"></span>
+                        </h4>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="modal-body">
+
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="asterisk">Type of PO</label>
@@ -619,7 +722,10 @@
                                                     </div>
 
                                                     <div class="form-group  ">
-                                                        <label class="col-sm-4 control-label">Ocean forwarder</label>
+                                                        <label class="col-sm-4 control-label">
+                                                            <span data-toggle="tooltip" data-placement="top"
+                                                                  data-original-title="Ocean forwarder">OF</span>
+                                                        </label>
                                                         <div class="col-sm-7">
                                                             <select class="form-control"
                                                                     v-model="shipment_form.ocean_forwarder">
@@ -686,6 +792,20 @@
                                                         </div>
                                                     </div>
 
+                                                    <div class="form-group"
+                                                         v-if="shipment_form.shipping_method == 'Customize'">
+                                                        <label class="col-sm-4 control-label">Customize</label>
+                                                        <div class="col-sm-7">
+                                                            <div class="input-group">
+                                                        <span class="input-group-addon"><i
+                                                            class="fa fa-pencil fa-fw"></i></span>
+                                                                <input type="text"
+                                                                       v-model="shipment_form.customize_shipping_method"
+                                                                       class="form-control" placeholder="Input Remarks">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
 
                                                 <div class="col-md-6">
@@ -715,10 +835,27 @@
                                                     </div>
 
                                                     <div class="form-group  ">
-                                                        <label class="col-sm-4 control-label">Inland forwarder</label>
+                                                        <label class="col-sm-4 control-label">
+                                                            <span data-toggle="tooltip" data-placement="top"
+                                                                  data-original-title="Abroad inland forwarder">AIF</span>
+                                                        </label>
                                                         <div class="col-sm-7">
                                                             <select class="form-control"
                                                                     v-model="shipment_form.inland_forwarder">
+                                                                <option value="">Please choose</option>
+                                                                <option v-for="contact in forwarder_contacts" :value="contact.id">{{ contact.text }}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group  ">
+                                                        <label class="col-sm-4 control-label">
+                                                            <span data-toggle="tooltip" data-placement="top"
+                                                                  data-original-title="China inland forwarder">CIF</span>
+                                                            </label>
+                                                        <div class="col-sm-7">
+                                                            <select class="form-control"
+                                                                    v-model="shipment_form.china_inland_forwarder">
                                                                 <option value="">Please choose</option>
                                                                 <option v-for="contact in forwarder_contacts" :value="contact.id">{{ contact.text }}</option>
                                                             </select>
@@ -755,21 +892,6 @@
                                                         <span class="input-group-addon"><i
                                                             class="fa fa-pencil fa-fw"></i></span>
                                                                 <input type="text" v-model="shipment_form.remarks"
-                                                                       class="form-control" placeholder="Input Remarks">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="form-group"
-                                                         v-if="shipment_form.shipping_method == 'Customize'">
-                                                        <label class="col-sm-4 control-label">Customize</label>
-                                                        <div class="col-sm-7">
-                                                            <div class="input-group">
-                                                        <span class="input-group-addon"><i
-                                                            class="fa fa-pencil fa-fw"></i></span>
-                                                                <input type="text"
-                                                                       v-model="shipment_form.customize_shipping_method"
                                                                        class="form-control" placeholder="Input Remarks">
                                                             </div>
                                                         </div>
@@ -964,7 +1086,10 @@
                                                     </div>
 
                                                     <div class="form-group  ">
-                                                        <label class="col-sm-4 control-label">Ocean forwarder</label>
+                                                        <label class="col-sm-4 control-label">
+                                                            <span data-toggle="tooltip" data-placement="top"
+                                                                  data-original-title="Ocean forwarder">OF</span>
+                                                        </label>
                                                         <div class="col-sm-7">
                                                             <select class="form-control"
                                                                     v-model="shipment_edit_form.ocean_forwarder">
@@ -1032,6 +1157,20 @@
                                                         </div>
                                                     </div>
 
+                                                    <div class="form-group"
+                                                         v-if="shipment_edit_form.shipping_method == 'Customize'">
+                                                        <label class="col-sm-4 control-label">Customize</label>
+                                                        <div class="col-sm-7">
+                                                            <div class="input-group">
+                                                        <span class="input-group-addon"><i
+                                                            class="fa fa-pencil fa-fw"></i></span>
+                                                                <input type="text"
+                                                                       v-model="shipment_edit_form.customize_shipping_method"
+                                                                       class="form-control" placeholder="Input Remarks">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
 
                                                 <div class="col-md-6">
@@ -1061,10 +1200,27 @@
                                                     </div>
 
                                                     <div class="form-group  ">
-                                                        <label class="col-sm-4 control-label">Inland forwarder</label>
+                                                        <label class="col-sm-4 control-label">
+                                                            <span data-toggle="tooltip" data-placement="top"
+                                                                  data-original-title="Abroad inland forwarder">AIF</span>
+                                                        </label>
                                                         <div class="col-sm-7">
                                                             <select class="form-control"
                                                                     v-model="shipment_edit_form.inland_forwarder">
+                                                                <option value="">Please choose</option>
+                                                                <option v-for="contact in forwarder_contacts" :value="contact.id">{{ contact.text }}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group  ">
+                                                        <label class="col-sm-4 control-label">
+                                                            <span data-toggle="tooltip" data-placement="top"
+                                                                  data-original-title="China inland forwarder">CIF</span>
+                                                        </label>
+                                                        <div class="col-sm-7">
+                                                            <select class="form-control"
+                                                                    v-model="shipment_edit_form.china_inland_forwarder">
                                                                 <option value="">Please choose</option>
                                                                 <option v-for="contact in forwarder_contacts" :value="contact.id">{{ contact.text }}</option>
                                                             </select>
@@ -1106,20 +1262,6 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group"
-                                                         v-if="shipment_edit_form.shipping_method == 'Customize'">
-                                                        <label class="col-sm-4 control-label">Customize</label>
-                                                        <div class="col-sm-7">
-                                                            <div class="input-group">
-                                                        <span class="input-group-addon"><i
-                                                            class="fa fa-pencil fa-fw"></i></span>
-                                                                <input type="text"
-                                                                       v-model="shipment_edit_form.customize_shipping_method"
-                                                                       class="form-control" placeholder="Input Remarks">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
                                                 </div>
 
                                             </div>
@@ -1145,8 +1287,7 @@
                                                                            name="estimated_production_completion"
                                                                            placeholder="Estimated Production Completion"
                                                                            class="form-control datetime-picker"
-                                                                           v-model="shipment_edit_form.estimated_production_completion"
-                                                                           :readonly="shipment_edit_form.etd_port ? true : false">
+                                                                           v-model="shipment_edit_form.estimated_production_completion" >
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1160,8 +1301,7 @@
                                                                     <input type="text" name="etd_port"
                                                                            placeholder="ETD Port"
                                                                            class="form-control datetime-picker"
-                                                                           v-model="shipment_edit_form.etd_port"
-                                                                           :readonly="!!!shipment_edit_form.estimated_production_completion || shipment_edit_form.eta_port ? true : false">
+                                                                           v-model="shipment_edit_form.etd_port" >
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1175,8 +1315,7 @@
                                                                     <input type="text" name="eta_port"
                                                                            placeholder="ETA Port"
                                                                            class="form-control datetime-picker"
-                                                                           v-model="shipment_edit_form.eta_port"
-                                                                           :readonly="!!!shipment_edit_form.etd_port ? true : false">
+                                                                           v-model="shipment_edit_form.eta_port" >
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1199,8 +1338,7 @@
                                                                            name="actual_production_completion"
                                                                            placeholder="Actual Production Completion"
                                                                            class="form-control datetime-picker"
-                                                                           v-model="shipment_edit_form.actual_production_completion"
-                                                                           :readonly="shipment_edit_form.atd_port ? true : false">
+                                                                           v-model="shipment_edit_form.actual_production_completion" >
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1214,8 +1352,7 @@
                                                                     <input type="text" name="atd_port"
                                                                            placeholder="ATD Port"
                                                                            class="form-control datetime-picker"
-                                                                           v-model="shipment_edit_form.atd_port"
-                                                                           :readonly="!!!shipment_edit_form.actual_production_completion || shipment_edit_form.ata_port ? true : false">
+                                                                           v-model="shipment_edit_form.atd_port" >
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1229,8 +1366,7 @@
                                                                     <input type="text" name="ata_port"
                                                                            placeholder="ATA Port"
                                                                            class="form-control datetime-picker"
-                                                                           v-model="shipment_edit_form.ata_port"
-                                                                           :readonly="!!!shipment_edit_form.atd_port ? true : false">
+                                                                           v-model="shipment_edit_form.ata_port" >
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1387,17 +1523,24 @@
                 },
                 po_factory_form: {
                     po_client_id: '',
-                    factory_id: '',
                     no: '',
                     type: '',
-                    remarks: '',
-                    product: '',
                 },
                 po_factory_edit_form: {
                     id: '',
-                    factory_id: '',
                     no: '',
                     type: '',
+                },
+                po_factory_factory_form: {
+                    po_factory_id: '',
+                    factory_id: '',
+                    remarks: '',
+                    product: '',
+                },
+                po_factory_factory_edit_form: {
+                    id: '',
+                    po_factory_id: '',
+                    factory_id: '',
                     remarks: '',
                     product: '',
                 },
@@ -1410,6 +1553,7 @@
                     carrier: '',
                     ocean_forwarder: '',
                     inland_forwarder: '',
+                    china_inland_forwarder: '',
                     b_l: '',
                     vessel: '',
                     remarks: '',
@@ -1434,6 +1578,7 @@
                     carrier: '',
                     ocean_forwarder: '',
                     inland_forwarder: '',
+                    china_inland_forwarder: '',
                     b_l: '',
                     vessel: '',
                     remarks: '',
@@ -1492,6 +1637,10 @@
         },
 
         mounted() {
+            $('.popover-t').popover({
+                html: true
+            })
+
             $('.port_of_departure').select2({
                 placeholder : 'Please choose',
                 allowClear: true, //选中项可清空
@@ -1528,7 +1677,7 @@
 
             $('#editPoClient .datetime-picker').datetimepicker({
                 'format': 'YYYY-MM-DD',
-                'allowInputToggle': true
+                'allowInputToggle': true,
             });
 
             $('.estimated .datetime-picker').datetimepicker({
@@ -1588,34 +1737,34 @@
             })
 
 
-            //editShipment
-            $('#editShipment input[name="estimated_production_completion"]').on('dp.change', (e) => {
-                if (e.currentTarget.value) {
-                    $("#editShipment input[name='etd_port']").data("DateTimePicker").minDate(e.currentTarget.value)
-                    this.shipment_edit_form.etd_port = '';
-                }
-            })
-
-            $('#editShipment input[name="etd_port"]').on('dp.change', (e) => {
-                if (e.currentTarget.value) {
-                    $("#editShipment input[name='eta_port']").data("DateTimePicker").minDate(e.currentTarget.value)
-                    this.shipment_edit_form.eta_port = '';
-                }
-            })
-
-            $('#editShipment input[name="actual_production_completion"]').on('dp.change', (e) => {
-                if (e.currentTarget.value) {
-                    $("#editShipment input[name='atd_port']").data("DateTimePicker").minDate(e.currentTarget.value)
-                    this.shipment_edit_form.atd_port = '';
-                }
-            })
-
-            $('#editShipment input[name="atd_port"]').on('dp.change', (e) => {
-                if (e.currentTarget.value) {
-                    $("#editShipment input[name='ata_port']").data("DateTimePicker").minDate(e.currentTarget.value)
-                    this.shipment_edit_form.ata_port = '';
-                }
-            })
+            // //editShipment
+            // $('#editShipment input[name="estimated_production_completion"]').on('dp.change', (e) => {
+            //     if (e.currentTarget.value) {
+            //         $("#editShipment input[name='etd_port']").data("DateTimePicker").minDate(e.currentTarget.value)
+            //         this.shipment_edit_form.etd_port = '';
+            //     }
+            // })
+            //
+            // $('#editShipment input[name="etd_port"]').on('dp.change', (e) => {
+            //     if (e.currentTarget.value) {
+            //         $("#editShipment input[name='eta_port']").data("DateTimePicker").minDate(e.currentTarget.value)
+            //         this.shipment_edit_form.eta_port = '';
+            //     }
+            // })
+            //
+            // $('#editShipment input[name="actual_production_completion"]').on('dp.change', (e) => {
+            //     if (e.currentTarget.value) {
+            //         $("#editShipment input[name='atd_port']").data("DateTimePicker").minDate(e.currentTarget.value)
+            //         this.shipment_edit_form.atd_port = '';
+            //     }
+            // })
+            //
+            // $('#editShipment input[name="atd_port"]').on('dp.change', (e) => {
+            //     if (e.currentTarget.value) {
+            //         $("#editShipment input[name='ata_port']").data("DateTimePicker").minDate(e.currentTarget.value)
+            //         this.shipment_edit_form.ata_port = '';
+            //     }
+            // })
 
             $('#editPoFactory').on('hide.bs.modal', () => {
                 this.po_factory_history_active = ''
@@ -1759,6 +1908,12 @@
                 $('#addPoFactory').modal('show')
             },
 
+            showAddPoFactoryFactory(po_factory_id, po_factory_no) {
+                $('#addPoFactoryFactory .po_factory_no').html(po_factory_no)
+                this.po_factory_factory_form.po_factory_id = po_factory_id;
+                $('#addPoFactoryFactory').modal('show')
+            },
+
             addPoFactory() {
                 this.loading.po_factory = true
                 axios({
@@ -1794,6 +1949,60 @@
                     this.loading.po_factory = false
                     toastr.error(error.response.data.message)
                 });
+            },
+
+            addPoFactoryFactory() {
+                this.loading.po_factory_factory = true
+                axios({
+                    method: 'post',
+                    url: '/admin/po-factory-factory/add',
+                    data: this.po_factory_factory_form
+                }).then(response => {
+                    swal(
+                        response.data.message,
+                        '',
+                        'success'
+                    ).then(() => {
+                        this.loading.po_factory_factory = false
+                        $('#addPoFactoryFactory').modal('hide')
+                        location.reload()
+                    })
+
+                }).catch(error => {
+                    this.loading.po_factory_factory = false
+                    toastr.error(error.response.data.message)
+                });
+            },
+
+            deletePoFactoryFactory(id) {
+                swal({
+                    title: 'Are you sure to delete this item ?',
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonText: 'Submit',
+                    cancelButtonText: 'Cancel'
+                }).then(function (isConfirm) {
+                    if (isConfirm.value == true) {
+                        axios({
+                            method: 'post',
+                            url: '/admin/delete/factory-factory/' + id,
+                        }).then(response => {
+                            swal(
+                                "SUCCESS",
+                                response.data.message,
+                                'success'
+                            ).then(function () {
+                                location.reload()
+                            });
+                        }).catch(error => {
+                            swal(
+                                error.response.data.message,
+                                '',
+                                'error'
+                            )
+                        });
+                    }
+                })
             },
 
             editPoFactory(id, no) {
@@ -1928,25 +2137,25 @@
                         foreign_currency_type:response.data.data.foreign_currency_type,
                     }
 
-                    if (response.data.data.estimated_production_completion) {
-                        $("#editShipment input[name='etd_port']").data("DateTimePicker").minDate(response.data.data.estimated_production_completion)
-                        this.shipment_edit_form.etd_port = response.data.data.etd_port ? response.data.data.etd_port : '';
-                    }
-
-                    if (response.data.data.etd_port) {
-                        $("#editShipment input[name='eta_port']").data("DateTimePicker").minDate(response.data.data.etd_port)
-                        this.shipment_edit_form.eta_port = response.data.data.eta_port ? response.data.data.eta_port : '';
-                    }
-
-                    if (response.data.data.actual_production_completion) {
-                        $("#editShipment input[name='atd_port']").data("DateTimePicker").minDate(response.data.data.actual_production_completion)
-                        this.shipment_edit_form.atd_port = response.data.data.atd_port ? response.data.data.atd_port : '';
-                    }
-
-                    if (response.data.data.atd_port) {
-                        $("#editShipment input[name='ata_port']").data("DateTimePicker").minDate(response.data.data.atd_port)
-                        this.shipment_edit_form.ata_port = response.data.data.ata_port ? response.data.data.ata_port : '';
-                    }
+                    // if (response.data.data.estimated_production_completion) {
+                    //     $("#editShipment input[name='etd_port']").data("DateTimePicker").minDate(response.data.data.estimated_production_completion)
+                    //     this.shipment_edit_form.etd_port = response.data.data.etd_port ? response.data.data.etd_port : '';
+                    // }
+                    //
+                    // if (response.data.data.etd_port) {
+                    //     $("#editShipment input[name='eta_port']").data("DateTimePicker").minDate(response.data.data.etd_port)
+                    //     this.shipment_edit_form.eta_port = response.data.data.eta_port ? response.data.data.eta_port : '';
+                    // }
+                    //
+                    // if (response.data.data.actual_production_completion) {
+                    //     $("#editShipment input[name='atd_port']").data("DateTimePicker").minDate(response.data.data.actual_production_completion)
+                    //     this.shipment_edit_form.atd_port = response.data.data.atd_port ? response.data.data.atd_port : '';
+                    // }
+                    //
+                    // if (response.data.data.atd_port) {
+                    //     $("#editShipment input[name='ata_port']").data("DateTimePicker").minDate(response.data.data.atd_port)
+                    //     this.shipment_edit_form.ata_port = response.data.data.ata_port ? response.data.data.ata_port : '';
+                    // }
 
                     let shipping_method = this.inArray(response.data.data.shipping_method, [
                         'Regular Ocean Shipping',
@@ -2085,11 +2294,21 @@
                 return iDays
             },
 
+            popover(history){
+                let text = '';
+                for(let h in history){
+                    text += (Number(h)+1) + '、' +history[h].estimated + ' : ' +  history[h].created_at + '<br />'
+                }
+
+                return text;
+            },
+
+
         },
     }
 </script>
 
-<style scoped>
+<style>
     .panel-heading {
         padding-bottom: unset;
     }
@@ -2109,7 +2328,7 @@
     }
 
     .table td {
-        vertical-align: middle;
+        vertical-align: middle !important;
     }
 
     .panel-info > .panel-heading .badge {
@@ -2133,5 +2352,20 @@
 
     .contact p:last-child{
         margin: unset;
+    }
+
+    .factory_factory{
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        border: 2px solid #dedede;
+    }
+
+    .factory_factory pre{
+        margin: unset;
+    }
+
+    .popover{
+        width: unset !important;
     }
 </style>
