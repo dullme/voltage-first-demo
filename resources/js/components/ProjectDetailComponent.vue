@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">{{ project_name }} - {{ client.name }} - {{ client.address }}</h3>
+                    <h3 class="box-title">{{ project_name }} - {{ client.name }} - {{ project_address }}</h3>
                     <div class="box-tools">
                         <div class="btn-group pull-right" style="margin-right: 5px">
                             <a href="/admin/projects" class="btn btn-sm btn-default" title="List">
@@ -1489,6 +1489,7 @@
                     '7' : 'Transportation',
                 },
                 project_name: '',
+                project_address: '',
                 po_client_form: {
                     no: '',
                     client_delivery_time: '',
@@ -1591,6 +1592,7 @@
             this.project_number = project.number
             Vue.set(this.po_client_form, 'project_id', project.id);
             this.project_name = project.name
+            this.project_address = project.address
             this.client = project.client
             this.po_clients = project.po_clients
 
