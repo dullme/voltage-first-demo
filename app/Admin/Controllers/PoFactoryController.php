@@ -449,6 +449,7 @@ class PoFactoryController extends ResponseController
             } else {
                 $batch->status = BatchStatus::InProduction;
             }
+            $batch->ata_job_site = null;
         }
 
         $save ? $batch->save() : '';
