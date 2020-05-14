@@ -513,6 +513,7 @@ class PoFactoryController extends ResponseController
             } else {
                 $batch->status = BatchStatus::InProduction;
             }
+            $batch->ata_job_site = null;
         }
 
         $data['eta_job_site_history'] = isset($data['eta_job_site']) && $data['eta_job_site'] != optional($container->eta_job_site)->toDateString() ? array_merge($container->eta_job_site_history, [
