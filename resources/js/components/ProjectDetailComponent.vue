@@ -610,8 +610,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">Edit PO# Factory Factory - <span class="po_factory_factory_no"></span>
-                        </h4>
+                        <h4 class="modal-title">Edit Factory</h4>
                     </div>
                     <div class="form-horizontal">
                         <div class="modal-body">
@@ -1998,13 +1997,13 @@
                 })
             },
 
-            editPoFactoryFactory(id, no) {
+            editPoFactoryFactory(id) {
                 axios({
                     method: 'get',
                     url: '/admin/po-factory-factory/edit/' + id,
                 }).then(response => {
                     this.po_factory_factory_edit_form = response.data.data
-                    $('#editPoFactoryFactory .po_factory_factory_no').html(no)
+                    // $('#editPoFactoryFactory .po_factory_factory_no').html(no)
                     $('#editPoFactoryFactory').modal('show')
                 })
             },
