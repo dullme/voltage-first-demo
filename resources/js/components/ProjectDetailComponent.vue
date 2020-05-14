@@ -71,7 +71,7 @@
                                                 <span style="float: right;margin-right: 7px" class="btn btn-success btn-xs"
                                                       v-on:click="showAddPoFactory(po_client.id, po_client.no)"><i
                                                     class="fa fa-plus"
-                                                    style="padding-right: 2px"></i> Add PO# Factory </span>
+                                                    style="padding-right: 2px"></i> Add PO# Production </span>
                                             </div>
 
                                         </div>
@@ -142,7 +142,7 @@
                                                     <button class="btn btn-default btn-xs" style="margin-right: 5px"
                                                             v-on:click="editPoFactory(po_factory.id, po_factory.no)">
                                                         <i class="fa fa-pencil" style="padding-right: 2px"></i> Edit PO#
-                                                        Factory
+                                                        Production
                                                     </button>
 
                                                     <button class="btn btn-default btn-xs" style="margin-right: 5px"
@@ -472,7 +472,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="myModalLabel">Add PO# Factory - <span class="po_client_no"></span>
+                        <h4 class="modal-title" id="myModalLabel">Add PO# Production - <span class="po_client_no"></span>
                         </h4>
                     </div>
                     <div class="form-horizontal">
@@ -514,7 +514,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">Edit PO# Factory - <span class="po_factory_no"></span>
+                        <h4 class="modal-title">Edit PO# Production - <span class="po_factory_no"></span>
                         </h4>
                     </div>
                     <div class="form-horizontal">

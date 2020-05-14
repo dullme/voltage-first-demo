@@ -411,12 +411,6 @@ class PoFactoryController extends ResponseController
             $save = true;
         }
 
-        $maxAtaJobSite = $this->getMaxAtaJobSite($data['batch_id']);
-        if ($data['ata_job_site'] > $maxAtaJobSite) {
-            $batch->ata_job_site = $data['ata_job_site'];
-            $save = true;
-        }
-
         $save ? $batch->save() : '';
 
         $data['eta_job_site_history'] = isset($data['eta_job_site']) && $data['eta_job_site'] ? [
@@ -498,10 +492,10 @@ class PoFactoryController extends ResponseController
         }
 
         $maxAtaJobSite = $this->getMaxAtaJobSite($container->batch_id, $container->id);
-        $batch->ata_job_site = $maxAtaJobSite;
-        if ($data['ata_job_site'] && $data['ata_job_site'] > $maxAtaJobSite) {
-            $batch->ata_job_site = $data['ata_job_site'];
+        if($data['ata_job_site'] && $this->needSetAtaJboSite($container->batch_id, $container->id)){
+            $batch->ata_job_site = $data['ata_job_site'] > $maxAtaJobSite ? $data['ata_job_site'] : $maxAtaJobSite;
         }
+
 
         $res = Container::where([
             'batch_id'     => $container->batch_id,
@@ -548,5 +542,18 @@ class PoFactoryController extends ResponseController
         $ataJobSite = $withoutContainerId ? $ataJobSite->where('id', '!=', $withoutContainerId)->first() : $ataJobSite->first();
 
         return $ataJobSite && $ataJobSite->ata_job_site ? $ataJobSite->ata_job_site : null;
+    }
+
+    public function needSetAtaJboSite($batchId, $withoutContainerId = null)
+    {
+        $container = Container::where('batch_id', $batchId);
+        $container = $withoutContainerId ? $container->where('id', '!=', $withoutContainerId)->get() : $container->get();
+        $count = $container->count();
+        $res = $container->where('ata_job_site', '!=', null)->count();
+        if($count == $res){
+            return true;
+        }
+
+        return false;
     }
 }
