@@ -15,9 +15,10 @@ class PoFactoryFactoryController extends ResponseController
     {
         $validator = Validator::make($request->all(), [
             'po_factory_id' => 'required|integer',
-            'factory_id'   => 'required|integer',
-            'remarks'      => 'nullable',
-            'product'      => 'nullable',
+            'factory_id'    => 'required|integer',
+            'no'            => 'nullable',
+            'remarks'       => 'nullable',
+            'product'       => 'nullable',
         ], [
             'factory_id.required' => 'Please choose factory',
         ]);
@@ -49,9 +50,10 @@ class PoFactoryFactoryController extends ResponseController
     {
         $validator = Validator::make($request->all(), [
             'po_factory_id' => 'required|integer',
-            'factory_id'   => 'required|integer',
-            'remarks'      => 'nullable',
-            'product'      => 'nullable',
+            'factory_id'    => 'required|integer',
+            'no'            => 'nullable',
+            'remarks'       => 'nullable',
+            'product'       => 'nullable',
         ], [
             'factory_id.required' => 'Please choose factory',
         ]);

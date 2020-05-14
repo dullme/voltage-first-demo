@@ -15,7 +15,7 @@ class CreatePortsTable extends Migration
     {
         Schema::create('ports', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->comment('港口名称');
+            $table->string('name')->comment('港口名称')->unique();
             $table->boolean('type')->comment('0国内，1海外');
             $table->timestamps();
         });

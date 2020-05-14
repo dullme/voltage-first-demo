@@ -112,6 +112,7 @@
                                                                             <i class="fa fa-pencil" style="padding-right: 2px;"></i> Edit
                                                                         </button>
                                                                     </p>
+                                                                    <p v-if="po_factory_factory.no"><b>PO Factory：</b>{{ po_factory_factory.no }}</p>
                                                                     <p v-if="po_factory_factory.product"><b>Product：</b>{{ po_factory_factory.product }}</p>
                                                                     <pre style="background-color: unset;border: unset;padding: 0" v-if="po_factory_factory.remarks"><b>Remarks：</b>{{ po_factory_factory.remarks }}</pre>
                                                                 </div>
@@ -486,8 +487,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="asterisk">PO Factory</label>
-                                    <input placeholder="PO Factory" class="form-control" v-model="po_factory_form.no">
+                                    <label class="asterisk">PO Production</label>
+                                    <input placeholder="PO Production" class="form-control" v-model="po_factory_form.no">
                                 </div>
 
                             </div>
@@ -535,8 +536,8 @@
 
 
                                 <div class="form-group">
-                                    <label class="asterisk">PO Factory</label>
-                                    <input placeholder="PO Factory" class="form-control" v-model="po_factory_edit_form.no">
+                                    <label class="asterisk">PO Production</label>
+                                    <input placeholder="PO Production" class="form-control" v-model="po_factory_edit_form.no">
                                 </div>
 
                             </div>
@@ -577,6 +578,10 @@
                                         <option value="">Please choose</option>
                                         <option v-for="factory in factories" :value="factory.id">{{ factory.text }}</option>
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>PO Factory</label>
+                                    <input placeholder="PO Factory" class="form-control"  v-model="po_factory_factory_form.no">
                                 </div>
                                 <div class="form-group">
                                     <label>Product</label>
@@ -626,6 +631,11 @@
                                     <span style="color: #9e9e9e;padding:0 10px;display: block;margin-top: 10px" v-if="po_factory_history.id">
                                         {{ po_factory_history.number }}. {{ factories[po_factory_history.factory_id] }}
                                     </span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>PO Factory</label>
+                                    <input placeholder="PO Factory" class="form-control"  v-model="po_factory_factory_edit_form.no">
                                 </div>
 
                                 <div class="form-group">
@@ -704,11 +714,11 @@
                                                     <div class="form-group  ">
                                                         <label class="col-sm-4 control-label">
                                                             <span data-toggle="tooltip" data-placement="top"
-                                                                  data-original-title="Ocean forwarder">OF</span>
+                                                                  data-original-title="China inland forwarder">CIF</span>
                                                         </label>
                                                         <div class="col-sm-7">
                                                             <select class="form-control"
-                                                                    v-model="shipment_form.ocean_forwarder">
+                                                                    v-model="shipment_form.china_inland_forwarder">
                                                                 <option value="">Please choose</option>
                                                                 <option v-for="contact in forwarder_contacts" :value="contact.id">{{ contact.text }}</option>
                                                             </select>
@@ -716,14 +726,25 @@
                                                     </div>
 
                                                     <div class="form-group  ">
-                                                        <label class="col-sm-4 control-label">B/L</label>
+                                                        <label class="col-sm-4 control-label">
+                                                            <span data-toggle="tooltip" data-placement="top"
+                                                                  data-original-title="Abroad inland forwarder">AIF</span>
+                                                        </label>
                                                         <div class="col-sm-7">
-                                                            <div class="input-group">
-                                                        <span class="input-group-addon"><i
-                                                            class="fa fa-pencil fa-fw"></i></span>
-                                                                <input type="text" v-model="shipment_form.b_l"
-                                                                       class="form-control" placeholder="Input B/L">
-                                                            </div>
+                                                            <select class="form-control"
+                                                                    v-model="shipment_form.inland_forwarder">
+                                                                <option value="">Please choose</option>
+                                                                <option v-for="contact in forwarder_contacts" :value="contact.id">{{ contact.text }}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group  ">
+                                                        <label class="col-sm-4 control-label">Port Of Departure</label>
+                                                        <div class="col-sm-7">
+                                                            <select style="width: 100%" class="form-control port_of_departure" name="port_of_departure" v-model="shipment_form.port_of_departure">
+                                                                <option v-for="port in ports" :value="port.name">{{ port.name }}/{{ port.type ? 'Abroad' : 'China' }}</option>
+                                                            </select>
                                                         </div>
                                                     </div>
 
@@ -736,15 +757,6 @@
                                                                 <input type="text" v-model="shipment_form.rmb"
                                                                        class="form-control" placeholder="Input RMB">
                                                             </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group  ">
-                                                        <label class="col-sm-4 control-label">Port Of Departure</label>
-                                                        <div class="col-sm-7">
-                                                            <select style="width: 100%" class="form-control port_of_departure" name="port_of_departure" v-model="shipment_form.port_of_departure">
-                                                                <option v-for="port in ports" :value="port.name">{{ port.name }}/{{ port.type ? 'Abroad' : 'China' }}</option>
-                                                            </select>
                                                         </div>
                                                     </div>
 
@@ -803,6 +815,32 @@
                                                     </div>
 
                                                     <div class="form-group  ">
+                                                        <label class="col-sm-4 control-label">B/L</label>
+                                                        <div class="col-sm-7">
+                                                            <div class="input-group">
+                                                        <span class="input-group-addon"><i
+                                                            class="fa fa-pencil fa-fw"></i></span>
+                                                                <input type="text" v-model="shipment_form.b_l"
+                                                                       class="form-control" placeholder="Input B/L">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group  ">
+                                                        <label class="col-sm-4 control-label">
+                                                            <span data-toggle="tooltip" data-placement="top"
+                                                                  data-original-title="Ocean forwarder">OF</span>
+                                                        </label>
+                                                        <div class="col-sm-7">
+                                                            <select class="form-control"
+                                                                    v-model="shipment_form.ocean_forwarder">
+                                                                <option value="">Please choose</option>
+                                                                <option v-for="contact in forwarder_contacts" :value="contact.id">{{ contact.text }}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group  ">
                                                         <label class="col-sm-4 control-label">Vessel</label>
                                                         <div class="col-sm-7">
                                                             <div class="input-group">
@@ -815,29 +853,11 @@
                                                     </div>
 
                                                     <div class="form-group  ">
-                                                        <label class="col-sm-4 control-label">
-                                                            <span data-toggle="tooltip" data-placement="top"
-                                                                  data-original-title="Abroad inland forwarder">AIF</span>
-                                                        </label>
+                                                        <label class="col-sm-4 control-label">Destination Port</label>
                                                         <div class="col-sm-7">
-                                                            <select class="form-control"
-                                                                    v-model="shipment_form.inland_forwarder">
+                                                            <select style="width: 100%" class="form-control destination_port" name="destination_port" v-model="shipment_form.destination_port">
                                                                 <option value="">Please choose</option>
-                                                                <option v-for="contact in forwarder_contacts" :value="contact.id">{{ contact.text }}</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group  ">
-                                                        <label class="col-sm-4 control-label">
-                                                            <span data-toggle="tooltip" data-placement="top"
-                                                                  data-original-title="China inland forwarder">CIF</span>
-                                                            </label>
-                                                        <div class="col-sm-7">
-                                                            <select class="form-control"
-                                                                    v-model="shipment_form.china_inland_forwarder">
-                                                                <option value="">Please choose</option>
-                                                                <option v-for="contact in forwarder_contacts" :value="contact.id">{{ contact.text }}</option>
+                                                                <option v-for="port in ports" :value="port.name">{{ port.name }}/{{ port.type ? 'Abroad' : 'China' }}</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -851,16 +871,6 @@
                                                                 <option value="">Choose</option>
                                                                 <option value="1">US</option>
                                                                 <option value="2">AUD</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group  ">
-                                                        <label class="col-sm-4 control-label">Destination Port</label>
-                                                        <div class="col-sm-7">
-                                                            <select style="width: 100%" class="form-control destination_port" name="destination_port" v-model="shipment_form.destination_port">
-                                                                <option value="">Please choose</option>
-                                                                <option v-for="port in ports" :value="port.name">{{ port.name }}/{{ port.type ? 'Abroad' : 'China' }}</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -1068,11 +1078,11 @@
                                                     <div class="form-group  ">
                                                         <label class="col-sm-4 control-label">
                                                             <span data-toggle="tooltip" data-placement="top"
-                                                                  data-original-title="Ocean forwarder">OF</span>
+                                                                  data-original-title="China inland forwarder">CIF</span>
                                                         </label>
                                                         <div class="col-sm-7">
                                                             <select class="form-control"
-                                                                    v-model="shipment_edit_form.ocean_forwarder">
+                                                                    v-model="shipment_edit_form.china_inland_forwarder">
                                                                 <option value="">Please choose</option>
                                                                 <option v-for="contact in forwarder_contacts" :value="contact.id">{{ contact.text }}</option>
                                                             </select>
@@ -1080,14 +1090,26 @@
                                                     </div>
 
                                                     <div class="form-group  ">
-                                                        <label class="col-sm-4 control-label">B/L</label>
+                                                        <label class="col-sm-4 control-label">
+                                                            <span data-toggle="tooltip" data-placement="top"
+                                                                  data-original-title="Abroad inland forwarder">AIF</span>
+                                                        </label>
                                                         <div class="col-sm-7">
-                                                            <div class="input-group">
-                                                        <span class="input-group-addon"><i
-                                                            class="fa fa-pencil fa-fw"></i></span>
-                                                                <input type="text" v-model="shipment_edit_form.b_l"
-                                                                       class="form-control" placeholder="Input B/L">
-                                                            </div>
+                                                            <select class="form-control"
+                                                                    v-model="shipment_edit_form.inland_forwarder">
+                                                                <option value="">Please choose</option>
+                                                                <option v-for="contact in forwarder_contacts" :value="contact.id">{{ contact.text }}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group  ">
+                                                        <label class="col-sm-4 control-label">Port Of Departure</label>
+                                                        <div class="col-sm-7">
+                                                            <select style="width: 100%" class="form-control edit_port_of_departure" name="port_of_departure" v-model="shipment_edit_form.port_of_departure">
+                                                                <option value="">Please choose</option>
+                                                                <option v-for="port in ports" :value="port.name">{{ port.name }}/{{ port.type ? 'Abroad' : 'China' }}</option>
+                                                            </select>
                                                         </div>
                                                     </div>
 
@@ -1100,16 +1122,6 @@
                                                                 <input type="text" v-model="shipment_edit_form.rmb"
                                                                        class="form-control" placeholder="Input RMB">
                                                             </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group  ">
-                                                        <label class="col-sm-4 control-label">Port Of Departure</label>
-                                                        <div class="col-sm-7">
-                                                            <select style="width: 100%" class="form-control edit_port_of_departure" name="port_of_departure" v-model="shipment_edit_form.port_of_departure">
-                                                                <option value="">Please choose</option>
-                                                                <option v-for="port in ports" :value="port.name">{{ port.name }}/{{ port.type ? 'Abroad' : 'China' }}</option>
-                                                            </select>
                                                         </div>
                                                     </div>
 
@@ -1168,6 +1180,32 @@
                                                     </div>
 
                                                     <div class="form-group  ">
+                                                        <label class="col-sm-4 control-label">B/L</label>
+                                                        <div class="col-sm-7">
+                                                            <div class="input-group">
+                                                        <span class="input-group-addon"><i
+                                                            class="fa fa-pencil fa-fw"></i></span>
+                                                                <input type="text" v-model="shipment_edit_form.b_l"
+                                                                       class="form-control" placeholder="Input B/L">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group  ">
+                                                        <label class="col-sm-4 control-label">
+                                                            <span data-toggle="tooltip" data-placement="top"
+                                                                  data-original-title="Ocean forwarder">OF</span>
+                                                        </label>
+                                                        <div class="col-sm-7">
+                                                            <select class="form-control"
+                                                                    v-model="shipment_edit_form.ocean_forwarder">
+                                                                <option value="">Please choose</option>
+                                                                <option v-for="contact in forwarder_contacts" :value="contact.id">{{ contact.text }}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group  ">
                                                         <label class="col-sm-4 control-label">Vessel</label>
                                                         <div class="col-sm-7">
                                                             <div class="input-group">
@@ -1180,29 +1218,11 @@
                                                     </div>
 
                                                     <div class="form-group  ">
-                                                        <label class="col-sm-4 control-label">
-                                                            <span data-toggle="tooltip" data-placement="top"
-                                                                  data-original-title="Abroad inland forwarder">AIF</span>
-                                                        </label>
+                                                        <label class="col-sm-4 control-label">Destination Port</label>
                                                         <div class="col-sm-7">
-                                                            <select class="form-control"
-                                                                    v-model="shipment_edit_form.inland_forwarder">
+                                                            <select style="width: 100%" class="form-control edit_destination_port" name="destination_port" v-model="shipment_edit_form.destination_port">
                                                                 <option value="">Please choose</option>
-                                                                <option v-for="contact in forwarder_contacts" :value="contact.id">{{ contact.text }}</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group  ">
-                                                        <label class="col-sm-4 control-label">
-                                                            <span data-toggle="tooltip" data-placement="top"
-                                                                  data-original-title="China inland forwarder">CIF</span>
-                                                        </label>
-                                                        <div class="col-sm-7">
-                                                            <select class="form-control"
-                                                                    v-model="shipment_edit_form.china_inland_forwarder">
-                                                                <option value="">Please choose</option>
-                                                                <option v-for="contact in forwarder_contacts" :value="contact.id">{{ contact.text }}</option>
+                                                                <option v-for="port in ports" :value="port.name">{{ port.name }}/{{ port.type ? 'Abroad' : 'China' }}</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -1216,16 +1236,6 @@
                                                                 <option value="">Choose</option>
                                                                 <option value="1">US</option>
                                                                 <option value="2">AUD</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group  ">
-                                                        <label class="col-sm-4 control-label">Destination Port</label>
-                                                        <div class="col-sm-7">
-                                                            <select style="width: 100%" class="form-control edit_destination_port" name="destination_port" v-model="shipment_edit_form.destination_port">
-                                                                <option value="">Please choose</option>
-                                                                <option v-for="port in ports" :value="port.name">{{ port.name }}/{{ port.type ? 'Abroad' : 'China' }}</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -1516,6 +1526,7 @@
                 po_factory_factory_form: {
                     po_factory_id: '',
                     factory_id: '',
+                    no: '',
                     remarks: '',
                     product: '',
                 },
@@ -1523,6 +1534,7 @@
                     id: '',
                     po_factory_id: '',
                     factory_id: '',
+                    no: '',
                     remarks: '',
                     product: '',
                 },

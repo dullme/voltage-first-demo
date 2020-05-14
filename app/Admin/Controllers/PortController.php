@@ -62,7 +62,8 @@ class PortController extends ResponseController
     protected function form()
     {
         $form = new Form(new Port());
-        $form->text('name', __('Name'));
+        $form->text('name', __('Name'))->creationRules(['required', "unique:ports"])
+            ->updateRules(['required', "unique:ports,name,{{id}}"]);
         $form->switch('type', __('China/Abroad'))->states([
             'on'  => ['value' => 1, 'text' => 'Abroad'],
             'off' => ['value' => 0, 'text' => 'China'],

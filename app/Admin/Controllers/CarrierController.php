@@ -64,7 +64,8 @@ class CarrierController extends ResponseController
     {
         $form = new Form(new Carrier());
 
-        $form->text('name', __('Name'));
+        $form->text('name', __('Name'))->creationRules(['required', "unique:carriers"])
+            ->updateRules(['required', "unique:carriers,name,{{id}}"]);
 
         return $form;
     }

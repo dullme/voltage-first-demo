@@ -9,6 +9,7 @@ class PoFactoryFactory extends Model
     protected $fillable = [
         'po_factory_id',
         'factory_id',
+        'no',
         'remarks',
         'product',
     ];
