@@ -108,7 +108,7 @@
                                                                         <button @click="deletePoFactoryFactory(po_factory_factory.id)" class="btn btn-danger btn-xs pull-right" style="margin-right: 5px;">
                                                                             <i class="fa fa-minus" style="padding-right: 2px;"></i> Delete
                                                                         </button>
-                                                                        <button class="btn btn-default btn-xs pull-right" style="margin-right: 5px;">
+                                                                        <button class="btn btn-default btn-xs pull-right" style="margin-right: 5px;" @click="editPoFactoryFactory(po_factory_factory.id)">
                                                                             <i class="fa fa-pencil" style="padding-right: 2px;"></i> Edit
                                                                         </button>
                                                                     </p>
@@ -610,33 +610,17 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">Edit PO# Factory Factory - <span class="po_factory_no"></span>
+                        <h4 class="modal-title">Edit PO# Factory Factory - <span class="po_factory_factory_no"></span>
                         </h4>
                     </div>
                     <div class="form-horizontal">
                         <div class="modal-body">
 
                             <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label class="asterisk">Type of PO</label>
-                                    <select class="form-control" v-model="po_factory_edit_form.type">
-                                        <option value="">Please choose</option>
-                                        <option :value="key" v-for="(item,key) in type_of_po">{{ item }}</option>
-                                    </select>
-                                    <span style="color: #9e9e9e;padding:0 10px;display: block;margin-top: 10px" v-if="po_factory_history.id">
-                                        {{ po_factory_history.number }}. {{ type_of_po[po_factory_history.type] }}
-                                    </span>
-                                </div>
-
 
                                 <div class="form-group">
-                                    <label class="asterisk">PO Factory</label>
-                                    <input placeholder="PO Factory" class="form-control" v-model="po_factory_edit_form.no">
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Factory</label>
-                                    <select class="form-control" v-model="po_factory_edit_form.factory_id">
+                                    <label class="asterisk">Factory</label>
+                                    <select class="form-control" v-model="po_factory_factory_edit_form.factory_id">
                                         <option value="">Please choose</option>
                                         <option v-for="factory in factories" :value="factory.id">{{ factory.text }}</option>
                                     </select>
@@ -647,23 +631,20 @@
 
                                 <div class="form-group">
                                     <label>Product</label>
-                                    <input placeholder="Product" class="form-control"  v-model="po_factory_edit_form.product">
+                                    <input placeholder="Product" class="form-control"  v-model="po_factory_factory_edit_form.product">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Remarks</label>
                                     <textarea rows="5" placeholder="Remarks" class="form-control remark"
-                                              v-model="po_factory_edit_form.remarks"></textarea>
-                                    <span style="color: #9e9e9e;padding:0 10px;display: block;margin-top: 10px" v-if="po_factory_history.id">
-                                        {{ po_factory_history.number }}. {{ po_factory_history.remarks }}
-                                    </span>
+                                              v-model="po_factory_factory_edit_form.remarks"></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer" style="clear: both">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button v-on:click="savePoFactory" type="button" class="btn btn-primary"
-                                    :disabled="loading.po_factory">Submit <i v-if="loading.po_factory"
+                            <button v-on:click="savePoFactoryFactory" type="button" class="btn btn-primary"
+                                    :disabled="loading.po_factory_factory">Submit <i v-if="loading.po_factory_factory"
                                                                              class="fa fa-spinner fa-spin"></i></button>
                         </div>
                     </div>
@@ -1486,6 +1467,7 @@
                 loading: {
                     po_client: false,
                     po_factory: false,
+                    po_factory_factory: false,
                     shipment: false,
                 },
                 contacts: [],
@@ -2016,6 +1998,17 @@
                 })
             },
 
+            editPoFactoryFactory(id, no) {
+                axios({
+                    method: 'get',
+                    url: '/admin/po-factory-factory/edit/' + id,
+                }).then(response => {
+                    this.po_factory_factory_edit_form = response.data.data
+                    $('#editPoFactoryFactory .po_factory_factory_no').html(no)
+                    $('#editPoFactoryFactory').modal('show')
+                })
+            },
+
             savePoFactory() {
                 this.loading.po_factory = true
                 axios({
@@ -2033,6 +2026,27 @@
                     this.loading.po_factory = false
                 }).catch(error => {
                     this.loading.po_factory = false
+                    toastr.error(error.response.data.message);
+                });
+            },
+
+            savePoFactoryFactory() {
+                this.loading.po_factory_factory = true
+                axios({
+                    method: 'post',
+                    url: '/admin/po-factory-factory/edit/' + this.po_factory_factory_edit_form.id,
+                    data: this.po_factory_factory_edit_form
+                }).then(response => {
+                    swal(
+                        "SUCCESS",
+                        response.data.message,
+                        'success'
+                    ).then(function () {
+                        location.reload()
+                    });
+                    this.loading.po_factory_factory = false
+                }).catch(error => {
+                    this.loading.po_factory_factory = false
                     toastr.error(error.response.data.message);
                 });
             },

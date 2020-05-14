@@ -50,6 +50,8 @@ Route::group([
 
     $router->post('po-factory-factory/add', 'PoFactoryFactoryController@add');
     $router->post('delete/factory-factory/{id}', 'PoFactoryFactoryController@delete');
+    $router->get('po-factory-factory/edit/{id}', 'PoFactoryFactoryController@showFactoryFactory');
+    $router->post('po-factory-factory/edit/{id}', 'PoFactoryFactoryController@editFactoryFactory');
 
     $router->get('po-factory/edit/{id}', 'PoFactoryController@getPoFactory');
     $router->post('po-factory/edit/{id}', 'PoFactoryController@save');
