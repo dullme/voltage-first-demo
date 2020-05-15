@@ -38,7 +38,7 @@
                     <div class="box-body" style="padding-top: 25px">
                         <div class="">
                             <div class="col-md-12">
-                                <div class="panel panel-info" v-for="po_client in po_clients"
+                                <div class="panel panel-info" v-for="(po_client,po_client_index) in po_clients"
                                      style="margin-bottom: 60px">
                                     <div class="panel-heading" style="border-bottom: 0">
                                         <div style="margin-bottom: 10px;display: flex;justify-content: space-between">
@@ -98,17 +98,17 @@
                                             <div class="panel-body">
                                                 <div class="col-sm-12">
                                                     <div class="row">
-                                                        <div class="col-sm-12" v-for="po_factory_factory in po_factory.po_factory_factories">
+                                                        <div class="col-sm-12" v-for="(po_factory_factory,po_factory_factories_index)  in po_factory.po_factory_factories">
                                                             <div class="factory_factory">
                                                                 <div class="factory_factory_res">
                                                                     <p>
                                                                         <span><b>Factory name：</b>{{ po_factory_factory.factory.name }}</span>
                                                                         <span style="margin-left: 20px" v-if="po_factory_factory.factory.address"><b>Factory address：</b>{{ po_factory_factory.factory.address }}</span>
                                                                         <span style="margin-left: 20px" v-if="po_factory_factory.factory.tel"><b>Factory tel：</b>{{ po_factory_factory.factory.tel }}</span>
-                                                                        <button @click="deletePoFactoryFactory(po_factory_factory.id)" class="btn btn-danger btn-xs pull-right" style="margin-right: 5px;">
+                                                                        <button @click="deletePoFactoryFactory(po_client_index, index, po_factory_factories_index, po_factory_factory.id)" class="btn btn-danger btn-xs pull-right" style="margin-right: 5px;">
                                                                             <i class="fa fa-minus" style="padding-right: 2px;"></i> Delete
                                                                         </button>
-                                                                        <button class="btn btn-default btn-xs pull-right" style="margin-right: 5px;" @click="editPoFactoryFactory(po_factory_factory.id)">
+                                                                        <button class="btn btn-default btn-xs pull-right" style="margin-right: 5px;" @click="editPoFactoryFactory(po_client_index, index, po_factory_factories_index, po_factory_factory.id)">
                                                                             <i class="fa fa-pencil" style="padding-right: 2px;"></i> Edit
                                                                         </button>
                                                                     </p>
@@ -123,7 +123,7 @@
 
                                                 <div class="col-sm-12">
                                                     <button class="btn btn-success btn-xs" style="margin-right: 5px"
-                                                            v-on:click="showAddPoFactoryFactory(po_factory.id, po_factory.no)">
+                                                            v-on:click="showAddPoFactoryFactory(po_client_index,index, po_factory.id, po_factory.no)">
                                                         <i class="fa fa-plus" style="padding-right: 2px"></i> Add Factory
                                                     </button>
 
@@ -596,7 +596,7 @@
                         </div>
                         <div class="modal-footer" style="clear: both">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button v-on:click="addPoFactoryFactory" type="button" class="btn btn-primary"
+                            <button id="add-po-factory-factory" v-on:click="addPoFactoryFactory" type="button" class="btn btn-primary" data-client-index="" data-factory-index=""
                                     :disabled="loading.po_factory_factory">Submit <i v-if="loading.po_factory_factory"
                                                                              class="fa fa-spinner fa-spin"></i></button>
                         </div>
@@ -652,7 +652,8 @@
                         </div>
                         <div class="modal-footer" style="clear: both">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button v-on:click="savePoFactoryFactory" type="button" class="btn btn-primary"
+                            <button id="edit-po-factory-factory" v-on:click="savePoFactoryFactory" type="button" class="btn btn-primary"
+                                    data-client-index="" data-factory-index="" data-factory-factory-index=""
                                     :disabled="loading.po_factory_factory">Submit <i v-if="loading.po_factory_factory"
                                                                              class="fa fa-spinner fa-spin"></i></button>
                         </div>
@@ -689,6 +690,7 @@
                                                             <select class="form-control"
                                                                     v-model="shipment_form.sequence">
                                                                 <option value="">Please choose</option>
+                                                                <option value="0">Golden Row</option>
                                                                 <option value="1">1st</option>
                                                                 <option value="2">2nd</option>
                                                                 <option value="3">3rd</option>
@@ -829,7 +831,7 @@
                                                     <div class="form-group  ">
                                                         <label class="col-sm-4 control-label">
                                                             <span data-toggle="tooltip" data-placement="top"
-                                                                  data-original-title="Ocean forwarder">OF</span>
+                                                                  data-original-title="Ocean/Air Forwarder">O/AF</span>
                                                         </label>
                                                         <div class="col-sm-7">
                                                             <select class="form-control"
@@ -1053,6 +1055,7 @@
                                                             <select class="form-control"
                                                                     v-model="shipment_edit_form.sequence">
                                                                 <option value="">Please choose</option>
+                                                                <option value="0">Golden Row</option>
                                                                 <option value="1">1st</option>
                                                                 <option value="2">2nd</option>
                                                                 <option value="3">3rd</option>
@@ -1194,7 +1197,7 @@
                                                     <div class="form-group  ">
                                                         <label class="col-sm-4 control-label">
                                                             <span data-toggle="tooltip" data-placement="top"
-                                                                  data-original-title="Ocean forwarder">OF</span>
+                                                                  data-original-title="Ocean/Air Forwarder">O/AF</span>
                                                         </label>
                                                         <div class="col-sm-7">
                                                             <select class="form-control"
@@ -1789,8 +1792,11 @@
             },
 
             getSequence(sequence) {
-                if (sequence) {
+                if (sequence != '' || sequence != null) {
                     switch (sequence) {
+                        case 0 :
+                            return 'Golden Row'
+                            break
                         case 1 :
                             return sequence + 'st'
                             break
@@ -1903,7 +1909,9 @@
                 $('#addPoFactory').modal('show')
             },
 
-            showAddPoFactoryFactory(po_factory_id, po_factory_no) {
+            showAddPoFactoryFactory(po_client_index, po_factory_index, po_factory_id, po_factory_no) {
+                $('#add-po-factory-factory').attr('data-client-index', po_client_index)
+                $('#add-po-factory-factory').attr('data-factory-index', po_factory_index)
                 $('#addPoFactoryFactory .po_factory_no').html(po_factory_no)
                 this.po_factory_factory_form.po_factory_id = po_factory_id;
                 $('#addPoFactoryFactory').modal('show')
@@ -1958,9 +1966,18 @@
                         '',
                         'success'
                     ).then(() => {
+                        let po_client_index = $('#add-po-factory-factory').attr('data-client-index')
+                        let po_factory_index = $('#add-po-factory-factory').attr('data-factory-index')
+                        this.po_clients[po_client_index]['po_factories'][po_factory_index]['po_factory_factories'].push(response.data.data)
+                        this.po_factory_factory_form = {
+                            po_factory_id: '',
+                            factory_id: '',
+                            no: '',
+                            remarks: '',
+                            product: '',
+                        }
                         this.loading.po_factory_factory = false
                         $('#addPoFactoryFactory').modal('hide')
-                        location.reload()
                     })
 
                 }).catch(error => {
@@ -1969,14 +1986,14 @@
                 });
             },
 
-            deletePoFactoryFactory(id) {
+            deletePoFactoryFactory(po_client_index, po_factory_index, index, id) {
                 swal({
                     title: 'Are you sure to delete this item ?',
                     type: 'info',
                     showCancelButton: true,
                     confirmButtonText: 'Submit',
                     cancelButtonText: 'Cancel'
-                }).then(function (isConfirm) {
+                }).then((isConfirm) => {
                     if (isConfirm.value == true) {
                         axios({
                             method: 'post',
@@ -1986,8 +2003,8 @@
                                 "SUCCESS",
                                 response.data.message,
                                 'success'
-                            ).then(function () {
-                                location.reload()
+                            ).then(() => {
+                                this.po_clients[po_client_index]['po_factories'][po_factory_index]['po_factory_factories'].splice(index, 1);
                             });
                         }).catch(error => {
                             swal(
@@ -2011,13 +2028,16 @@
                 })
             },
 
-            editPoFactoryFactory(id) {
+            editPoFactoryFactory(po_client_index, po_factory_index, index, id) {
                 axios({
                     method: 'get',
                     url: '/admin/po-factory-factory/edit/' + id,
                 }).then(response => {
                     this.po_factory_factory_edit_form = response.data.data
-                    // $('#editPoFactoryFactory .po_factory_factory_no').html(no)
+                    $('#edit-po-factory-factory').attr('data-client-index', po_client_index)
+                    $('#edit-po-factory-factory').attr('data-factory-index', po_factory_index)
+                    $('#edit-po-factory-factory').attr('data-factory-factory-index', index)
+
                     $('#editPoFactoryFactory').modal('show')
                 })
             },
@@ -2054,8 +2074,15 @@
                         "SUCCESS",
                         response.data.message,
                         'success'
-                    ).then(function () {
-                        location.reload()
+                    ).then(() => {
+                        let po_client_index = $('#edit-po-factory-factory').attr('data-client-index')
+                        let po_factory_index = $('#edit-po-factory-factory').attr('data-factory-index')
+                        let index = $('#edit-po-factory-factory').attr('data-factory-factory-index')
+                        this.$set(this.po_clients[po_client_index]['po_factories'][po_factory_index]['po_factory_factories'], index, response.data.data)
+
+                        this.loading.po_factory_factory = false
+                        $('#editPoFactoryFactory').modal('hide')
+
                     });
                     this.loading.po_factory_factory = false
                 }).catch(error => {

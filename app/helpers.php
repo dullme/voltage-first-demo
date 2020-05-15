@@ -1,8 +1,11 @@
 <?php
 function getSequence($sequence)
 {
-    if ($sequence) {
+    if ($sequence != '' || $sequence !== null) {
         switch ($sequence) {
+            case 0 :
+                return 'Golden Row';
+                break;
             case 1 :
                 return $sequence . 'st';
                 break;

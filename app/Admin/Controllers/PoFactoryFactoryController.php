@@ -27,9 +27,11 @@ class PoFactoryFactoryController extends ResponseController
             return $this->setStatusCode(422)->responseError($validator->errors()->first());
         }
 
-        PoFactoryFactory::create($validator->validated());
+        $created = PoFactoryFactory::create($validator->validated());
 
-        return $this->responseSuccess(true);
+        $res = PoFactoryFactory::with('factory')->find($created->id);
+
+        return $this->responseSuccess($res);
     }
 
     public function delete($id)
@@ -64,6 +66,8 @@ class PoFactoryFactoryController extends ResponseController
 
         PoFactoryFactory::where('id', $id)->update($validator->validated());
 
-        return $this->responseSuccess(true);
+        $res = PoFactoryFactory::with('factory')->find($id);
+
+        return $this->responseSuccess($res);
     }
 }

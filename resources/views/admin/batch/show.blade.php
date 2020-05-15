@@ -28,7 +28,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="col-lg-6">
-                                <p>Sequence：{{ $batch->sequence }}</p>
+                                <p>Sequence：{{ getSequence($batch->sequence) }}</p>
                                 <p>Carrier：{{ $batch->carrier }}</p>
                                 <p>Ocean Forwarder：{{ $batch->oceanForwarder? optional($batch->oceanForwarder)->forwarder->name : '' }} : {{ $batch->oceanForwarder ? optional($batch->oceanForwarder)->name : '' }}</p>
                                 <p>B/L：{{ $batch->b_l }}</p>
