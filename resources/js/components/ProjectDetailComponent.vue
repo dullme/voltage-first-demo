@@ -60,7 +60,7 @@
 
                                             <div>
                                                 <span style="float: right" class="btn btn-default btn-xs"
-                                                      v-on:click="editPoClient(po_client.id)"><i
+                                                      v-on:click="editPoClient(po_client.id, po_client_index)"><i
                                                     class="fa fa-pencil"
                                                     style="padding-right: 2px"></i> Edit PO# Client </span>
                                                 <span style="float: right;margin-right: 7px" class="btn btn-danger btn-xs"
@@ -452,7 +452,7 @@
 
                     <div class="modal-footer" style="clear: both">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button v-on:click="savePoClient" type="button" class="btn btn-primary"
+                        <button v-on:click="savePoClient" type="button" class="btn btn-primary" id="edit-po-client" data-client-index=""
                                 :disabled="loading.po_client">Submit <i v-if="loading.po_client"
                                                                         class="fa fa-spinner fa-spin"></i></button>
                     </div>
@@ -1734,36 +1734,6 @@
                 }
             })
 
-
-            // //editShipment
-            // $('#editShipment input[name="estimated_production_completion"]').on('dp.change', (e) => {
-            //     if (e.currentTarget.value) {
-            //         $("#editShipment input[name='etd_port']").data("DateTimePicker").minDate(e.currentTarget.value)
-            //         this.shipment_edit_form.etd_port = '';
-            //     }
-            // })
-            //
-            // $('#editShipment input[name="etd_port"]').on('dp.change', (e) => {
-            //     if (e.currentTarget.value) {
-            //         $("#editShipment input[name='eta_port']").data("DateTimePicker").minDate(e.currentTarget.value)
-            //         this.shipment_edit_form.eta_port = '';
-            //     }
-            // })
-            //
-            // $('#editShipment input[name="actual_production_completion"]').on('dp.change', (e) => {
-            //     if (e.currentTarget.value) {
-            //         $("#editShipment input[name='atd_port']").data("DateTimePicker").minDate(e.currentTarget.value)
-            //         this.shipment_edit_form.atd_port = '';
-            //     }
-            // })
-            //
-            // $('#editShipment input[name="atd_port"]').on('dp.change', (e) => {
-            //     if (e.currentTarget.value) {
-            //         $("#editShipment input[name='ata_port']").data("DateTimePicker").minDate(e.currentTarget.value)
-            //         this.shipment_edit_form.ata_port = '';
-            //     }
-            // })
-
             $('#editPoFactory').on('hide.bs.modal', () => {
                 this.po_factory_history_active = ''
                 this.po_factory_history = {}
@@ -1867,7 +1837,9 @@
                 })
             },
 
-            editPoClient(id) {
+            editPoClient(id, po_client_index) {
+                $('#edit-po-client').attr('data-client-index', po_client_index)
+
                 axios({
                     method: 'get',
                     url: '/admin/po-client/edit/' + id,
@@ -1883,6 +1855,9 @@
             },
 
             savePoClient() {
+                let po_client_index = $('#edit-po-client').attr('data-client-index')
+                console.log(po_client_index)
+
                 this.loading.po_client = true
                 axios({
                     method: 'post',
@@ -1893,8 +1868,10 @@
                         "SUCCESS",
                         response.data.message,
                         'success'
-                    ).then(function () {
-                        location.reload()
+                    ).then(() => {
+                        this.$set(this.po_clients[0]['no'], this.po_client_edit_form.no)
+
+                        // location.reload()
                     });
                     this.loading.po_client = false
                 }).catch(error => {
