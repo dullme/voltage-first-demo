@@ -196,9 +196,11 @@ class PoFactoryController extends ResponseController
             ]
         ] : [];
 
-        Batch::create($data);
+        $batch = Batch::create($data);
 
-        return $this->responseSuccess(true, 'Created');
+        $batch = Batch::orderBy('sequence', 'ASC')->find($batch->id);
+
+        return $this->responseSuccess($batch, 'Created');
     }
 
     public function deleteFactory($id)
@@ -375,7 +377,9 @@ class PoFactoryController extends ResponseController
 
         Batch::where('id', $id)->update($data);
 
-        return $this->responseSuccess(true, 'Updated');
+        $batch = Batch::orderBy('sequence', 'ASC')->find($batch->id);
+
+        return $this->responseSuccess($batch, 'Updated');
     }
 
     public function addContainer(Request $request)
@@ -493,7 +497,7 @@ class PoFactoryController extends ResponseController
         }
 
         $maxAtaJobSite = $this->getMaxAtaJobSite($container->batch_id, $container->id);
-        if($data['ata_job_site'] && $this->needSetAtaJboSite($container->batch_id, $container->id)){
+        if ($data['ata_job_site'] && $this->needSetAtaJboSite($container->batch_id, $container->id)) {
             $batch->ata_job_site = $data['ata_job_site'] > $maxAtaJobSite ? $data['ata_job_site'] : $maxAtaJobSite;
         }
 
@@ -552,7 +556,7 @@ class PoFactoryController extends ResponseController
         $container = $withoutContainerId ? $container->where('id', '!=', $withoutContainerId)->get() : $container->get();
         $count = $container->count();
         $res = $container->where('ata_job_site', '!=', null)->count();
-        if($count == $res){
+        if ($count == $res) {
             return true;
         }
 

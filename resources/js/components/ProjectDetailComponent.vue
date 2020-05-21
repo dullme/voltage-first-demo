@@ -128,7 +128,7 @@
                                                     </button>
 
                                                     <button class="btn btn-success btn-xs" style="margin-right: 5px"
-                                                            v-on:click="showAddShipment(po_factory.id, po_factory.no)">
+                                                            v-on:click="showAddShipment(po_client_index,index, po_factory.id, po_factory.no)">
                                                         <i class="fa fa-plus" style="padding-right: 2px"></i> Add Shipment #
                                                     </button>
 
@@ -174,7 +174,7 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr v-if="po_factory.batches.length"
-                                                        v-for="batch in po_factory.batches">
+                                                        v-for="(batch, batch_index) in po_factory.batches">
                                                         <td>{{ batch.updated_at }}</td>
                                                         <td>
                                                             <a :href="'/admin/batch/show/' + batch.id">{{ getSequence(batch.sequence) }}<b><i v-if="batch.name"> -
@@ -271,11 +271,11 @@
                                                                     style="min-width: 70px !important;box-shadow: 0 2px 3px 0 rgba(0,0,0,.2);border-radius:0;left: -65px;top: 5px;">
                                                                     <li>
                                                                         <a href="javascript:void(0);"
-                                                                           v-on:click="editShipment(batch.id)">Edit</a>
+                                                                           v-on:click="editShipment(po_client_index,index,batch_index, batch.id)">Edit</a>
                                                                     </li>
                                                                     <li>
                                                                         <a href="javascript:void(0);"
-                                                                           v-on:click="deleteShipment(batch.id, false)">Delete</a>
+                                                                           v-on:click="deleteShipment(po_client_index,index,batch_index, batch.id, false)">Delete</a>
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -1019,7 +1019,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button v-on:click="addShipment" type="button" class="btn btn-primary"
+                            <button id="add-shipment-button" v-on:click="addShipment" type="button" class="btn btn-primary" data-client-index="" data-factory-index=""
                                     :disabled="loading.shipment">Submit <i v-if="loading.shipment"
                                                                            class="fa fa-spinner fa-spin"></i></button>
                         </div>
@@ -1379,7 +1379,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button v-on:click="saveShipment" type="button" class="btn btn-primary"
+                            <button id="edit-shipment-button" v-on:click="saveShipment" type="button" class="btn btn-primary"
+                                    data-client-index="" data-factory-index="" data-edit-shipment-index=""
                                     :disabled="loading.shipment">Submit <i v-if="loading.shipment"
                                                                            class="fa fa-spinner fa-spin"></i></button>
                         </div>
@@ -2099,7 +2100,10 @@
                 })
             },
 
-            showAddShipment(po_factory_id, po_factory_no) {
+            showAddShipment(po_client_index, po_factory_index, po_factory_id, po_factory_no) {
+                $('#add-shipment-button').attr('data-client-index', po_client_index)
+                $('#add-shipment-button').attr('data-factory-index', po_factory_index)
+
                 $('#addShipment .po_factory_no').html(po_factory_no)
                 this.shipment_form.po_factory_id = po_factory_id
                 $('#addShipment').modal('show')
@@ -2124,8 +2128,38 @@
                             "SUCCESS",
                             response.data.message,
                             'success'
-                        ).then(function () {
-                            location.reload()
+                        ).then( () => {
+                            let po_client_index = $('#add-shipment-button').attr('data-client-index')
+                            let po_factory_index = $('#add-shipment-button').attr('data-factory-index')
+                            this.po_clients[po_client_index]['po_factories'][po_factory_index]['batches'].push(response.data.data)
+
+                            this.shipment_form = {
+                                po_factory_id: '',
+                                name: '',
+                                sequence: '',
+                                carrier: '',
+                                ocean_forwarder: '',
+                                inland_forwarder: '',
+                                china_inland_forwarder: '',
+                                b_l: '',
+                                vessel: '',
+                                remarks: '',
+                                shipping_method: 'Customize',
+                                customize_shipping_method: '', //自定义
+                                estimated_production_completion: '',
+                                etd_port: '',
+                                eta_port: '',
+                                actual_production_completion: '',
+                                atd_port: '',
+                                ata_port: '',
+                                destination_port: '',
+                                port_of_departure: '',
+                                rmb:'',
+                                foreign_currency:'',
+                                foreign_currency_type:'',
+                            }
+                            this.loading.shipment = false
+                            $('#addShipment').modal('hide')
                         })
                     }
                     this.loading.shipment = false
@@ -2139,7 +2173,10 @@
                 });
             },
 
-            editShipment(id) {
+            editShipment(po_client_index, po_factory_index, index, id) {
+                $('#edit-shipment-button').attr('data-client-index', po_client_index)
+                $('#edit-shipment-button').attr('data-factory-index', po_factory_index)
+                $('#edit-shipment-button').attr('data-edit-shipment-index', index)
                 axios({
                     method: 'get',
                     url: '/admin/batch/' + id,
@@ -2151,6 +2188,7 @@
                         carrier: response.data.data.carrier,
                         ocean_forwarder: response.data.data.ocean_forwarder,
                         inland_forwarder: response.data.data.inland_forwarder,
+                        china_inland_forwarder: response.data.data.china_inland_forwarder,
                         b_l: response.data.data.b_l,
                         vessel: response.data.data.vessel,
                         remarks: response.data.data.remarks,
@@ -2167,26 +2205,6 @@
                         foreign_currency:response.data.data.foreign_currency,
                         foreign_currency_type:response.data.data.foreign_currency_type,
                     }
-
-                    // if (response.data.data.estimated_production_completion) {
-                    //     $("#editShipment input[name='etd_port']").data("DateTimePicker").minDate(response.data.data.estimated_production_completion)
-                    //     this.shipment_edit_form.etd_port = response.data.data.etd_port ? response.data.data.etd_port : '';
-                    // }
-                    //
-                    // if (response.data.data.etd_port) {
-                    //     $("#editShipment input[name='eta_port']").data("DateTimePicker").minDate(response.data.data.etd_port)
-                    //     this.shipment_edit_form.eta_port = response.data.data.eta_port ? response.data.data.eta_port : '';
-                    // }
-                    //
-                    // if (response.data.data.actual_production_completion) {
-                    //     $("#editShipment input[name='atd_port']").data("DateTimePicker").minDate(response.data.data.actual_production_completion)
-                    //     this.shipment_edit_form.atd_port = response.data.data.atd_port ? response.data.data.atd_port : '';
-                    // }
-                    //
-                    // if (response.data.data.atd_port) {
-                    //     $("#editShipment input[name='ata_port']").data("DateTimePicker").minDate(response.data.data.atd_port)
-                    //     this.shipment_edit_form.ata_port = response.data.data.ata_port ? response.data.data.ata_port : '';
-                    // }
 
                     let shipping_method = this.inArray(response.data.data.shipping_method, [
                         'Regular Ocean Shipping',
@@ -2232,8 +2250,16 @@
                         "SUCCESS",
                         response.data.message,
                         'success'
-                    ).then(function () {
-                        location.reload()
+                    ).then( () => {
+
+                        let po_client_index = $('#edit-shipment-button').attr('data-client-index')
+                        let po_factory_index = $('#edit-shipment-button').attr('data-factory-index')
+                        let index = $('#edit-shipment-button').attr('data-edit-shipment-index')
+                        this.$set(this.po_clients[po_client_index]['po_factories'][po_factory_index]['batches'], index, response.data.data)
+
+                        this.loading.shipment = false
+                        $('#editShipment').modal('hide')
+
                     });
                     this.loading.shipment = false
                 }).catch(error => {
@@ -2242,7 +2268,7 @@
                 });
             },
 
-            deleteShipment(id, force_delete) {
+            deleteShipment(po_client_index, po_factory_index, batch_index, id, force_delete) {
                 let title = 'Are you sure to delete this item ?'
                 if (force_delete) {
                     title = 'Are you sure to force delete this item ?'
@@ -2254,7 +2280,7 @@
                     showCancelButton: true,
                     confirmButtonText: 'Delete',
                     cancelButtonText: 'Cancel'
-                }).then(function (isConfirm) {
+                }).then( (isConfirm) => {
                     if (isConfirm.value == true) {
                         axios({
                             method: 'post',
@@ -2267,9 +2293,8 @@
                                 "SUCCESS",
                                 response.data.message,
                                 'success'
-                            ).then(function () {
-                                // $('.data_batch_row_'+batch_id).remove()
-                                location.reload()
+                            ).then( () => {
+                                this.po_clients[po_client_index]['po_factories'][po_factory_index]['batches'].splice(batch_index, 1);
                             });
                         })
                     }

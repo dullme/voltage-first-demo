@@ -3378,6 +3378,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 // import Common from '../util'
 __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/vendor/date-js/date-zh-CN.js");
 
@@ -3948,7 +3949,9 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         }
       });
     },
-    showAddShipment: function showAddShipment(po_factory_id, po_factory_no) {
+    showAddShipment: function showAddShipment(po_client_index, po_factory_index, po_factory_id, po_factory_no) {
+      $('#add-shipment-button').attr('data-client-index', po_client_index);
+      $('#add-shipment-button').attr('data-factory-index', po_factory_index);
       $('#addShipment .po_factory_no').html(po_factory_no);
       this.shipment_form.po_factory_id = po_factory_id;
       $('#addShipment').modal('show');
@@ -3972,7 +3975,39 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
       }).then(function (response) {
         if (response.data.status) {
           swal("SUCCESS", response.data.message, 'success').then(function () {
-            location.reload();
+            var po_client_index = $('#add-shipment-button').attr('data-client-index');
+            var po_factory_index = $('#add-shipment-button').attr('data-factory-index');
+
+            _this13.po_clients[po_client_index]['po_factories'][po_factory_index]['batches'].push(response.data.data);
+
+            _this13.shipment_form = {
+              po_factory_id: '',
+              name: '',
+              sequence: '',
+              carrier: '',
+              ocean_forwarder: '',
+              inland_forwarder: '',
+              china_inland_forwarder: '',
+              b_l: '',
+              vessel: '',
+              remarks: '',
+              shipping_method: 'Customize',
+              customize_shipping_method: '',
+              //自定义
+              estimated_production_completion: '',
+              etd_port: '',
+              eta_port: '',
+              actual_production_completion: '',
+              atd_port: '',
+              ata_port: '',
+              destination_port: '',
+              port_of_departure: '',
+              rmb: '',
+              foreign_currency: '',
+              foreign_currency_type: ''
+            };
+            _this13.loading.shipment = false;
+            $('#addShipment').modal('hide');
           });
         }
 
@@ -3987,9 +4022,12 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         toastr.error(error.response.data.message);
       });
     },
-    editShipment: function editShipment(id) {
+    editShipment: function editShipment(po_client_index, po_factory_index, index, id) {
       var _this14 = this;
 
+      $('#edit-shipment-button').attr('data-client-index', po_client_index);
+      $('#edit-shipment-button').attr('data-factory-index', po_factory_index);
+      $('#edit-shipment-button').attr('data-edit-shipment-index', index);
       axios({
         method: 'get',
         url: '/admin/batch/' + id
@@ -4001,6 +4039,7 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
           carrier: response.data.data.carrier,
           ocean_forwarder: response.data.data.ocean_forwarder,
           inland_forwarder: response.data.data.inland_forwarder,
+          china_inland_forwarder: response.data.data.china_inland_forwarder,
           b_l: response.data.data.b_l,
           vessel: response.data.data.vessel,
           remarks: response.data.data.remarks,
@@ -4016,25 +4055,7 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
           rmb: response.data.data.rmb,
           foreign_currency: response.data.data.foreign_currency,
           foreign_currency_type: response.data.data.foreign_currency_type
-        }; // if (response.data.data.estimated_production_completion) {
-        //     $("#editShipment input[name='etd_port']").data("DateTimePicker").minDate(response.data.data.estimated_production_completion)
-        //     this.shipment_edit_form.etd_port = response.data.data.etd_port ? response.data.data.etd_port : '';
-        // }
-        //
-        // if (response.data.data.etd_port) {
-        //     $("#editShipment input[name='eta_port']").data("DateTimePicker").minDate(response.data.data.etd_port)
-        //     this.shipment_edit_form.eta_port = response.data.data.eta_port ? response.data.data.eta_port : '';
-        // }
-        //
-        // if (response.data.data.actual_production_completion) {
-        //     $("#editShipment input[name='atd_port']").data("DateTimePicker").minDate(response.data.data.actual_production_completion)
-        //     this.shipment_edit_form.atd_port = response.data.data.atd_port ? response.data.data.atd_port : '';
-        // }
-        //
-        // if (response.data.data.atd_port) {
-        //     $("#editShipment input[name='ata_port']").data("DateTimePicker").minDate(response.data.data.atd_port)
-        //     this.shipment_edit_form.ata_port = response.data.data.ata_port ? response.data.data.ata_port : '';
-        // }
+        };
 
         var shipping_method = _this14.inArray(response.data.data.shipping_method, ['Regular Ocean Shipping', 'Fast Ocean Shipping', 'Expedited', 'Ocean+Rail+Truck', 'Ocean+Flatbed', 'Air Freight']);
 
@@ -4068,7 +4089,14 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         data: data
       }).then(function (response) {
         swal("SUCCESS", response.data.message, 'success').then(function () {
-          location.reload();
+          var po_client_index = $('#edit-shipment-button').attr('data-client-index');
+          var po_factory_index = $('#edit-shipment-button').attr('data-factory-index');
+          var index = $('#edit-shipment-button').attr('data-edit-shipment-index');
+
+          _this15.$set(_this15.po_clients[po_client_index]['po_factories'][po_factory_index]['batches'], index, response.data.data);
+
+          _this15.loading.shipment = false;
+          $('#editShipment').modal('hide');
         });
         _this15.loading.shipment = false;
       })["catch"](function (error) {
@@ -4076,7 +4104,9 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         toastr.error(error.response.data.message);
       });
     },
-    deleteShipment: function deleteShipment(id, force_delete) {
+    deleteShipment: function deleteShipment(po_client_index, po_factory_index, batch_index, id, force_delete) {
+      var _this16 = this;
+
       var title = 'Are you sure to delete this item ?';
 
       if (force_delete) {
@@ -4099,15 +4129,14 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
             }
           }).then(function (response) {
             swal("SUCCESS", response.data.message, 'success').then(function () {
-              // $('.data_batch_row_'+batch_id).remove()
-              location.reload();
+              _this16.po_clients[po_client_index]['po_factories'][po_factory_index]['batches'].splice(batch_index, 1);
             });
           });
         }
       });
     },
     deletedShipment: function deletedShipment(id, no) {
-      var _this16 = this;
+      var _this17 = this;
 
       console.log(123);
       $('#deleted_factory_no').html(no);
@@ -4115,7 +4144,7 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         method: 'post',
         url: '/admin/deleted/batch/' + id
       }).then(function (response) {
-        _this16.deleted_shipments = response.data.data;
+        _this17.deleted_shipments = response.data.data;
         $('#deletedShipment').modal('show');
       });
     },
@@ -23245,6 +23274,8 @@ var render = function() {
                                         on: {
                                           click: function($event) {
                                             return _vm.showAddShipment(
+                                              po_client_index,
+                                              index,
                                               po_factory.id,
                                               po_factory.no
                                             )
@@ -23370,7 +23401,8 @@ var render = function() {
                                           "tbody",
                                           [
                                             _vm._l(po_factory.batches, function(
-                                              batch
+                                              batch,
+                                              batch_index
                                             ) {
                                               return po_factory.batches.length
                                                 ? _c("tr", [
@@ -23845,6 +23877,9 @@ var render = function() {
                                                                           $event
                                                                         ) {
                                                                           return _vm.editShipment(
+                                                                            po_client_index,
+                                                                            index,
+                                                                            batch_index,
                                                                             batch.id
                                                                           )
                                                                         }
@@ -23871,6 +23906,9 @@ var render = function() {
                                                                           $event
                                                                         ) {
                                                                           return _vm.deleteShipment(
+                                                                            po_client_index,
+                                                                            index,
+                                                                            batch_index,
                                                                             batch.id,
                                                                             false
                                                                           )
@@ -26367,7 +26405,13 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-primary",
-                  attrs: { type: "button", disabled: _vm.loading.shipment },
+                  attrs: {
+                    id: "add-shipment-button",
+                    type: "button",
+                    "data-client-index": "",
+                    "data-factory-index": "",
+                    disabled: _vm.loading.shipment
+                  },
                   on: { click: _vm.addShipment }
                 },
                 [
@@ -27720,7 +27764,14 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-primary",
-                  attrs: { type: "button", disabled: _vm.loading.shipment },
+                  attrs: {
+                    id: "edit-shipment-button",
+                    type: "button",
+                    "data-client-index": "",
+                    "data-factory-index": "",
+                    "data-edit-shipment-index": "",
+                    disabled: _vm.loading.shipment
+                  },
                   on: { click: _vm.saveShipment }
                 },
                 [
@@ -29214,7 +29265,12 @@ function normalizeComponent (
     options._ssrRegister = hook
   } else if (injectStyles) {
     hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      ? function () {
+        injectStyles.call(
+          this,
+          (options.functional ? this.parent : this).$root.$options.shadowRoot
+        )
+      }
       : injectStyles
   }
 
@@ -43384,7 +43440,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/dullme/Code/voltage/resources/js/admin.js */"./resources/js/admin.js");
+module.exports = __webpack_require__(/*! /Users/dullme/Code/voltage-first-demo/resources/js/admin.js */"./resources/js/admin.js");
 
 
 /***/ })
