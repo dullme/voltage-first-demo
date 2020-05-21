@@ -258,9 +258,12 @@ class PoFactoryController extends ResponseController
     {
         $batch = Batch::with('poFactory.poClient.project', 'containers', 'oceanForwarder.forwarder', 'inlandForwarder.forwarder', 'chinaInlandForwarder.forwarder')->findOrFail($id);
 
+        $url = url('/admin/projects/'.$batch->poFactory->poClient->project->id);
+        $text = "<a href='{$url}' >{$batch->poFactory->poClient->project->name}</a>";
+
         return $content
-            ->title(getSequence($batch->sequence))
-            ->description($batch->name)
+            ->title($text)
+            ->description(getSequence($batch->sequence) . ' : ' .$batch->name)
             ->row(view('admin.batch.show', compact('batch')));
     }
 

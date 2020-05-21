@@ -36,6 +36,7 @@ class PoClientController extends ResponseController
         $grid->filter(function($filter){
             $filter->disableIdFilter();
             $filter->like('no', 'No');
+            $filter->like('voltage_no', 'Voltage No');
         });
 
 //        $grid->column('id', __('Id'));

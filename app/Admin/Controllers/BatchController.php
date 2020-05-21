@@ -34,6 +34,7 @@ class BatchController extends AdminController
         $grid->filter(function($filter){
             $filter->disableIdFilter();
             $filter->like('containers.no','No');
+            $filter->like('b_l','B/L');
         });
 
         $grid->column('name', __('Name'))->display(function ($name){
@@ -54,7 +55,7 @@ class BatchController extends AdminController
         $grid->column('ocean_forwarder', __('Ocean forwarder'));
         $grid->column('inland_forwarder', __('Inland forwarder'));
         $grid->column('china_inland_forwarder', __('China inland forwarder'));
-        $grid->column('b_l', __('B l'));
+        $grid->column('b_l', __('B/L'));
         $grid->column('vessel', __('Vessel'));
         $grid->column('remarks', __('Remarks'));
 
