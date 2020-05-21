@@ -1,14 +1,99 @@
 <?php
 
-
 namespace App\Admin\Controllers;
 
 use App\PoClient;
+use Encore\Admin\Controllers\AdminController;
+use Encore\Admin\Form;
+use Encore\Admin\Grid;
+use Encore\Admin\Show;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class PoClientController extends ResponseController
 {
+    /**
+     * Title for current resource.
+     *
+     * @var string
+     */
+    protected $title = 'App\PoClient';
+
+    /**
+     * Make a grid builder.
+     *
+     * @return Grid
+     */
+    protected function grid()
+    {
+        $grid = new Grid(new PoClient());
+
+        $grid->disableExport();
+        $grid->disableRowSelector();
+        $grid->disableActions();
+        $grid->disableCreateButton();
+
+        $grid->filter(function($filter){
+            $filter->disableIdFilter();
+            $filter->like('no', 'No');
+        });
+
+//        $grid->column('id', __('Id'));
+        $grid->project()->name(__('Project name'));
+        $grid->column('no', __('No'))->display(function ($no){
+            $url = url('/admin/projects/'.$this->project->id.'/?po-client='.$this->id);
+            return "<a href='{$url}'>$no</a>";
+        });
+
+//        $grid->column('no', __('No'));
+        $grid->column('voltage_no', __('Voltage no'));
+        $grid->column('client_delivery_time', __('Client delivery time'));
+        $grid->column('po_date', __('Po date'));
+        $grid->column('created_at', __('Created at'));
+        $grid->column('updated_at', __('Updated at'));
+
+        return $grid;
+    }
+
+    /**
+     * Make a show builder.
+     *
+     * @param mixed $id
+     * @return Show
+     */
+    protected function detail($id)
+    {
+        $show = new Show(PoClient::findOrFail($id));
+
+        $show->field('id', __('Id'));
+        $show->field('project_id', __('Project id'));
+        $show->field('no', __('No'));
+        $show->field('voltage_no', __('Voltage no'));
+        $show->field('client_delivery_time', __('Client delivery time'));
+        $show->field('po_date', __('Po date'));
+        $show->field('created_at', __('Created at'));
+        $show->field('updated_at', __('Updated at'));
+
+        return $show;
+    }
+
+    /**
+     * Make a form builder.
+     *
+     * @return Form
+     */
+    protected function form()
+    {
+        $form = new Form(new PoClient());
+
+        $form->number('project_id', __('Project id'));
+        $form->text('no', __('No'));
+        $form->text('voltage_no', __('Voltage no'));
+        $form->datetime('client_delivery_time', __('Client delivery time'))->default(date('Y-m-d H:i:s'));
+        $form->datetime('po_date', __('Po date'))->default(date('Y-m-d H:i:s'));
+
+        return $form;
+    }
 
     public function add(Request $request)
     {
@@ -76,5 +161,4 @@ class PoClientController extends ResponseController
 
         return $this->responseSuccess(true, 'Deleted');
     }
-
 }

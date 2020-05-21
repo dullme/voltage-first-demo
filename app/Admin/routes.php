@@ -40,6 +40,9 @@ Route::group([
 
     //项目
     $router->resource('projects', ProjectController::class);
+
+    $router->resource('po-clients', PoClientController::class);
+
     $router->get('po-client/edit/{id}', 'PoClientController@getPoClient');
     $router->post('po-client/edit/{id}', 'PoClientController@save');
     $router->post('po-client/add', 'PoClientController@add');
@@ -67,4 +70,6 @@ Route::group([
     $router->post('container/edit/{id}', 'PoFactoryController@editContainer');
     $router->get('container/info/{id}', 'PoFactoryController@containerInfo');
     $router->post('po-factory-batch/edit/{id}', 'PoFactoryController@editBatch');
+
+    $router->resource('batches', BatchController::class);
 });

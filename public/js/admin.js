@@ -3379,12 +3379,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 // import Common from '../util'
 __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/vendor/date-js/date-zh-CN.js");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      search: {
+        po_client: ''
+      },
       loading: {
         po_client: false,
         po_factory: false,
@@ -3537,6 +3543,7 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
     axios.get('/admin/forwarder-contact-list').then(function (response) {
       _this.forwarder_contacts = response.data;
     });
+    this.search.po_client = this.getUrlKey('po-client');
   },
   mounted: function mounted() {
     var _this2 = this;
@@ -4186,6 +4193,9 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
       }
 
       return text;
+    },
+    getUrlKey: function getUrlKey(name) {
+      return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null;
     }
   }
 });
@@ -22749,11 +22759,29 @@ var render = function() {
                                   },
                                   [
                                     _c("div", [
-                                      _c("span", [
-                                        _vm._v(
-                                          "PO# Client：" + _vm._s(po_client.no)
-                                        )
-                                      ]),
+                                      po_client.id == _vm.search.po_client
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticStyle: {
+                                                color: "#dd4b39",
+                                                "font-weight": "bold",
+                                                "font-size": "16px"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "PO# Client：" +
+                                                  _vm._s(po_client.no)
+                                              )
+                                            ]
+                                          )
+                                        : _c("span", [
+                                            _vm._v(
+                                              "PO# Client：" +
+                                                _vm._s(po_client.no)
+                                            )
+                                          ]),
                                       _vm._v(" "),
                                       _c(
                                         "span",
@@ -25563,6 +25591,14 @@ var render = function() {
                                     "option",
                                     { attrs: { value: "Air Freight" } },
                                     [_vm._v("Air Freight")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    {
+                                      attrs: { value: "International Express" }
+                                    },
+                                    [_vm._v("International Express")]
                                   )
                                 ]
                               )
@@ -26928,6 +26964,14 @@ var render = function() {
                                     "option",
                                     { attrs: { value: "Air Freight" } },
                                     [_vm._v("Air Freight")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    {
+                                      attrs: { value: "International Express" }
+                                    },
+                                    [_vm._v("International Express")]
                                   )
                                 ]
                               )

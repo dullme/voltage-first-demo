@@ -44,7 +44,8 @@
                                         <div style="margin-bottom: 10px;display: flex;justify-content: space-between">
                                             <div style="display:flex;flex: 1;justify-content: space-between;margin-right: 20px">
                                                 <div>
-                                                    <span>PO# Client：{{ po_client.no }}</span>
+                                                    <span v-if="po_client.id == search.po_client" style="color: #dd4b39;font-weight: bold;font-size: 16px">PO# Client：{{ po_client.no }}</span>
+                                                    <span v-else>PO# Client：{{ po_client.no }}</span>
                                                     <span style="margin-left: 20px">PO# Voltage：{{ po_client.voltage_no }}</span>
                                                 </div>
 
@@ -782,6 +783,7 @@
                                                                 </option>
                                                                 <option value="Ocean+Flatbed">Ocean+Flatbed</option>
                                                                 <option value="Air Freight">Air Freight</option>
+                                                                <option value="International Express">International Express</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -1148,6 +1150,7 @@
                                                                 </option>
                                                                 <option value="Ocean+Flatbed">Ocean+Flatbed</option>
                                                                 <option value="Air Freight">Air Freight</option>
+                                                                <option value="International Express">International Express</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -1477,6 +1480,9 @@
     export default {
         data() {
             return {
+                search:{
+                    po_client : '',
+                },
                 loading: {
                     po_client: false,
                     po_factory: false,
@@ -1633,6 +1639,8 @@
             axios.get('/admin/forwarder-contact-list').then(response => {
                 this.forwarder_contacts = response.data
             })
+
+            this.search.po_client = this.getUrlKey('po-client')
         },
 
         mounted() {
@@ -2358,6 +2366,10 @@
 
                 return text;
             },
+
+            getUrlKey(name) {
+                return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
+            }
 
 
         },

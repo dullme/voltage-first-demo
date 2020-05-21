@@ -105,7 +105,13 @@
                                         <tbody>
                                         @foreach($batch->containers as $container)
                                             <tr class="data_container_row_{{ $container->id }}">
-                                                <td>{{ $container->no }}</td>
+                                                <td>
+                                                    @if(request()->get('container') && request()->get('container') == $container->id)
+                                                        <span style="color: #dd4b39;font-weight: bold;font-size: 16px">{{ $container->no }}</span>
+                                                    @else
+                                                        {{ $container->no }}
+                                                    @endif
+                                                </td>
                                                 <td>{{ $container->type }}</td>
                                                 <td style="vertical-align: middle">
 

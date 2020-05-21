@@ -33,13 +33,22 @@ class ProjectController extends AdminController
         $grid = new Grid(new Project());
         $grid->model()->orderByDesc('id');
         $grid->disableExport();
-        $grid->disableFilter();
+//        $grid->disableFilter();
         $grid->disableRowSelector();
         $grid->actions(function ($actions) {
             if ($actions->row->poClients()->count()) {
                 // 去掉删除
                 $actions->disableDelete();
             } //存在 Factory 不允许删除
+        });
+
+        $grid->filter(function($filter){
+
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+
+            // 在这里添加字段过滤器
+            $filter->like('name', 'Project name');
         });
 
         $grid->column('name', __('Project name'))->display(function ($name) {
