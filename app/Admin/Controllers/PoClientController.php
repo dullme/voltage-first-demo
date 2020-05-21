@@ -35,19 +35,19 @@ class PoClientController extends ResponseController
 
         $grid->filter(function($filter){
             $filter->disableIdFilter();
-            $filter->like('no', 'No');
-            $filter->like('voltage_no', 'Voltage No');
+            $filter->like('no', 'PO# Client');
+            $filter->like('voltage_no', 'PO# Voltage');
         });
 
 //        $grid->column('id', __('Id'));
         $grid->project()->name(__('Project name'));
-        $grid->column('no', __('No'))->display(function ($no){
+        $grid->column('no', __('PO# Client'))->display(function ($no){
             $url = url('/admin/projects/'.$this->project->id.'/?po-client='.$this->id);
             return "<a href='{$url}'>$no</a>";
         });
 
 //        $grid->column('no', __('No'));
-        $grid->column('voltage_no', __('Voltage no'));
+        $grid->column('voltage_no', __('PO# Voltage'));
         $grid->column('client_delivery_time', __('Client delivery time'));
         $grid->column('po_date', __('Po date'));
         $grid->column('created_at', __('Created at'));

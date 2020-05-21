@@ -33,7 +33,7 @@ class BatchController extends AdminController
 
         $grid->filter(function($filter){
             $filter->disableIdFilter();
-            $filter->like('containers.no','No');
+            $filter->like('containers.no','Container No');
             $filter->like('b_l','B/L');
         });
 
@@ -41,7 +41,7 @@ class BatchController extends AdminController
             return $name ? getSequence($this->sequence) .' - '.$name : getSequence($this->sequence);
         });
 
-        $grid->containers(__('Containers'))->display(function ($containers){
+        $grid->containers(__('Container No'))->display(function ($containers){
             $res = '';
             foreach ($containers as $container){
                 $url = url('admin/batch/show/'.$container['batch_id'].'?container='.$container['id']);
