@@ -109,7 +109,12 @@
                                                     @if(request()->get('container') && request()->get('container') == $container->id)
                                                         <span style="color: #dd4b39;font-weight: bold;font-size: 16px">{{ $container->no }}</span>
                                                     @else
-                                                        {{ $container->no }}
+                                                        @if($container->type)
+                                                            {{ $container->no }}
+                                                        @else
+                                                            <span style="color: #e8e8e8;font-weight: bold;font-size: 16px">{{ $container->no }}</span>
+                                                        @endif
+
                                                     @endif
                                                 </td>
                                                 <td>{{ $container->type }}</td>

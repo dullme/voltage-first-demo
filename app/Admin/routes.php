@@ -72,4 +72,5 @@ Route::group([
     $router->post('po-factory-batch/edit/{id}', 'PoFactoryController@editBatch');
 
     $router->resource('batches', BatchController::class);
+    $router->get('batches-export', 'BatchController@export');
 });

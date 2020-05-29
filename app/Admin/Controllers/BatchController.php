@@ -2,14 +2,20 @@
 
 namespace App\Admin\Controllers;
 
+use App\Exports\BatchesExport;
+use App\Project;
+use Carbon\Carbon;
+use Excel;
 use App\Batch;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Illuminate\Http\Request;
 
 class BatchController extends AdminController
 {
+
     /**
      * Title for current resource.
      *
@@ -31,22 +37,23 @@ class BatchController extends AdminController
         $grid->disableActions();
         $grid->disableCreateButton();
 
-        $grid->filter(function($filter){
+        $grid->filter(function ($filter) {
             $filter->disableIdFilter();
-            $filter->like('containers.no','Container No');
-            $filter->like('b_l','B/L');
+            $filter->like('containers.no', 'Container No');
+            $filter->like('b_l', 'B/L');
         });
 
-        $grid->column('name', __('Name'))->display(function ($name){
-            return $name ? getSequence($this->sequence) .' - '.$name : getSequence($this->sequence);
+        $grid->column('name', __('Name'))->display(function ($name) {
+            return $name ? getSequence($this->sequence) . ' - ' . $name : getSequence($this->sequence);
         });
 
-        $grid->containers(__('Container No'))->display(function ($containers){
+        $grid->containers(__('Container No'))->display(function ($containers) {
             $res = '';
-            foreach ($containers as $container){
-                $url = url('admin/batch/show/'.$container['batch_id'].'?container='.$container['id']);
+            foreach ($containers as $container) {
+                $url = url('admin/batch/show/' . $container['batch_id'] . '?container=' . $container['id']);
                 $res .= "<a style='display: block' href='{$url}'>{$container['no']}</a>";
             }
+
             return $res;
         });
 
@@ -147,5 +154,62 @@ class BatchController extends AdminController
         $form->textarea('eta_port_history', __('Eta port history'));
 
         return $form;
+    }
+
+    public function export(Request $request)
+    {
+
+        dd($request->all());
+
+        $projects = Project::with('client', 'poClients.poFactories.batches.containers')->find($ids);
+        $data = [];
+        foreach ($projects as $project) {
+            foreach ($project->poClients as $poClient) {
+                foreach ($poClient->poFactories as $poFactory) {
+                    foreach ($poFactory->batches as $batch) {
+                        $ata_job_site = "";
+                        $type = "";
+                        $container_no = "";
+                        $remarks = "";
+                        foreach ($batch->containers as $key => $container) {
+                            $container_no .= $container->no ? ($key+1).'、'.$container->no . "\r\n" : ($key+1).'、'."/ \r\n";
+                            $ata_job_site .= $container->ata_job_site ? ($key+1).'、'.$container->ata_job_site . "\r\n" : ($key+1).'、'."/ \r\n";
+                            $type .= $container->type ? ($key+1).'、'.$container->type . "\r\n" : ($key+1).'、'."/ \r\n";
+                            $remarks .= $container->remarks ? ($key+1).'、'.$container->remarks . "\r\n" : ($key+1).'、'."/ \r\n";
+                        }
+
+
+                        $data[] = [
+                            'voltage_no'                      => $poClient->voltage_no,
+                            'customer'                        => $project->client->name,
+                            'customer_po'                     => $poClient->no,
+                            'address'                         => $project->address,
+                            'shipment_no'                     => $batch->name ? getSequence($batch->sequence) . ' - ' . $batch->name : getSequence($batch->sequence),
+                            'estimated_production_completion' => optional($batch->estimated_production_completion)->toDateString(),
+                            'etd_port'                        => optional($batch->etd_port)->toDateString(),
+                            'eta_port'                        => optional($batch->eta_port)->toDateString(),
+                            'eta_job_site'                    => optional($batch->eta_job_site)->toDateString(),
+
+                            'actual_production_completion' => optional($batch->actual_production_completion)->toDateString(),
+                            'atd_port'                     => optional($batch->atd_port)->toDateString(),
+                            'ata_port'                     => optional($batch->ata_port)->toDateString(),
+                            'ata_job_site'                 => $ata_job_site,
+
+                            'shipping_method' => $batch->shipping_method,
+                            'carrier'         => $batch->carrier,
+                            'b_l'             => $batch->b_l,
+                            'container_no'    => $container_no,
+                            'type'            => $type,
+                            'remarks'         => $remarks,
+                        ];
+                    }
+                }
+            }
+        }
+
+        return Excel::download(
+            new BatchesExport($data),
+            "projects_".time().".xlsx"   //导出的文件名
+        );
     }
 }

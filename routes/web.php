@@ -17,3 +17,5 @@ Route::get('/', function () {
     return redirect('/admin');
 //    return view('welcome');
 });
+
+Route::get("storage/{file_name}","FileController@browse");

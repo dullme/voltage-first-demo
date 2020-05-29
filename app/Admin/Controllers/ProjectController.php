@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Actions\Post\BatchReplicate;
 use App\Client;
 use App\Contact;
 use App\Project;
@@ -34,12 +35,20 @@ class ProjectController extends AdminController
         $grid->model()->orderByDesc('id');
         $grid->disableExport();
 //        $grid->disableFilter();
-        $grid->disableRowSelector();
+//        $grid->disableRowSelector();
         $grid->actions(function ($actions) {
             if ($actions->row->poClients()->count()) {
                 // 去掉删除
                 $actions->disableDelete();
             } //存在 Factory 不允许删除
+        });
+
+        $grid->batchActions(function ($batch) {
+            $batch->disableDelete();
+        });
+
+        $grid->tools(function (Grid\Tools $tools) {
+            $tools->append(new BatchReplicate());
         });
 
         $grid->filter(function($filter){
@@ -49,6 +58,7 @@ class ProjectController extends AdminController
 
             // 在这里添加字段过滤器
             $filter->like('name', 'Project name');
+            $filter->equal('client_id', 'Client')->select('/admin/client-list');
         });
 
         $grid->column('name', __('Project name'))->display(function ($name) {
