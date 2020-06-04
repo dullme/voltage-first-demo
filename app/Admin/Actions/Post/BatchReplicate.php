@@ -5,6 +5,7 @@ namespace App\Admin\Actions\Post;
 use App\Admin\Controllers\BatchController;
 use App\Exports\BatchesExport;
 use App\Project;
+use Carbon\Carbon;
 use Encore\Admin\Actions\BatchAction;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -45,6 +46,7 @@ class BatchReplicate extends BatchAction
 
                         $res['voltage_no'] = $poClient->voltage_no;
                         $res['customer'] = $project->client->name;
+                        $res['project_name'] = $project->name;
                         $res['customer_po'] = $poClient->no;
                         $res['address'] = $project->address;
                         $res['shipment_no'] = $batch->name ? getSequence($batch->sequence) . ' - ' . $batch->name : getSequence($batch->sequence);
@@ -89,7 +91,7 @@ class BatchReplicate extends BatchAction
             }
         }
 
-        $filename = "projects_" . time() . ".xlsx"; //导出的文件名
+        $filename = "projects_" . Carbon::now()->toDateString() . "_" . time() . ".xlsx"; //导出的文件名
         $filepath = "export/" . $filename; //导出的文件名
         Excel::store(
             new BatchesExport($data, $columns),
