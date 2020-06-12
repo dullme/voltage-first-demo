@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">{{ project_name }} - {{ client.name }} - {{ project_address }}</h3>
+                    <h3 class="box-title">{{ project_name }} - {{ client.name }} - {{ project_address }} <span class="label label-info" style="margin-left: 10px" v-if="author">{{ author.name }}</span></h3>
                     <div class="box-tools">
                         <div class="btn-group pull-right" style="margin-right: 5px">
                             <a href="/admin/projects" class="btn btn-sm btn-default" title="List">
@@ -1480,6 +1480,7 @@
     export default {
         data() {
             return {
+                author:[],
                 search:{
                     po_client : '',
                 },
@@ -1617,6 +1618,7 @@
             this.project_address = project.address
             this.client = project.client
             this.po_clients = project.po_clients
+            this.author = project.author
 
             project.client.contacts.forEach((item)=>{
                 if(this.inArray(item.id, project.contacts)){

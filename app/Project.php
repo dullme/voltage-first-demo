@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Project extends Model
 {
@@ -42,5 +43,10 @@ class Project extends Model
     public function poClients()
     {
         return $this->hasMany(PoClient::class);
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(AdminUser::class);
     }
 }

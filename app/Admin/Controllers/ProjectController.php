@@ -13,6 +13,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends AdminController
 {
@@ -69,6 +70,7 @@ class ProjectController extends AdminController
         $grid->column('client.name', __('Client'));
 
         $grid->column('address', __('Address'));
+        $grid->author()->name('Author');
 
         $grid->column('created_at', __('Created at'));
 
@@ -90,7 +92,7 @@ class ProjectController extends AdminController
 EOF
         );
 
-        $project = Project::with(['client.contacts', 'poClients' => function ($query) {
+        $project = Project::with(['author:id,name', 'client.contacts', 'poClients' => function ($query) {
             $query->with(['poFactories' => function ($query) {
                 $query->with(['poFactoryFactories.factory', 'batches' => function ($query) {
                     $query->orderBy('sequence', 'ASC');
@@ -140,11 +142,20 @@ EOF
         });
 
         if ($form->isCreating()) {
+            $form->hidden('author_id', __('Author'));
             $form->saving(function (Form $form) {
                 $carbon = Carbon::now();
                 $project = Project::orderBy('id', 'desc')->whereBetween('created_at', [$carbon->startOfYear()->toDateTimeString(), $carbon->endOfYear()->toDateTimeString()])->first();
                 $number = $project ? intval($project->number) + 1 : substr($carbon->year, -2) . '001';
                 $form->number = $number;
+                $form->author_id = Auth('admin')->id();
+            });
+        }else{
+            $form->select('author_id', __('Author'))->options(DB::table('admin_users')->pluck('name', 'id'));
+            $form->saving(function (Form $form) {
+                if ($form->model()->author_id != 0) {
+                    $form->author_id = $form->model()->author_id;
+                }
             });
         }
 

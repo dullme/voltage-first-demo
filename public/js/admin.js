@@ -3388,6 +3388,7 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      author: [],
       search: {
         po_client: ''
       },
@@ -3526,6 +3527,7 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
     this.project_address = project.address;
     this.client = project.client;
     this.po_clients = project.po_clients;
+    this.author = project.author;
     project.client.contacts.forEach(function (item) {
       if (_this.inArray(item.id, project.contacts)) {
         _this.contacts.push(item);
@@ -22682,8 +22684,19 @@ var render = function() {
                 " - " +
                 _vm._s(_vm.client.name) +
                 " - " +
-                _vm._s(_vm.project_address)
-            )
+                _vm._s(_vm.project_address) +
+                " "
+            ),
+            _vm.author
+              ? _c(
+                  "span",
+                  {
+                    staticClass: "label label-info",
+                    staticStyle: { "margin-left": "10px" }
+                  },
+                  [_vm._v(_vm._s(_vm.author.name))]
+                )
+              : _vm._e()
           ]),
           _vm._v(" "),
           _vm._m(0)

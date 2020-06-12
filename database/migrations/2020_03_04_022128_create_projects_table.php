@@ -20,6 +20,7 @@ class CreateProjectsTable extends Migration
             $table->string('name')->comment('项目名称');
             $table->string('number')->comment('项目编号');
             $table->string('address')->nullable()->comment('地址');
+            $table->string('author')->nullable()->comment('创建人');
             $table->timestamps();
         });
     }

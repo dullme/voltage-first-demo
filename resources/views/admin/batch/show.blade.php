@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title">Detail</h3>
+                <h3 class="box-title">Detail <span class="label label-info" style="margin-left: 10px">{{ optional($batch->poFactory->poClient->project->author)->name }}</span></h3>
 
                 <div class="box-tools">
                     <div class="btn-group pull-right" style="margin-right: 5px">
