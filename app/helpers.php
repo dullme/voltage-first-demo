@@ -44,3 +44,24 @@ function popover($history){
 
     return $text;
 }
+
+function getWarning($first, $second){
+    $status = 0;
+
+    if($first == null){
+        return $status;
+    }
+
+    $first = \Carbon\Carbon::parse($first);
+
+    if($second == null){
+
+        if(\Carbon\Carbon::now()->toDateString() >= $first->toDateString()){
+            $status = 2;//标记红色
+        }else if(\Carbon\Carbon::now()->toDateString() >= $first->subDays(2)->toDateString()){
+            $status = 1;//标记黄色
+        }
+    }
+
+    return $status;
+}

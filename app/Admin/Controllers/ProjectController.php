@@ -33,7 +33,7 @@ class ProjectController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Project());
-        $grid->model()->orderByDesc('id');
+        $grid->model()->with('poClients.poFactories.batches')->orderByDesc('id');
         $grid->disableExport();
 //        $grid->disableFilter();
 //        $grid->disableRowSelector();
@@ -99,6 +99,22 @@ EOF
                 }]);
             }]);
         }])->findOrFail($id);
+
+
+        $poClients = $project->poClients->map(function ($item){
+            $item->poFactories = $item->poFactories->map(function ($po){
+                $po->batches = $po->batches->map(function ($batch){
+                    $batch['epc_color'] = getWarning($batch->estimated_production_completion, $batch->actual_production_completion);
+                    $batch['etd_color'] = getWarning($batch->etd_port, $batch->atd_port);
+                    $batch['eta_color'] = getWarning($batch->eta_port, $batch->ata_port);
+                    $batch['eta_job_site_color'] = getWarning($batch->eta_job_site, $batch->ata_job_site);
+                    return $batch;
+                });
+                return $po;
+            });
+            return $item;
+        });
+        $project->setAttribute('po_clients', $poClients);
 
         return view('admin.project.detail', compact('project'));
     }

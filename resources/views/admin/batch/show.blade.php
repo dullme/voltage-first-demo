@@ -50,10 +50,10 @@
 
                         <div class="col-lg-6">
                             <div style="background-color: rgb(238, 238, 238);    padding: 25px;border-radius: 4px;margin-bottom: 20px;">
-                                <p>EPC：{{ optional($batch->estimated_production_completion)->toDatestring() }}</p>
-                                <p>ETD Port：{{ optional($batch->etd_port)->toDatestring() }}</p>
-                                <p>ETA Port：{{ optional($batch->eta_port)->toDatestring() }}</p>
-                                <p>ETA Job Site：{{ optional($batch->eta_job_site)->toDatestring() }}</p>
+                                <p class="{{ $batch->epc_color ? $batch->epc_color == 1 ? 'll-warning' : 'll-danger' : '' }}">EPC：{{ optional($batch->estimated_production_completion)->toDatestring() }}</p>
+                                <p class="{{ $batch->etd_color ? $batch->etd_color == 1 ? 'll-warning' : 'll-danger' : '' }}">ETD Port：{{ optional($batch->etd_port)->toDatestring() }}</p>
+                                <p class="{{ $batch->eta_color ? $batch->eta_color == 1 ? 'll-warning' : 'll-danger' : '' }}">ETA Port：{{ optional($batch->eta_port)->toDatestring() }}</p>
+                                <p class="{{ $batch->eta_job_site_color ? $batch->eta_job_site_color == 1 ? 'll-warning' : 'll-danger' : '' }}">ETA Job Site：{{ optional($batch->eta_job_site)->toDatestring() }}</p>
                                 @if($batch->estimated_production_completion && $batch->eta_job_site)
                                     <p>Time consuming：
                                         <span class="label label-default">
@@ -120,7 +120,7 @@
                                                 <td>{{ $container->type }}</td>
                                                 <td style="vertical-align: middle">
 
-                                                    <p>
+                                                    <p class="{{ $container->eta_job_site_color ? $batch->eta_job_site_color == 1 ? 'll-warning' : 'll-danger' : '' }}">
                                                         <span class="popover-t" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="ETA Job Site" data-content="{{ popover($container->eta_job_site_history) }}">{{ $container->eta_job_site ? $container->eta_job_site : '-' }}</span>
                                                     </p>
 {{--                                                    <div style="width:50%;text-align: right;float: left">--}}
@@ -506,6 +506,14 @@
 
     td{
         vertical-align: middle !important;
+    }
+
+    .ll-warning{
+        background-color: #f39c12 !important;
+    }
+
+    .ll-danger{
+        background-color: #dd4b39 !important;
     }
 </style>
 

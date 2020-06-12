@@ -202,16 +202,16 @@
                                                                 <p><i>ETA Job Site：</i></p>
                                                             </div>
                                                             <div style="width:50%;text-align: left;float: right">
-                                                                <p>
+                                                                <p :class="batch.epc_color ? batch.epc_color == 1 ? 'll-warning' : 'll-danger' : ''">
                                                                     <span class="popover-t" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="EPC History" :data-content="popover(batch.epc_history)">{{ batch.estimated_production_completion ? batch.estimated_production_completion.substr(0,10) : '-' }}</span>
                                                                 </p>
-                                                                <p>
+                                                                <p :class="batch.etd_color ? batch.etd_color == 1 ? 'll-warning' : 'll-danger' : ''">
                                                                     <span class="popover-t" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="ETD Port History" :data-content="popover(batch.etd_port_history)">{{ batch.etd_port ? batch.etd_port.substr(0,10) : '-' }}</span>
                                                                 </p>
-                                                                <p>
+                                                                <p :class="batch.eta_color ? batch.eta_color == 1 ? 'll-warning' : 'll-danger' : ''">
                                                                     <span class="popover-t" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="ETA Port History" :data-content="popover(batch.eta_port_history)">{{ batch.eta_port ? batch.eta_port.substr(0,10) : '-' }}</span>
                                                                 </p>
-                                                                <p>{{ batch.eta_job_site ? batch.eta_job_site.substr(0,10) : '-' }}</p>
+                                                                <p :class="batch.eta_job_site_color ? batch.eta_job_site_color == 1 ? 'll-warning' : 'll-danger' : ''">{{ batch.eta_job_site ? batch.eta_job_site.substr(0,10) : '-' }}</p>
                                                                 <p>
                                                                     <span class="label label-default"
                                                                           v-if="batch.estimated_production_completion && batch.eta_job_site">
@@ -2437,5 +2437,13 @@
 
     .popover{
         width: unset !important;
+    }
+
+    .ll-warning{
+        background-color: #f39c12 !important;
+    }
+
+    .ll-danger{
+        background-color: #dd4b39 !important;
     }
 </style>

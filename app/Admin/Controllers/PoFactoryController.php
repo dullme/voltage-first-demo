@@ -261,6 +261,18 @@ class PoFactoryController extends ResponseController
         $url = url('/admin/projects/'.$batch->poFactory->poClient->project->id);
         $text = "<a href='{$url}' >{$batch->poFactory->poClient->project->name}</a>";
 
+        $batch->setAttribute('epc_color', getWarning($batch->estimated_production_completion, $batch->actual_production_completion));
+        $batch->setAttribute('etd_color', getWarning($batch->etd_port, $batch->atd_port));
+        $batch->setAttribute('eta_color', getWarning($batch->eta_port, $batch->ata_port));
+        $batch->setAttribute('eta_job_site_color', getWarning($batch->eta_job_site, $batch->ata_job_site));
+
+
+        $containers = $batch->containers->map(function ($container){
+            $container['eta_job_site_color'] = getWarning($container->eta_job_site, $container->ata_job_site);
+            return $container;
+        });
+
+        $batch->setAttribute('containers', $containers);
         return $content
             ->title($text)
             ->description(getSequence($batch->sequence) . ' : ' .$batch->name)
@@ -381,6 +393,12 @@ class PoFactoryController extends ResponseController
         Batch::where('id', $id)->update($data);
 
         $batch = Batch::orderBy('sequence', 'ASC')->find($batch->id);
+
+
+        $batch->setAttribute('epc_color', getWarning($batch->estimated_production_completion, $batch->actual_production_completion));
+        $batch->setAttribute('etd_color', getWarning($batch->etd_port, $batch->atd_port));
+        $batch->setAttribute('eta_color', getWarning($batch->eta_port, $batch->ata_port));
+        $batch->setAttribute('eta_job_site_color', getWarning($batch->eta_job_site, $batch->ata_job_site));
 
         return $this->responseSuccess($batch, 'Updated');
     }
