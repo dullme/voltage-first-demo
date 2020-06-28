@@ -276,7 +276,7 @@
                                                                     </li>
                                                                     <li>
                                                                         <a href="javascript:void(0);"
-                                                                           v-on:click="deleteShipment(po_client_index,index,batch_index, batch.id, false)">Delete</a>
+                                                                           v-on:click="deleteShipment(po_client_index,index,batch_index, batch.id)">Delete</a>
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -1419,7 +1419,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-if="deleted_shipments.length" v-for="deleted_shipment in deleted_shipments">
+                                    <tr v-if="deleted_shipments.length" v-for="(deleted_shipment,deleted_shipment_index) in deleted_shipments">
                                         <td>{{ deleted_shipment.deleted_at}}</td>
                                         <td>{{ deleted_shipment.name }}<b><i v-if="deleted_shipment.sequence"> - {{
                                             getSequence(deleted_shipment.sequence) }}</i></b></td>
@@ -1440,7 +1440,7 @@
                                                 class="fa fa-undo"></i></a>
                                             <a href="javascript:void(0);" title="force delete"
                                                class="batch-delete btn btn-default btn-xs"
-                                               v-on:click="deleteShipment(deleted_shipment.id, true)"><i
+                                               v-on:click="forceDeleteShipment(deleted_shipment_index,deleted_shipment.id)"><i
                                                 class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
@@ -2278,15 +2278,10 @@
                 });
             },
 
-            deleteShipment(po_client_index, po_factory_index, batch_index, id, force_delete) {
-                let title = 'Are you sure to delete this item ?'
-                if (force_delete) {
-                    title = 'Are you sure to force delete this item ?'
-                }
-
+            deleteShipment(po_client_index, po_factory_index, batch_index, id) {
                 swal({
-                    title: title,
-                    type: force_delete ? 'warning' : 'info',
+                    title: 'Are you sure to delete this item ?',
+                    type: 'info',
                     showCancelButton: true,
                     confirmButtonText: 'Delete',
                     cancelButtonText: 'Cancel'
@@ -2296,7 +2291,7 @@
                             method: 'post',
                             url: '/admin/delete/batch/' + id,
                             data: {
-                                force_delete: force_delete
+                                force_delete: false
                             }
                         }).then(response => {
                             swal(
@@ -2305,6 +2300,34 @@
                                 'success'
                             ).then( () => {
                                 this.po_clients[po_client_index]['po_factories'][po_factory_index]['batches'].splice(batch_index, 1);
+                            });
+                        })
+                    }
+                })
+            },
+
+            forceDeleteShipment(deleted_shipment_index,id) {
+                swal({
+                    title: 'Are you sure to force delete this item ?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Delete',
+                    cancelButtonText: 'Cancel'
+                }).then( (isConfirm) => {
+                    if (isConfirm.value == true) {
+                        axios({
+                            method: 'post',
+                            url: '/admin/delete/batch/' + id,
+                            data: {
+                                force_delete: true
+                            }
+                        }).then(response => {
+                            swal(
+                                "SUCCESS",
+                                response.data.message,
+                                'success'
+                            ).then( () => {
+                                this.deleted_shipments.splice(deleted_shipment_index, 1)
                             });
                         })
                     }
