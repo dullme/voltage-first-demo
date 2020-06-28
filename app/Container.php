@@ -41,4 +41,9 @@ class Container extends Model
     {
         return $value ? Carbon::parse($value)->toDateString() : null;
     }
+
+    public function batch()
+    {
+        return $this->belongsTo(Batch::class);
+    }
 }

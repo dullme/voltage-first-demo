@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Actions\Post\BatchReplicate;
+use App\Batch;
 use App\Client;
 use App\Contact;
 use App\Project;
@@ -67,6 +68,23 @@ class ProjectController extends AdminController
 
             return "<a href='{$url}'>{$name}</a>";
         });
+
+        $grid->column('tip')->display(function () {
+            $batches = Batch::where('project_id', $this->id)->get();
+
+            foreach ($batches as $batch){
+                $epc_color = getWarning($batch->estimated_production_completion, $batch->actual_production_completion);
+                $etd_color = getWarning($batch->etd_port, $batch->atd_port);
+                $eta_color = getWarning($batch->eta_port, $batch->ata_port);
+                $eta_job_site_color = getWarning($batch->eta_job_site, $batch->ata_job_site);
+                if($epc_color||$etd_color||$eta_color||$eta_job_site_color){
+                    return '<i class="fa fa-certificate text-danger"></i>';
+                }
+            }
+
+            return '';
+        });
+
         $grid->column('client.name', __('Client'));
 
         $grid->column('address', __('Address'));

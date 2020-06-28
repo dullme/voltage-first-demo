@@ -196,6 +196,10 @@ class PoFactoryController extends ResponseController
             ]
         ] : [];
 
+        $poFactory = PoFactory::with('poClient.project')->find($data['po_factory_id']);
+        $data['project_id'] = $poFactory->poClient->project->id;
+
+
         $batch = Batch::create($data);
 
         $batch = Batch::orderBy('sequence', 'ASC')->find($batch->id);
@@ -269,6 +273,8 @@ class PoFactoryController extends ResponseController
 
         $containers = $batch->containers->map(function ($container){
             $container['eta_job_site_color'] = getWarning($container->eta_job_site, $container->ata_job_site);
+            $container['containers'] = $a = Container::with('batch.project')->where('no', $container->no)->where('id', '!=', $container->id)->get();
+
             return $container;
         });
 

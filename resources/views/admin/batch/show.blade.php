@@ -98,6 +98,7 @@
                                             <th>Type</th>
                                             <th style="min-width: 200px">ETA Job Site</th>
                                             <th style="min-width: 200px">ATA Job Site</th>
+                                            <th>Link</th>
                                             <th>Remarks</th>
                                             <th>Action</th>
                                         </tr>
@@ -156,6 +157,13 @@
 {{--                                                        <p>{{ $batch->ata_port ? $batch->ata_port : '-' }}</p>--}}
 {{--                                                        <p><b>{{ $container->ata_job_site ? $container->ata_job_site : '-' }}</b></p>--}}
 {{--                                                    </div>--}}
+                                                </td>
+                                                <td>
+                                                    @if($container->containers->count())
+                                                        @foreach($container->containers as $linkContainer)
+                                                            <p><a href="{{ url('/admin/batch/show/'.$linkContainer->batch->id.'?container='.$linkContainer->id) }}">{{ $linkContainer->batch->project->name }} - {{ getSequence($linkContainer->batch->sequence) }} {{ $linkContainer->batch->name ? ' : ' . $linkContainer->batch->name : '' }} - {{ $linkContainer->no }}</a></p>
+                                                        @endforeach
+                                                    @endif
                                                 </td>
                                                 <td>{{ $container->remarks }}</td>
                                                 <td>

@@ -13,6 +13,7 @@ class Batch extends Model
 
     protected $fillable = [
         'po_factory_id',
+        'project_id',
         'name',
         'sequence',
         'status',
@@ -77,6 +78,11 @@ class Batch extends Model
     public function containers()
     {
         return $this->hasMany(Container::class);
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
 
     public function oceanForwarder()
