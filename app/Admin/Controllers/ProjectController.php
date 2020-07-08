@@ -74,7 +74,7 @@ class ProjectController extends AdminController
             $batches = Batch::where('project_id', $this->id)->get();
 
             foreach ($batches as $batch){
-                if($batch->status == 0){
+                if($batch->status != 2){
                     $finished = false;
                 }
 
