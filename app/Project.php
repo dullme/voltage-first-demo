@@ -10,8 +10,10 @@ class Project extends Model
     protected $fillable = [
         'client_id',
         'name',
+        'no',
         'number',
-        'contacts'
+        'contacts',
+        'updated_at'
     ];
 
     protected $dates = [

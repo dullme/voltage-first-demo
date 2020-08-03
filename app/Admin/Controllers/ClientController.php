@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\AdminUser;
 use App\Client;
 use App\Contact;
 use Encore\Admin\Controllers\AdminController;
@@ -108,6 +109,11 @@ class ClientController extends ResponseController
     public function getClientList()
     {
         return Client::get(['id', DB::raw('name as text')]);
+    }
+
+    public function getAdminList()
+    {
+        return AdminUser::where('name', '!=', 'admin')->get(['id', DB::raw('name as text')]);
     }
 
     public function getContactList($id)

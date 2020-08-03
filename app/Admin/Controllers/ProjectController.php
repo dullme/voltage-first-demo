@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Actions\Post\BatchReplicate;
+use App\AdminUser;
 use App\Batch;
 use App\Client;
 use App\Contact;
@@ -60,7 +61,9 @@ class ProjectController extends AdminController
 
             // 在这里添加字段过滤器
             $filter->like('name', 'Project name');
+            $filter->like('no', 'Project No.');
             $filter->equal('client_id', 'Client')->select('/admin/client-list');
+            $filter->equal('author_id', 'Author')->select('/admin/admin-list');
         });
 
         $grid->column('name', __('Project name'))->display(function ($name) {
@@ -68,6 +71,8 @@ class ProjectController extends AdminController
 
             return "<a href='{$url}'>{$name}</a>";
         });
+
+        $grid->column('no', __('Project No.'));
 
         $grid->column('tip')->display(function () {
             $finished = true;
@@ -99,7 +104,8 @@ class ProjectController extends AdminController
         $grid->column('address', __('Address'));
         $grid->author()->name('Author');
 
-        $grid->column('created_at', __('Created at'));
+        $grid->column('created_at', __('Created at'))->sortable();
+        $grid->column('updated_at', __('Updated at'))->sortable();
 
         return $grid;
     }
@@ -168,6 +174,7 @@ EOF
         $form->select('client_id', 'Clients')->options($clients)->load('contacts', '/admin/api/contact')->required();
 
         $form->text('name', __('Project Name'))->required();
+        $form->text('no', __('Project No.'));
         $form->text('address', __('Address'));
 
         $multipleSelect = $form->multipleSelect('contacts');

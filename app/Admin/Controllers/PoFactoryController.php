@@ -4,6 +4,7 @@
 namespace App\Admin\Controllers;
 
 use App\Container;
+use App\Project;
 use Carbon\Carbon;
 use DB;
 use App\Batch;
@@ -204,6 +205,10 @@ class PoFactoryController extends ResponseController
 
         $batch = Batch::orderBy('sequence', 'ASC')->find($batch->id);
 
+        $project = Project::find($data['project_id']);
+        $project->updated_at = Carbon::now();
+        $project->save();
+
         return $this->responseSuccess($batch, 'Created');
     }
 
@@ -398,6 +403,10 @@ class PoFactoryController extends ResponseController
 
         Batch::where('id', $id)->update($data);
 
+        $project = Project::find($batch->project_id);
+        $project->updated_at = Carbon::now();
+        $project->save();
+
         $batch = Batch::orderBy('sequence', 'ASC')->find($batch->id);
 
 
@@ -453,6 +462,10 @@ class PoFactoryController extends ResponseController
 
         Container::create($data);
 
+        $project = Project::find($batch->project_id);
+        $project->updated_at = Carbon::now();
+        $project->save();
+
         return $this->responseSuccess(true);
     }
 
@@ -485,6 +498,10 @@ class PoFactoryController extends ResponseController
 
         $save ? $batch->save() : '';
         Container::destroy($id);
+
+        $project = Project::find($batch->project_id);
+        $project->updated_at = Carbon::now();
+        $project->save();
 
         return $this->responseSuccess(true, 'Deleted');
     }
@@ -557,6 +574,10 @@ class PoFactoryController extends ResponseController
         $batch->save();
 
         Container::where('id', $id)->update($data);
+
+        $project = Project::find($batch->project_id);
+        $project->updated_at = Carbon::now();
+        $project->save();
 
         return $this->responseSuccess(true, 'Updated');
     }

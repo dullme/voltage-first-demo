@@ -3,6 +3,8 @@
 namespace App\Admin\Controllers;
 
 use App\PoClient;
+use App\Project;
+use Carbon\Carbon;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -113,6 +115,9 @@ class PoClientController extends ResponseController
         }
 
         $po_client = PoClient::create($validator->validated());
+        $project = Project::find($request->input('project_id'));
+        $project->updated_at = Carbon::now();
+        $project->save();
 
         $data = PoClient::with(['poFactories' => function ($query) {
             $query->with(['batches' => function ($query) {
@@ -147,6 +152,11 @@ class PoClientController extends ResponseController
 
         PoClient::where('id', $id)->update($validator->validated());
 
+        $p = PoClient::find($id);
+        $project = Project::find($p->project_id);
+        $project->updated_at = Carbon::now();
+        $project->save();
+
         return $this->responseSuccess(true, 'Updated');
     }
 
@@ -157,6 +167,11 @@ class PoClientController extends ResponseController
         if (count($po_client->poFactories)) {
             return $this->setStatusCode(422)->responseError('Failed to delete');
         }
+
+        $p = PoClient::find($id);
+        $project = Project::find($p->project_id);
+        $project->updated_at = Carbon::now();
+        $project->save();
 
         $po_client->delete();
 

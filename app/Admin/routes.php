@@ -15,6 +15,7 @@ Route::group([
     //客户
     $router->resource('clients', ClientController::class);
     $router->get('client-list', 'ClientController@getClientList');
+    $router->get('admin-list', 'ClientController@getAdminList');
     $router->get('contact-list/{id}', 'ClientController@getContactList');
 
     //联系人
