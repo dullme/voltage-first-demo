@@ -83,25 +83,26 @@ class ClientController extends ResponseController
 
         $form->text('name', __('Name'))->creationRules(['required', "unique:clients"])
             ->updateRules(['required', "unique:clients,name,{{id}}"]);
+        $form->number('number', __('Code'))->creationRules(['required', "unique:clients"])
+            ->updateRules(['required', "unique:clients,number,{{id}}"]);
         $form->text('tel', __('Tel'));
         $form->text('address', __('Address'));
-        $form->hidden('number', __('Number'));
 
         $form->tools(function (Form\Tools $tools) {
             // 去掉`删除`按钮
             $tools->disableDelete();
         });
 
-        if($form->isCreating()){
-            $form->saving(function (Form $form) {
-                $client = Client::orderBy('id', 'desc')->first();
-                $number = 0;
-                if($client){
-                    $number = intval($client->number) == 0 ? 100 : intval($client->number) + 1;
-                }
-                $form->number = sprintf('%03d', $number);
-            });
-        }
+//        if($form->isCreating()){
+//            $form->saving(function (Form $form) {
+//                $client = Client::orderBy('id', 'desc')->first();
+//                $number = 0;
+//                if($client){
+//                    $number = intval($client->number) == 0 ? 100 : intval($client->number) + 1;
+//                }
+//                $form->number = sprintf('%03d', $number);
+//            });
+//        }
 
         return $form;
     }
