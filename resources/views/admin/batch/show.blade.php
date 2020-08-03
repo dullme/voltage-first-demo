@@ -161,7 +161,9 @@
                                                 <td>
                                                     @if($container->containers->count())
                                                         @foreach($container->containers as $linkContainer)
-                                                            <p><a href="{{ url('/admin/batch/show/'.$linkContainer->batch->id.'?container='.$linkContainer->id) }}">{{ $linkContainer->batch->project->name }} - {{ getSequence($linkContainer->batch->sequence) }} {{ $linkContainer->batch->name ? ' : ' . $linkContainer->batch->name : '' }} - {{ $linkContainer->no }}</a></p>
+                                                        @if(!is_null($linkContainer->batch))
+                                                                <p><a href="{{ url('/admin/batch/show/'.$linkContainer->batch->id.'?container='.$linkContainer->id) }}">{{ $linkContainer->batch->project->name }} - {{ getSequence($linkContainer->batch->sequence) }} {{ $linkContainer->batch->name ? ' : ' . $linkContainer->batch->name : '' }} - {{ $linkContainer->no }}</a></p>
+                                                            @endif
                                                         @endforeach
                                                     @endif
                                                 </td>
