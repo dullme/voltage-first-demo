@@ -2262,13 +2262,15 @@
                         'success'
                     ).then( () => {
 
-                        let po_client_index = $('#edit-shipment-button').attr('data-client-index')
-                        let po_factory_index = $('#edit-shipment-button').attr('data-factory-index')
-                        let index = $('#edit-shipment-button').attr('data-edit-shipment-index')
-                        this.$set(this.po_clients[po_client_index]['po_factories'][po_factory_index]['batches'], index, response.data.data)
+                        location.reload()
 
-                        this.loading.shipment = false
-                        $('#editShipment').modal('hide')
+                        // let po_client_index = $('#edit-shipment-button').attr('data-client-index')
+                        // let po_factory_index = $('#edit-shipment-button').attr('data-factory-index')
+                        // let index = $('#edit-shipment-button').attr('data-edit-shipment-index')
+                        // this.$set(this.po_clients[po_client_index]['po_factories'][po_factory_index]['batches'], index, response.data.data)
+                        //
+                        // this.loading.shipment = false
+                        // $('#editShipment').modal('hide')
 
                     });
                     this.loading.shipment = false
