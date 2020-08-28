@@ -203,7 +203,9 @@ EOF
         }else{
             $form->select('author_id', __('Author'))->options(DB::table('admin_users')->pluck('name', 'id'));
             $form->saving(function (Form $form) {
-                if ($form->model()->author_id != 0) {
+                if((int)$form->author_id == Auth('admin')->id()){
+                    $form->author_id = Auth('admin')->id();
+                }else{
                     $form->author_id = $form->model()->author_id;
                 }
             });
