@@ -139,6 +139,9 @@ class PoFactoryController extends ResponseController
             'actual_production_completion'    => 'required_with:atd_port|nullable|date',
             'atd_port'                        => 'required_with:ata_port|nullable|date',
             'ata_port'                        => 'nullable|date',
+            'apc_remarks'                     => 'nullable',
+            'atd_remarks'                     => 'nullable',
+            'ata_remarks'                     => 'nullable',
         ], [
             'name.required' => 'The sequence field is required.',
         ]);
@@ -267,7 +270,7 @@ class PoFactoryController extends ResponseController
     {
         $batch = Batch::with('poFactory.poClient.project.author', 'containers', 'oceanForwarder.forwarder', 'inlandForwarder.forwarder', 'chinaInlandForwarder.forwarder')->findOrFail($id);
 
-        $url = url('/admin/projects/'.$batch->poFactory->poClient->project->id);
+        $url = url('/admin/projects/' . $batch->poFactory->poClient->project->id);
         $text = "<a href='{$url}' >{$batch->poFactory->poClient->project->name}</a>";
 
         $batch->setAttribute('epc_color', getWarning($batch->estimated_production_completion, $batch->actual_production_completion));
@@ -276,7 +279,7 @@ class PoFactoryController extends ResponseController
         $batch->setAttribute('eta_job_site_color', getWarning($batch->eta_job_site, $batch->ata_job_site));
 
 
-        $containers = $batch->containers->map(function ($container){
+        $containers = $batch->containers->map(function ($container) {
             $container['eta_job_site_color'] = getWarning($container->eta_job_site, $container->ata_job_site);
             $container['containers'] = $a = Container::with('batch.project')->where('no', $container->no)->where('id', '!=', $container->id)->get();
 
@@ -284,9 +287,10 @@ class PoFactoryController extends ResponseController
         });
 
         $batch->setAttribute('containers', $containers);
+
         return $content
             ->title($text)
-            ->description(getSequence($batch->sequence) . ' : ' .$batch->name)
+            ->description(getSequence($batch->sequence) . ' : ' . $batch->name)
             ->row(view('admin.batch.show', compact('batch')));
     }
 
@@ -317,6 +321,9 @@ class PoFactoryController extends ResponseController
             'actual_production_completion'    => 'required_with:atd_port|nullable|date',
             'atd_port'                        => 'required_with:ata_port|nullable|date',
             'ata_port'                        => 'nullable|date',
+            'apc_remarks'                     => 'nullable',
+            'atd_remarks'                     => 'nullable',
+            'ata_remarks'                     => 'nullable',
         ], [
             'name.required' => 'The sequence field is required.',
         ]);

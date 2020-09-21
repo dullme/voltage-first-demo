@@ -237,11 +237,20 @@
                                                             <div style="width:50%;text-align: left;float: right">
                                                                 <p>{{ batch.actual_production_completion ?
                                                                     batch.actual_production_completion.substr(0,10) :
-                                                                    '-' }}</p>
+                                                                    '-' }} <i v-if="batch.apc_remarks" data-toggle="tooltip"
+                                                                              data-placement="top"
+                                                                              :data-original-title="batch.apc_remarks"
+                                                                              class="fa fa-info-circle text-info"></i></p>
                                                                 <p>{{ batch.atd_port ? batch.atd_port.substr(0, 10) :
-                                                                    '-' }}</p>
+                                                                    '-' }} <i v-if="batch.atd_remarks" data-toggle="tooltip"
+                                                                              data-placement="top"
+                                                                              :data-original-title="batch.atd_remarks"
+                                                                              class="fa fa-info-circle text-info"></i></p>
                                                                 <p>{{ batch.ata_port ? batch.ata_port.substr(0,10) : '-'
-                                                                    }}</p>
+                                                                    }} <i v-if="batch.ata_remarks" data-toggle="tooltip"
+                                                                          data-placement="top"
+                                                                          :data-original-title="batch.ata_remarks"
+                                                                          class="fa fa-info-circle text-info"></i></p>
                                                                 <p>{{ batch.ata_job_site ? batch.ata_job_site.substr(0,10) : '-'
                                                                     }}</p>
                                                                 <p>
@@ -957,7 +966,7 @@
                                                 <div class="col-md-6 actual">
                                                     <div
                                                         style="background-color: #EEEEEE;padding: 25px;border-radius: 4px;margin-bottom: 20px">
-                                                        <div class="form-group  ">
+                                                        <div class="form-group  " style="margin-bottom: unset">
                                                             <label class="col-sm-4 control-label">
                                                         <span data-toggle="tooltip" data-placement="top"
                                                               data-original-title="Actual production completion">APC</span>
@@ -975,8 +984,14 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         <div class="form-group  ">
+                                                            <label class="col-sm-4 control-label">APC Remarks</label>
+                                                            <div class="col-sm-7">
+                                                                <input type="text" class="form-control" v-model="shipment_form.apc_remarks">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group  " style="margin-bottom: unset">
                                                             <label class="col-sm-4 control-label">ATD Port</label>
                                                             <div class="col-sm-7">
                                                                 <div class="input-group">
@@ -988,6 +1003,12 @@
                                                                            v-model="shipment_form.atd_port"
                                                                            :readonly="!!!shipment_form.actual_production_completion || shipment_form.ata_port ? true : false">
                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group  ">
+                                                            <label class="col-sm-4 control-label">ATD Remarks</label>
+                                                            <div class="col-sm-7">
+                                                                <input type="text" class="form-control" v-model="shipment_form.atd_remarks">
                                                             </div>
                                                         </div>
 
@@ -1003,6 +1024,13 @@
                                                                            v-model="shipment_form.ata_port"
                                                                            :readonly="!!!shipment_form.atd_port ? true : false">
                                                                 </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group  " style="margin-bottom: unset">
+                                                            <label class="col-sm-4 control-label">ATA Remarks</label>
+                                                            <div class="col-sm-7">
+                                                                <input type="text" class="form-control" v-model="shipment_form.ata_remarks">
                                                             </div>
                                                         </div>
 
@@ -1321,7 +1349,7 @@
                                                 <div class="col-md-6 actual">
                                                     <div
                                                         style="background-color: #EEEEEE;padding: 25px;border-radius: 4px;margin-bottom: 20px">
-                                                        <div class="form-group  ">
+                                                        <div class="form-group  " style="margin-bottom: unset">
                                                             <label class="col-sm-4 control-label">
                                                         <span data-toggle="tooltip" data-placement="top"
                                                               data-original-title="Actual production completion">APC</span>
@@ -1338,8 +1366,14 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         <div class="form-group  ">
+                                                            <label class="col-sm-4 control-label">APC Remarks</label>
+                                                            <div class="col-sm-7">
+                                                                <input type="text" class="form-control" v-model="shipment_edit_form.apc_remarks">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group  " style="margin-bottom: unset">
                                                             <label class="col-sm-4 control-label">ATD Port</label>
                                                             <div class="col-sm-7">
                                                                 <div class="input-group">
@@ -1350,6 +1384,12 @@
                                                                            class="form-control datetime-picker"
                                                                            v-model="shipment_edit_form.atd_port" >
                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group  ">
+                                                            <label class="col-sm-4 control-label">ATD Remarks</label>
+                                                            <div class="col-sm-7">
+                                                                <input type="text" class="form-control" v-model="shipment_edit_form.atd_remarks">
                                                             </div>
                                                         </div>
 
@@ -1364,6 +1404,13 @@
                                                                            class="form-control datetime-picker"
                                                                            v-model="shipment_edit_form.ata_port" >
                                                                 </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group  " style="margin-bottom: unset">
+                                                            <label class="col-sm-4 control-label">ATA Remarks</label>
+                                                            <div class="col-sm-7">
+                                                                <input type="text" class="form-control" v-model="shipment_edit_form.ata_remarks">
                                                             </div>
                                                         </div>
 
@@ -1570,6 +1617,9 @@
                     actual_production_completion: '',
                     atd_port: '',
                     ata_port: '',
+                    apc_remarks: '',
+                    atd_remarks: '',
+                    ata_remarks: '',
                     destination_port: '',
                     port_of_departure: '',
                     rmb:'',
@@ -1595,6 +1645,9 @@
                     actual_production_completion: '',
                     atd_port: '',
                     ata_port: '',
+                    apc_remarks: '',
+                    atd_remarks: '',
+                    ata_remarks: '',
                     destination_port: '',
                     port_of_departure: '',
                     rmb:'',
@@ -2209,6 +2262,9 @@
                         actual_production_completion: response.data.data.actual_production_completion,
                         atd_port: response.data.data.atd_port,
                         ata_port: response.data.data.ata_port,
+                        apc_remarks: response.data.data.apc_remarks,
+                        atd_remarks: response.data.data.atd_remarks,
+                        ata_remarks: response.data.data.ata_remarks,
                         destination_port: response.data.data.destination_port,
                         port_of_departure: response.data.data.port_of_departure,
                         rmb:response.data.data.rmb,

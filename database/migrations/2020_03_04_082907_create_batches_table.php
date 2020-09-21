@@ -35,6 +35,9 @@ class CreateBatchesTable extends Migration
             $table->timestamp('atd_port')->nullable()->comment('实际离岗时间');
             $table->timestamp('ata_port')->nullable()->comment('实际到港时间');
             $table->timestamp('ata_job_site')->nullable()->comment('实际到项目点时间');
+            $table->string('apc_remarks')->nullable()->comment('实际完成的备注');
+            $table->string('atd_remarks')->nullable()->comment('实际离岗的备注');
+            $table->string('ata_remarks')->nullable()->comment('实际到港的备注');
             $table->string('carrier')->nullable()->comment('船公司名称');
             $table->string('b_l')->nullable()->comment('提单号码');
             $table->string('vessel')->nullable()->comment('船的编码');
