@@ -15,7 +15,7 @@ class CreateTransportsTable extends Migration
     {
         Schema::create('transports', function (Blueprint $table) {
             $table->id();
-            $table->string('carrier_id')->nullable()->comment('船公司名称');
+            $table->string('carrier')->nullable()->comment('船公司名称');
             $table->string('port_of_departure')->nullable()->comment('启运港口');
             $table->string('destination_port')->nullable()->comment('目的地港口');
             $table->decimal('foreign_currency', 10, 2)->nullable()->comment('外币');

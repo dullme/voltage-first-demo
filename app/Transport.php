@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Transport extends Model
 {
     protected $fillable = [
-        'carrier_id',
+        'carrier',
         'port_of_departure',
         'destination_port',
         'foreign_currency',
