@@ -46,7 +46,7 @@ class TransportController extends AdminController
         $grid->agent()->agent_name('Agent');
         $grid->portOfDeparture()->name();
         $grid->destinationPort()->name();
-        $grid->column('foreign_currency', __('Foreign currency'));
+        $grid->column('foreign_currency', __('Freight rate'));
         $grid->column('shipping_day', __('Transport time'));
         $grid->column('start_time', __('Valid time'))->display(function ($start_time){
             return substr($start_time, 0, 10).' ~ ' . substr($this->end_time, 0, 10);
@@ -69,7 +69,7 @@ class TransportController extends AdminController
         $show->field('carrier', __('Carrier'));
         $show->field('port_of_departure', __('Port of departure'));
         $show->field('destination_port', __('Destination port'));
-        $show->field('foreign_currency', __('Foreign currency'));
+        $show->field('foreign_currency', __('Freight rate'));
         $show->field('start_time', __('Start time'));
         $show->field('end_time', __('End time'));
         $show->field('created_at', __('Created at'));
@@ -92,7 +92,8 @@ class TransportController extends AdminController
         $form->select('port_of_departure', __('Port of departure'))->options($ports)->required();
         $form->select('destination_port', __('Destination port'))->options($ports)->required();
         $form->number('shipping_day', __('Transport time'))->required()->min(1);
-        $form->decimal('foreign_currency', __('Foreign currency'))->required();
+        $form->decimal('foreign_currency', __('Freight rate'))->required();
+        $form->select('type', __('Type'))->options(['20GP','40GP', '40HQ', '40GP/40HQ'])->setWidth(1, 2)->required();
         $form->dateRange('start_time', 'end_time', 'Valid time')->required();
 
         return $form;
