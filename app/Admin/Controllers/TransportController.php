@@ -43,7 +43,7 @@ class TransportController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->carriers()->name('carrier');
-        $grid->agent()->name('Agent');
+        $grid->agent()->agent_name('Agent');
         $grid->portOfDeparture()->name();
         $grid->destinationPort()->name();
         $grid->column('foreign_currency', __('Foreign currency'));
