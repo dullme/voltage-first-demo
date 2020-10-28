@@ -31,6 +31,7 @@ class ForwarderController extends AdminController
         $grid->disableRowSelector();
 
         $grid->column('name', __('Name'));
+        $grid->column('agent_name', __('Agent name'));
         $grid->column('address', __('Address'));
         $grid->column('created_at', __('Created at'));
 
@@ -49,6 +50,7 @@ class ForwarderController extends AdminController
 
         $show->field('id', __('Id'));
         $show->field('name', __('Name'));
+        $show->field('agent_name', __('Agent name'));
         $show->field('address', __('Address'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
@@ -67,6 +69,7 @@ class ForwarderController extends AdminController
 
         $form->text('name', __('Name'))->creationRules(['required', "unique:forwarders"])
             ->updateRules(['required', "unique:forwarders,name,{{id}}"]);
+        $form->text('agent_name', __('Agent name'));
         $form->text('address', __('Address'));
 
         return $form;

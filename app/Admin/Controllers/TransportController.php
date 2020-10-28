@@ -88,7 +88,7 @@ class TransportController extends AdminController
         $form = new Form(new Transport());
         $ports = Port::orderBy('type','ASC')->pluck('name', 'id');
         $form->select('carrier', __('Carrier'))->options(Carrier::pluck('name', 'id'))->required();
-        $form->select('agent_id', __('Agent'))->options(Forwarder::pluck('name', 'id'))->required();
+        $form->select('agent_id', __('Agent'))->options(Forwarder::where('agent_name', '!=', '')->pluck('agent_name', 'id'))->required();
         $form->select('port_of_departure', __('Port of departure'))->options($ports)->required();
         $form->select('destination_port', __('Destination port'))->options($ports)->required();
         $form->number('shipping_day', __('Transport time'))->required()->min(1);
