@@ -46,7 +46,12 @@ class TransportController extends AdminController
         $grid->agent()->agent_name('Agent');
         $grid->portOfDeparture()->name();
         $grid->destinationPort()->name();
-        $grid->column('foreign_currency', __('Freight rate'));
+        $grid->column('foreign_currency', __('Freight rate'))->display(function ($foreign_currency){
+            if($this->type){
+                $foreign_currency .=  "<span class='label label-default' style='margin-left: 5px'>$this->type</span>";
+            }
+            return $foreign_currency;
+        });
         $grid->column('shipping_day', __('Transport time'));
         $grid->column('start_time', __('Valid time'))->display(function ($start_time){
             return substr($start_time, 0, 10).' ~ ' . substr($this->end_time, 0, 10);
@@ -93,7 +98,7 @@ class TransportController extends AdminController
         $form->select('destination_port', __('Destination port'))->options($ports)->required();
         $form->number('shipping_day', __('Transport time'))->required()->min(1);
         $form->decimal('foreign_currency', __('Freight rate'))->required();
-        $form->select('type', __('Type'))->options(['20GP','40GP', '40HQ', '40GP/40HQ'])->setWidth(1, 2)->required();
+        $form->select('type', __('Type'))->options(getBox())->setWidth(1, 2)->required();
         $form->dateRange('start_time', 'end_time', 'Valid time')->required();
 
         return $form;

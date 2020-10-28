@@ -65,3 +65,13 @@ function getWarning($first, $second){
 
     return $status;
 }
+
+function getBox(){
+    return [
+        ''=>'',
+        '20GP'=>'20GP',
+        '40GP'=>'40GP',
+        '40HQ'=>'40HQ',
+        '40GP/40HQ'=>'40GP/40HQ',
+    ];
+}
