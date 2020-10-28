@@ -25,6 +25,11 @@ class Transport extends Model
         return $this->belongsTo(Carrier::class, 'carrier');
     }
 
+    public function agent()
+    {
+        return $this->belongsTo(Forwarder::class);
+    }
+
     public function portOfDeparture()
     {
         return $this->belongsTo(Port::class, 'port_of_departure');

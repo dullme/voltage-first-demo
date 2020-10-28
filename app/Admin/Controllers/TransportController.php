@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Carrier;
+use App\Forwarder;
 use App\Port;
 use App\Transport;
 use Carbon\Carbon;
@@ -42,9 +43,11 @@ class TransportController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->carriers()->name('carrier');
+        $grid->agent()->name('Agent');
         $grid->portOfDeparture()->name();
         $grid->destinationPort()->name();
         $grid->column('foreign_currency', __('Foreign currency'));
+        $grid->column('shipping_day', __('Shipping Day'));
         $grid->column('start_time', __('Start time'))->display(function ($start_time){
             return substr($start_time, 0, 10);
         });
@@ -88,11 +91,12 @@ class TransportController extends AdminController
         $form = new Form(new Transport());
         $ports = Port::orderBy('type','ASC')->pluck('name', 'id');
         $form->select('carrier', __('Carrier'))->options(Carrier::pluck('name', 'id'))->required();
+        $form->select('agent_id', __('Agent'))->options(Forwarder::pluck('name', 'id'))->required();
         $form->select('port_of_departure', __('Port of departure'))->options($ports)->required();
         $form->select('destination_port', __('Destination port'))->options($ports)->required();
+        $form->number('shipping_day', __('Shipping day'))->required()->min(1);
         $form->decimal('foreign_currency', __('Foreign currency'))->required();
-        $form->date('start_time', __('Start time'))->required();
-        $form->date('end_time', __('End time'))->required();
+        $form->dateRange('start_time', 'end_time', 'Date Range')->required();
 
         return $form;
     }
