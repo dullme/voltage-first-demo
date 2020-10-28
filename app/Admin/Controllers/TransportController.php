@@ -47,12 +47,9 @@ class TransportController extends AdminController
         $grid->portOfDeparture()->name();
         $grid->destinationPort()->name();
         $grid->column('foreign_currency', __('Foreign currency'));
-        $grid->column('shipping_day', __('Shipping Day'));
-        $grid->column('start_time', __('Start time'))->display(function ($start_time){
-            return substr($start_time, 0, 10);
-        });
-        $grid->column('end_time', __('End time'))->display(function ($end_time){
-            return substr($end_time, 0, 10);
+        $grid->column('shipping_day', __('Transport time'));
+        $grid->column('start_time', __('Valid time'))->display(function ($start_time){
+            return substr($start_time, 0, 10).' ~ ' . substr($this->end_time, 0, 10);
         });
 
         return $grid;
@@ -94,9 +91,9 @@ class TransportController extends AdminController
         $form->select('agent_id', __('Agent'))->options(Forwarder::pluck('name', 'id'))->required();
         $form->select('port_of_departure', __('Port of departure'))->options($ports)->required();
         $form->select('destination_port', __('Destination port'))->options($ports)->required();
-        $form->number('shipping_day', __('Shipping day'))->required()->min(1);
+        $form->number('shipping_day', __('Transport time'))->required()->min(1);
         $form->decimal('foreign_currency', __('Foreign currency'))->required();
-        $form->dateRange('start_time', 'end_time', 'Date Range')->required();
+        $form->dateRange('start_time', 'end_time', 'Valid time')->required();
 
         return $form;
     }
