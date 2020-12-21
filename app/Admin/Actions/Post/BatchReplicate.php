@@ -36,7 +36,7 @@ class BatchReplicate extends BatchAction
                         $container_no = "";
                         $remarks = "";
                         foreach ($batch->containers as $key => $container) {
-                            $container_no .= $container->no ? ($key + 1) . '、' . $container->no . "\r\n" : ($key + 1) . '、' . "/ \r\n";
+                            $container_no .= $container->no ? ($key + 1) . '、' . $container->no.' / '.$container->remarks . "\r\n" : ($key + 1) . '、' . "/ \r\n";
                             $eta_job_site .= $container->eta_job_site ? ($key + 1) . '、' . $container->eta_job_site . "\r\n" : ($key + 1) . '、' . "/ \r\n";
                             $ata_job_site .= $container->ata_job_site ? ($key + 1) . '、' . $container->ata_job_site . "\r\n" : ($key + 1) . '、' . "/ \r\n";
                             $type .= $container->type ? ($key + 1) . '、' . $container->type . "\r\n" : ($key + 1) . '、' . "/ \r\n";
