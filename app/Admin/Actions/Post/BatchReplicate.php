@@ -36,20 +36,22 @@ class BatchReplicate extends BatchAction
                         $container_no = "";
                         $remarks = "";
                         foreach ($batch->containers as $key => $container) {
-                            $container_no .= $container->no ? ($key + 1) . '、' . $container->no.' / '.$container->remarks . "\r\n" : ($key + 1) . '、' . "/ \r\n";
+                            $container_no .= $container->no ? ($key + 1) . '、' . $container->no . ' / ' . $container->remarks . "\r\n" : ($key + 1) . '、' . "/ \r\n";
                             $eta_job_site .= $container->eta_job_site ? ($key + 1) . '、' . $container->eta_job_site . "\r\n" : ($key + 1) . '、' . "/ \r\n";
                             $ata_job_site .= $container->ata_job_site ? ($key + 1) . '、' . $container->ata_job_site . "\r\n" : ($key + 1) . '、' . "/ \r\n";
                             $type .= $container->type ? ($key + 1) . '、' . $container->type . "\r\n" : ($key + 1) . '、' . "/ \r\n";
                             $remarks .= $container->remarks ? ($key + 1) . '、' . $container->remarks . "\r\n" : ($key + 1) . '、' . "/ \r\n";
                         }
 
-
                         $res['voltage_no'] = $poClient->voltage_no;
+                        $res['PO# Client'] = $poClient->no;
                         $res['customer'] = $project->client->name;
                         $res['project_name'] = $project->name;
                         $res['customer_po'] = $poClient->no;
                         $res['address'] = $project->address;
                         $res['shipment_no'] = $batch->name ? getSequence($batch->sequence) . ' - ' . $batch->name : getSequence($batch->sequence);
+                        $res['Vessel'] = $batch->vessel;
+                        $res['Destination Port'] = $batch->destination_port;
                         $res['b_l'] = $batch->b_l;
                         $res['estimated_production_completion'] = optional($batch->estimated_production_completion)->toDateString();
 

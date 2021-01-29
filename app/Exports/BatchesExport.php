@@ -47,6 +47,9 @@ class BatchesExport implements WithColumnFormatting, FromCollection, WithEvents,
             'R' => NumberFormat::FORMAT_TEXT,
             'S' => NumberFormat::FORMAT_TEXT,
             'T' => NumberFormat::FORMAT_TEXT,
+            'U' => NumberFormat::FORMAT_TEXT,
+            'V' => NumberFormat::FORMAT_TEXT,
+            'W' => NumberFormat::FORMAT_TEXT,
         ];
     }
 
@@ -58,8 +61,8 @@ class BatchesExport implements WithColumnFormatting, FromCollection, WithEvents,
             AfterSheet::class => function (AfterSheet $event) use ($count) {
 //                $event->sheet->getDelegate()->setMergeCells(['A1:S1']); //合并单元格
 //                $event->sheet->getDelegate()->getStyle('A1:S1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);   //设置水平居中
-                $event->sheet->getDelegate()->getStyle('A1:T1')->getFont()->setBold(true)->setSize(14);
-                $event->sheet->getDelegate()->getStyle('A1:T' . $count)
+                $event->sheet->getDelegate()->getStyle('A1:W1')->getFont()->setBold(true)->setSize(14);
+                $event->sheet->getDelegate()->getStyle('A1:W' . $count)
                     ->getAlignment()
                     ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
                     ->setWrapText(true);
@@ -76,11 +79,14 @@ class BatchesExport implements WithColumnFormatting, FromCollection, WithEvents,
     {
         $res = [
             'Voltage PO',
+            'PO# Client',
             'Customer',
             'Project name',
             'Customer PO',
             'Delivery address',
             'Shipment No',
+            'Vessel',
+            'Destination Port',
             'H/BL',
             'EPC',
         ];
