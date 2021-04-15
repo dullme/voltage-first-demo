@@ -3429,6 +3429,119 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // import Common from '../util'
 __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/vendor/date-js/date-zh-CN.js");
 
@@ -3533,7 +3646,11 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         port_of_departure: '',
         rmb: '',
         foreign_currency: '',
-        foreign_currency_type: ''
+        foreign_currency_type: '',
+        invoice_no: '',
+        delivery_date: '',
+        invoice_date: '',
+        shipping_ate: ''
       },
       shipment_edit_form: {
         id: '',
@@ -3562,7 +3679,11 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
         port_of_departure: '',
         rmb: '',
         foreign_currency: '',
-        foreign_currency_type: ''
+        foreign_currency_type: '',
+        invoice_no: '',
+        delivery_date: '',
+        invoice_date: '',
+        shipping_ate: ''
       }
     };
   },
@@ -3651,6 +3772,18 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
       'format': 'YYYY-MM-DD',
       'allowInputToggle': true,
       'maxDate': Date.today()
+    });
+    $("input[name='delivery_date']").datetimepicker({
+      'format': 'YYYY-MM-DD',
+      'allowInputToggle': true
+    });
+    $("input[name='invoice_date']").datetimepicker({
+      'format': 'YYYY-MM-DD',
+      'allowInputToggle': true
+    });
+    $("input[name='shipping_ate']").datetimepicker({
+      'format': 'YYYY-MM-DD',
+      'allowInputToggle': true
     });
     $('#poClient .datetime-picker').on('dp.change', function (e) {
       _this2.po_client_form[e.target.name] = e.currentTarget.value;
@@ -4066,7 +4199,11 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
               port_of_departure: '',
               rmb: '',
               foreign_currency: '',
-              foreign_currency_type: ''
+              foreign_currency_type: '',
+              invoice_no: '',
+              delivery_date: '',
+              invoice_date: '',
+              shipping_ate: ''
             };
             _this13.loading.shipment = false;
             $('#addShipment').modal('hide');
@@ -4119,7 +4256,11 @@ __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/v
           port_of_departure: response.data.data.port_of_departure,
           rmb: response.data.data.rmb,
           foreign_currency: response.data.data.foreign_currency,
-          foreign_currency_type: response.data.data.foreign_currency_type
+          foreign_currency_type: response.data.data.foreign_currency_type,
+          invoice_no: response.data.data.invoice_no,
+          delivery_date: response.data.data.delivery_date,
+          invoice_date: response.data.data.invoice_date,
+          shipping_ate: response.data.data.shipping_ate
         };
 
         var shipping_method = _this14.inArray(response.data.data.shipping_method, ['Regular Ocean Shipping', 'Fast Ocean Shipping', 'Expedited', 'Ocean+Rail+Truck', 'Ocean+Flatbed', 'Air Freight']);
@@ -4467,7 +4608,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.panel-heading {\n    padding-bottom: unset;\n}\n.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {\n    border-color: #bce8f1;\n    border-bottom: unset;\n    border-bottom-color: unset;\n}\n.nav-tabs {\n    border-bottom: unset;\n}\n.nav > li > a {\n    padding: 5px 15px;\n}\n.table td {\n    vertical-align: middle !important;\n}\n.panel-info > .panel-heading .badge {\n    color: #d9edf7;\n    background-color: #31708f;\n    margin-top: -3px;\n    margin-left: 5px;\n}\n#history-list > .active {\n    background-color: #00a65a !important;\n    color: #ffffff !important;\n}\n.contact{\n    padding: 10px;\n    margin-bottom: 10px;\n    border-radius: 4px;\n    border: 2px solid #02a65a;\n}\n.contact p:last-child{\n    margin: unset;\n}\n.factory_factory{\n    padding: 10px;\n    margin-bottom: 10px;\n    border-radius: 4px;\n    border: 2px solid #dedede;\n}\n.factory_factory pre{\n    margin: unset;\n}\n.popover{\n    width: unset !important;\n}\n.ll-warning{\n    background-color: #f39c12 !important;\n}\n.ll-danger{\n    background-color: #dd4b39 !important;\n}\n", ""]);
+exports.push([module.i, "\n.panel-heading {\n    padding-bottom: unset;\n}\n.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {\n    border-color: #bce8f1;\n    border-bottom: unset;\n    border-bottom-color: unset;\n}\n.nav-tabs {\n    border-bottom: unset;\n}\n.nav > li > a {\n    padding: 5px 15px;\n}\n.table td {\n    vertical-align: middle !important;\n}\n.panel-info > .panel-heading .badge {\n    color: #d9edf7;\n    background-color: #31708f;\n    margin-top: -3px;\n    margin-left: 5px;\n}\n#history-list > .active {\n    background-color: #00a65a !important;\n    color: #ffffff !important;\n}\n.contact{\n    padding: 10px;\n    margin-bottom: 10px;\n    border-radius: 4px;\n    border: 2px solid #02a65a;\n}\n.contact p:last-child{\n    margin: unset;\n}\n.factory_factory{\n    padding: 10px;\n    margin-bottom: 10px;\n    border-radius: 4px;\n    border: 2px solid #dedede;\n}\n.factory_factory pre{\n    margin: unset;\n}\n.popover{\n    width: unset !important;\n}\n.ll-warning{\n    text-align: center;\n    color: #FFFFFF;\n    border-radius: 2px;\n    font-weight: bold;\n    background-color: #f39c12 !important;\n}\n.ll-danger{\n    text-align: center;\n    color: #FFFFFF;\n    border-radius: 2px;\n    font-weight: bold;\n    background-color: #dd4b39 !important;\n}\n", ""]);
 
 // exports
 
@@ -24004,6 +24145,94 @@ var render = function() {
                                                     ]),
                                                     _vm._v(" "),
                                                     _c("td", [
+                                                      batch.warning == "unknown"
+                                                        ? _c(
+                                                            "label",
+                                                            {
+                                                              staticClass:
+                                                                "text-danger",
+                                                              staticStyle: {
+                                                                "font-size":
+                                                                  "18px"
+                                                              }
+                                                            },
+                                                            [
+                                                              _c("i", {
+                                                                staticClass:
+                                                                  "fa fa-info-circle"
+                                                              })
+                                                            ]
+                                                          )
+                                                        : batch.warning == 0
+                                                        ? _c(
+                                                            "label",
+                                                            {
+                                                              staticStyle: {
+                                                                "font-size":
+                                                                  "12px"
+                                                              }
+                                                            },
+                                                            [
+                                                              _c("i", {
+                                                                staticClass:
+                                                                  "fa fa-check-circle-o"
+                                                              })
+                                                            ]
+                                                          )
+                                                        : batch.warning > 0
+                                                        ? _c(
+                                                            "label",
+                                                            {
+                                                              staticClass:
+                                                                "text-success",
+                                                              staticStyle: {
+                                                                "font-size":
+                                                                  "12px"
+                                                              }
+                                                            },
+                                                            [
+                                                              _c("i", {
+                                                                staticClass:
+                                                                  "fa fa-thumbs-o-up"
+                                                              }),
+                                                              _vm._v(
+                                                                " " +
+                                                                  _vm._s(
+                                                                    batch.warning
+                                                                  ) +
+                                                                  " Days"
+                                                              )
+                                                            ]
+                                                          )
+                                                        : batch.warning < 0
+                                                        ? _c(
+                                                            "label",
+                                                            {
+                                                              staticClass:
+                                                                "text-danger",
+                                                              staticStyle: {
+                                                                "font-size":
+                                                                  "18px"
+                                                              }
+                                                            },
+                                                            [
+                                                              _c("i", {
+                                                                staticClass:
+                                                                  "fa fa-thumbs-o-down"
+                                                              }),
+                                                              _vm._v(
+                                                                " " +
+                                                                  _vm._s(
+                                                                    batch.warning
+                                                                  ) +
+                                                                  " Days"
+                                                              )
+                                                            ]
+                                                          )
+                                                        : _vm._e()
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    _c("td", [
                                                       _vm._v(
                                                         _vm._s(batch.carrier)
                                                       )
@@ -25780,6 +26009,48 @@ var render = function() {
                             ])
                           ]),
                           _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c(
+                              "label",
+                              { staticClass: "col-sm-4 control-label" },
+                              [_vm._v("Invoice No.")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-sm-7" }, [
+                              _c("div", { staticClass: "input-group" }, [
+                                _vm._m(24),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.shipment_form.invoice_no,
+                                      expression: "shipment_form.invoice_no"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { type: "text" },
+                                  domProps: {
+                                    value: _vm.shipment_form.invoice_no
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.shipment_form,
+                                        "invoice_no",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
                           _vm.shipment_form.shipping_method == "Customize"
                             ? _c("div", { staticClass: "form-group" }, [
                                 _c(
@@ -25790,7 +26061,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(24),
+                                    _vm._m(25),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -25830,7 +26101,52 @@ var render = function() {
                                   ])
                                 ])
                               ])
-                            : _vm._e()
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group  " }, [
+                            _c(
+                              "label",
+                              { staticClass: "col-sm-4 control-label" },
+                              [_vm._v("Remarks")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-sm-7" }, [
+                              _c("div", { staticClass: "input-group" }, [
+                                _vm._m(26),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.shipment_form.remarks,
+                                      expression: "shipment_form.remarks"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    placeholder: "Input Remarks"
+                                  },
+                                  domProps: {
+                                    value: _vm.shipment_form.remarks
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.shipment_form,
+                                        "remarks",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ])
+                            ])
+                          ])
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-6" }, [
@@ -25843,7 +26159,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(25),
+                                _vm._m(27),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -25886,7 +26202,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(26),
+                                _vm._m(28),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -25921,7 +26237,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group  " }, [
-                            _vm._m(27),
+                            _vm._m(29),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c(
@@ -25989,7 +26305,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(28),
+                                _vm._m(30),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -26190,33 +26506,34 @@ var render = function() {
                             ])
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "form-group  " }, [
+                          _c("div", { staticClass: "form-group" }, [
                             _c(
                               "label",
                               { staticClass: "col-sm-4 control-label" },
-                              [_vm._v("Remarks")]
+                              [_vm._v("Shipping Date")]
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(29),
+                                _vm._m(31),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
                                     {
                                       name: "model",
                                       rawName: "v-model",
-                                      value: _vm.shipment_form.remarks,
-                                      expression: "shipment_form.remarks"
+                                      value: _vm.shipment_form.shipping_ate,
+                                      expression: "shipment_form.shipping_ate"
                                     }
                                   ],
-                                  staticClass: "form-control",
+                                  staticClass: "form-control datetime-picker",
                                   attrs: {
                                     type: "text",
-                                    placeholder: "Input Remarks"
+                                    name: "shipping_ate",
+                                    placeholder: "Shipping Date"
                                   },
                                   domProps: {
-                                    value: _vm.shipment_form.remarks
+                                    value: _vm.shipment_form.shipping_ate
                                   },
                                   on: {
                                     input: function($event) {
@@ -26225,7 +26542,99 @@ var render = function() {
                                       }
                                       _vm.$set(
                                         _vm.shipment_form,
-                                        "remarks",
+                                        "shipping_ate",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c(
+                              "label",
+                              { staticClass: "col-sm-4 control-label" },
+                              [_vm._v("Invoice Date")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-sm-7" }, [
+                              _c("div", { staticClass: "input-group" }, [
+                                _vm._m(32),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.shipment_form.invoice_date,
+                                      expression: "shipment_form.invoice_date"
+                                    }
+                                  ],
+                                  staticClass: "form-control datetime-picker",
+                                  attrs: {
+                                    type: "text",
+                                    name: "invoice_date",
+                                    placeholder: "Invoice Date"
+                                  },
+                                  domProps: {
+                                    value: _vm.shipment_form.invoice_date
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.shipment_form,
+                                        "invoice_date",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c(
+                              "label",
+                              { staticClass: "col-sm-4 control-label" },
+                              [_vm._v("Delivery Date")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-sm-7" }, [
+                              _c("div", { staticClass: "input-group" }, [
+                                _vm._m(33),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.shipment_form.delivery_date,
+                                      expression: "shipment_form.delivery_date"
+                                    }
+                                  ],
+                                  staticClass: "form-control datetime-picker",
+                                  attrs: {
+                                    type: "text",
+                                    name: "delivery_date",
+                                    placeholder: "Delivery Date"
+                                  },
+                                  domProps: {
+                                    value: _vm.shipment_form.delivery_date
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.shipment_form,
+                                        "delivery_date",
                                         $event.target.value
                                       )
                                     }
@@ -26253,11 +26662,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(30),
+                                _vm._m(34),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(31),
+                                    _vm._m(35),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26313,7 +26722,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(32),
+                                    _vm._m(36),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -26372,7 +26781,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(33),
+                                      _vm._m(37),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -26437,11 +26846,11 @@ var render = function() {
                                   staticStyle: { "margin-bottom": "unset" }
                                 },
                                 [
-                                  _vm._m(34),
+                                  _vm._m(38),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(35),
+                                      _vm._m(39),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -26542,7 +26951,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(36),
+                                      _vm._m(40),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -26640,7 +27049,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(37),
+                                      _vm._m(41),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -26777,7 +27186,7 @@ var render = function() {
     _c("div", { staticClass: "modal fade in", attrs: { id: "editShipment" } }, [
       _c("div", { staticClass: "modal-dialog modal-lg" }, [
         _c("div", { staticClass: "modal-content" }, [
-          _vm._m(38),
+          _vm._m(42),
           _vm._v(" "),
           _c("div", { staticClass: "form-horizontal" }, [
             _c("div", { staticClass: "modal-body" }, [
@@ -26938,7 +27347,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group  " }, [
-                            _vm._m(39),
+                            _vm._m(43),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c(
@@ -27000,7 +27409,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group  " }, [
-                            _vm._m(40),
+                            _vm._m(44),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c(
@@ -27144,7 +27553,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(41),
+                                _vm._m(45),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -27181,7 +27590,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group  " }, [
-                            _vm._m(42),
+                            _vm._m(46),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c(
@@ -27289,6 +27698,49 @@ var render = function() {
                             ])
                           ]),
                           _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c(
+                              "label",
+                              { staticClass: "col-sm-4 control-label" },
+                              [_vm._v("Invoice No.")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-sm-7" }, [
+                              _c("div", { staticClass: "input-group" }, [
+                                _vm._m(47),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.shipment_edit_form.invoice_no,
+                                      expression:
+                                        "shipment_edit_form.invoice_no"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { type: "text" },
+                                  domProps: {
+                                    value: _vm.shipment_edit_form.invoice_no
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.shipment_edit_form,
+                                        "invoice_no",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
                           _vm.shipment_edit_form.shipping_method == "Customize"
                             ? _c("div", { staticClass: "form-group" }, [
                                 _c(
@@ -27299,7 +27751,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(43),
+                                    _vm._m(48),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -27339,7 +27791,52 @@ var render = function() {
                                   ])
                                 ])
                               ])
-                            : _vm._e()
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group  " }, [
+                            _c(
+                              "label",
+                              { staticClass: "col-sm-4 control-label" },
+                              [_vm._v("Remarks")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-sm-7" }, [
+                              _c("div", { staticClass: "input-group" }, [
+                                _vm._m(49),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.shipment_edit_form.remarks,
+                                      expression: "shipment_edit_form.remarks"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    placeholder: "Input Remarks"
+                                  },
+                                  domProps: {
+                                    value: _vm.shipment_edit_form.remarks
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.shipment_edit_form,
+                                        "remarks",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ])
+                            ])
+                          ])
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-6" }, [
@@ -27352,7 +27849,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(44),
+                                _vm._m(50),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -27397,7 +27894,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(45),
+                                _vm._m(51),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -27434,7 +27931,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group  " }, [
-                            _vm._m(46),
+                            _vm._m(52),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c(
@@ -27503,7 +28000,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(47),
+                                _vm._m(53),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -27711,33 +28208,36 @@ var render = function() {
                             ])
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "form-group  " }, [
+                          _c("div", { staticClass: "form-group" }, [
                             _c(
                               "label",
                               { staticClass: "col-sm-4 control-label" },
-                              [_vm._v("Remarks")]
+                              [_vm._v("Shipping Date")]
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-7" }, [
                               _c("div", { staticClass: "input-group" }, [
-                                _vm._m(48),
+                                _vm._m(54),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
                                     {
                                       name: "model",
                                       rawName: "v-model",
-                                      value: _vm.shipment_edit_form.remarks,
-                                      expression: "shipment_edit_form.remarks"
+                                      value:
+                                        _vm.shipment_edit_form.shipping_ate,
+                                      expression:
+                                        "shipment_edit_form.shipping_ate"
                                     }
                                   ],
-                                  staticClass: "form-control",
+                                  staticClass: "form-control datetime-picker",
                                   attrs: {
                                     type: "text",
-                                    placeholder: "Input Remarks"
+                                    name: "shipping_ate",
+                                    placeholder: "Shipping Date"
                                   },
                                   domProps: {
-                                    value: _vm.shipment_edit_form.remarks
+                                    value: _vm.shipment_edit_form.shipping_ate
                                   },
                                   on: {
                                     input: function($event) {
@@ -27746,7 +28246,103 @@ var render = function() {
                                       }
                                       _vm.$set(
                                         _vm.shipment_edit_form,
-                                        "remarks",
+                                        "shipping_ate",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c(
+                              "label",
+                              { staticClass: "col-sm-4 control-label" },
+                              [_vm._v("Invoice Date")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-sm-7" }, [
+                              _c("div", { staticClass: "input-group" }, [
+                                _vm._m(55),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value:
+                                        _vm.shipment_edit_form.invoice_date,
+                                      expression:
+                                        "shipment_edit_form.invoice_date"
+                                    }
+                                  ],
+                                  staticClass: "form-control datetime-picker",
+                                  attrs: {
+                                    type: "text",
+                                    name: "invoice_date",
+                                    placeholder: "Invoice Date"
+                                  },
+                                  domProps: {
+                                    value: _vm.shipment_edit_form.invoice_date
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.shipment_edit_form,
+                                        "invoice_date",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group" }, [
+                            _c(
+                              "label",
+                              { staticClass: "col-sm-4 control-label" },
+                              [_vm._v("Delivery Date")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-sm-7" }, [
+                              _c("div", { staticClass: "input-group" }, [
+                                _vm._m(56),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value:
+                                        _vm.shipment_edit_form.delivery_date,
+                                      expression:
+                                        "shipment_edit_form.delivery_date"
+                                    }
+                                  ],
+                                  staticClass: "form-control datetime-picker",
+                                  attrs: {
+                                    type: "text",
+                                    name: "delivery_date",
+                                    placeholder: "Delivery Date"
+                                  },
+                                  domProps: {
+                                    value: _vm.shipment_edit_form.delivery_date
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.shipment_edit_form,
+                                        "delivery_date",
                                         $event.target.value
                                       )
                                     }
@@ -27774,11 +28370,11 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group  " }, [
-                                _vm._m(49),
+                                _vm._m(57),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(50),
+                                    _vm._m(58),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -27831,7 +28427,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-sm-7" }, [
                                   _c("div", { staticClass: "input-group" }, [
-                                    _vm._m(51),
+                                    _vm._m(59),
                                     _vm._v(" "),
                                     _c("input", {
                                       directives: [
@@ -27886,7 +28482,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(52),
+                                      _vm._m(60),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -27949,11 +28545,11 @@ var render = function() {
                                   staticStyle: { "margin-bottom": "unset" }
                                 },
                                 [
-                                  _vm._m(53),
+                                  _vm._m(61),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(54),
+                                      _vm._m(62),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -28053,7 +28649,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(55),
+                                      _vm._m(63),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -28149,7 +28745,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-7" }, [
                                     _c("div", { staticClass: "input-group" }, [
-                                      _vm._m(56),
+                                      _vm._m(64),
                                       _vm._v(" "),
                                       _c("input", {
                                         directives: [
@@ -28290,7 +28886,7 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(57),
+            _vm._m(65),
             _vm._v(" "),
             _c("div", [
               _c("div", { staticClass: "modal-body" }, [
@@ -28305,7 +28901,7 @@ var render = function() {
                   },
                   [
                     _c("table", { staticClass: "table" }, [
-                      _vm._m(58),
+                      _vm._m(66),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -28561,6 +29157,8 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("th", { staticStyle: { "min-width": "200px" } }, [_vm._v("Actual")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { "min-width": "100px" } }, [_vm._v("Status")]),
         _vm._v(" "),
         _c("th", [_vm._v("Carrier")]),
         _vm._v(" "),
@@ -29010,6 +29608,22 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-pencil fa-fw" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-pencil fa-fw" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("label", { staticClass: "col-sm-4 control-label" }, [
       _c(
         "span",
@@ -29037,7 +29651,23 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "input-group-addon" }, [
-      _c("i", { staticClass: "fa fa-pencil fa-fw" })
+      _c("i", { staticClass: "fa fa-calendar" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-calendar" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-calendar" })
     ])
   },
   function() {
@@ -29238,6 +29868,22 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-pencil fa-fw" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-pencil fa-fw" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("label", { staticClass: "col-sm-4 control-label" }, [
       _c(
         "span",
@@ -29265,7 +29911,23 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "input-group-addon" }, [
-      _c("i", { staticClass: "fa fa-pencil fa-fw" })
+      _c("i", { staticClass: "fa fa-calendar" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-calendar" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-calendar" })
     ])
   },
   function() {
@@ -43938,7 +44600,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/dullme/Code/voltage-first-demo/resources/js/admin.js */"./resources/js/admin.js");
+module.exports = __webpack_require__(/*! /Users/jinjialei/Code/voltage-first-demo/resources/js/admin.js */"./resources/js/admin.js");
 
 
 /***/ })

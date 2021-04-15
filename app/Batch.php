@@ -44,6 +44,10 @@ class Batch extends Model
         'epc_history',
         'etd_port_history',
         'eta_port_history',
+        'invoice_no',
+        'delivery_date',
+        'invoice_date',
+        'shipping_ate',
     ];
 
     protected $dates = [

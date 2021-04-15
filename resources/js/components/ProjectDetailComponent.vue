@@ -163,6 +163,7 @@
                                                         <th style="min-width: 100px">PO Status</th>
                                                         <th style="min-width: 200px">Estimated</th>
                                                         <th style="min-width: 200px">Actual</th>
+                                                        <th style="min-width: 100px">Status</th>
                                                         <th>Carrier</th>
                                                         <th>B/L</th>
                                                         <th>Vessel</th>
@@ -264,6 +265,12 @@
                                                                     </span>
                                                                 </p>
                                                             </div>
+                                                        </td>
+                                                        <td>
+                                                            <label style="font-size: 18px;" class="text-danger" v-if="batch.warning == 'unknown'"><i class="fa fa-info-circle"></i></label>
+                                                            <label style="font-size: 12px;" v-else-if="batch.warning == 0"><i class="fa fa-check-circle-o"></i></label>
+                                                            <label style="font-size: 12px;" class="text-success" v-else-if="batch.warning > 0"><i class="fa fa-thumbs-o-up"></i> {{ batch.warning}} Days</label>
+                                                            <label style="font-size: 18px;" class="text-danger" v-else-if="batch.warning < 0"><i class="fa fa-thumbs-o-down"></i> {{ batch.warning }} Days</label>
                                                         </td>
                                                         <td>{{ batch.carrier }}</td>
                                                         <td>{{ batch.b_l }}</td>
@@ -797,6 +804,16 @@
                                                         </div>
                                                     </div>
 
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Invoice No.</label>
+                                                        <div class="col-sm-7">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+                                                                <input type="text" class="form-control" v-model="shipment_form.invoice_no">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                     <div class="form-group"
                                                          v-if="shipment_form.shipping_method == 'Customize'">
                                                         <label class="col-sm-4 control-label">Customize</label>
@@ -810,6 +827,19 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <div class="form-group  ">
+                                                        <label class="col-sm-4 control-label">Remarks</label>
+                                                        <div class="col-sm-7">
+                                                            <div class="input-group">
+                                                        <span class="input-group-addon"><i
+                                                            class="fa fa-pencil fa-fw"></i></span>
+                                                                <input type="text" v-model="shipment_form.remarks"
+                                                                       class="form-control" placeholder="Input Remarks">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- 左边 -->
 
                                                 </div>
 
@@ -888,18 +918,49 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group  ">
-                                                        <label class="col-sm-4 control-label">Remarks</label>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Shipping Date</label>
                                                         <div class="col-sm-7">
                                                             <div class="input-group">
-                                                        <span class="input-group-addon"><i
-                                                            class="fa fa-pencil fa-fw"></i></span>
-                                                                <input type="text" v-model="shipment_form.remarks"
-                                                                       class="form-control" placeholder="Input Remarks">
+                                                            <span class="input-group-addon"><i
+                                                                class="fa fa-calendar"></i></span>
+                                                                <input type="text" name="shipping_ate"
+                                                                       placeholder="Shipping Date"
+                                                                       class="form-control datetime-picker"
+                                                                       v-model="shipment_form.shipping_ate">
                                                             </div>
                                                         </div>
                                                     </div>
 
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Invoice Date</label>
+                                                        <div class="col-sm-7">
+                                                            <div class="input-group">
+                                                            <span class="input-group-addon"><i
+                                                                class="fa fa-calendar"></i></span>
+                                                                <input type="text" name="invoice_date"
+                                                                       placeholder="Invoice Date"
+                                                                       class="form-control datetime-picker"
+                                                                       v-model="shipment_form.invoice_date">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Delivery Date</label>
+                                                        <div class="col-sm-7">
+                                                            <div class="input-group">
+                                                            <span class="input-group-addon"><i
+                                                                class="fa fa-calendar"></i></span>
+                                                                <input type="text" name="delivery_date"
+                                                                       placeholder="Delivery Date"
+                                                                       class="form-control datetime-picker"
+                                                                       v-model="shipment_form.delivery_date">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- 右边-->
                                                 </div>
 
                                             </div>
@@ -1183,6 +1244,16 @@
                                                         </div>
                                                     </div>
 
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Invoice No.</label>
+                                                        <div class="col-sm-7">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+                                                                <input type="text" class="form-control" v-model="shipment_edit_form.invoice_no">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                     <div class="form-group"
                                                          v-if="shipment_edit_form.shipping_method == 'Customize'">
                                                         <label class="col-sm-4 control-label">Customize</label>
@@ -1192,6 +1263,18 @@
                                                             class="fa fa-pencil fa-fw"></i></span>
                                                                 <input type="text"
                                                                        v-model="shipment_edit_form.customize_shipping_method"
+                                                                       class="form-control" placeholder="Input Remarks">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group  ">
+                                                        <label class="col-sm-4 control-label">Remarks</label>
+                                                        <div class="col-sm-7">
+                                                            <div class="input-group">
+                                                        <span class="input-group-addon"><i
+                                                            class="fa fa-pencil fa-fw"></i></span>
+                                                                <input type="text" v-model="shipment_edit_form.remarks"
                                                                        class="form-control" placeholder="Input Remarks">
                                                             </div>
                                                         </div>
@@ -1274,14 +1357,44 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group  ">
-                                                        <label class="col-sm-4 control-label">Remarks</label>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Shipping Date</label>
                                                         <div class="col-sm-7">
                                                             <div class="input-group">
-                                                        <span class="input-group-addon"><i
-                                                            class="fa fa-pencil fa-fw"></i></span>
-                                                                <input type="text" v-model="shipment_edit_form.remarks"
-                                                                       class="form-control" placeholder="Input Remarks">
+                                                            <span class="input-group-addon"><i
+                                                                class="fa fa-calendar"></i></span>
+                                                                <input type="text" name="shipping_ate"
+                                                                       placeholder="Shipping Date"
+                                                                       class="form-control datetime-picker"
+                                                                       v-model="shipment_edit_form.shipping_ate">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Invoice Date</label>
+                                                        <div class="col-sm-7">
+                                                            <div class="input-group">
+                                                            <span class="input-group-addon"><i
+                                                                class="fa fa-calendar"></i></span>
+                                                                <input type="text" name="invoice_date"
+                                                                       placeholder="Invoice Date"
+                                                                       class="form-control datetime-picker"
+                                                                       v-model="shipment_edit_form.invoice_date">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Delivery Date</label>
+                                                        <div class="col-sm-7">
+                                                            <div class="input-group">
+                                                            <span class="input-group-addon"><i
+                                                                class="fa fa-calendar"></i></span>
+                                                                <input type="text" name="delivery_date"
+                                                                       placeholder="Delivery Date"
+                                                                       class="form-control datetime-picker"
+                                                                       v-model="shipment_edit_form.delivery_date">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1625,6 +1738,10 @@
                     rmb:'',
                     foreign_currency:'',
                     foreign_currency_type:'',
+                    invoice_no:'',
+                    delivery_date:'',
+                    invoice_date:'',
+                    shipping_ate:'',
                 },
                 shipment_edit_form: {
                     id: '',
@@ -1653,6 +1770,10 @@
                     rmb:'',
                     foreign_currency:'',
                     foreign_currency_type:'',
+                    invoice_no:'',
+                    delivery_date:'',
+                    invoice_date:'',
+                    shipping_ate:'',
                 }
             }
         },
@@ -1751,6 +1872,19 @@
                 'format': 'YYYY-MM-DD',
                 'allowInputToggle': true,
                 'maxDate': Date.today()
+            });
+
+            $("input[name='delivery_date']").datetimepicker({
+                'format': 'YYYY-MM-DD',
+                'allowInputToggle': true
+            });
+            $("input[name='invoice_date']").datetimepicker({
+                'format': 'YYYY-MM-DD',
+                'allowInputToggle': true
+            });
+            $("input[name='shipping_ate']").datetimepicker({
+                'format': 'YYYY-MM-DD',
+                'allowInputToggle': true
             });
 
             $('#poClient .datetime-picker').on('dp.change', (e) => {
@@ -2220,6 +2354,10 @@
                                 rmb:'',
                                 foreign_currency:'',
                                 foreign_currency_type:'',
+                                invoice_no:'',
+                                delivery_date:'',
+                                invoice_date:'',
+                                shipping_ate:'',
                             }
                             this.loading.shipment = false
                             $('#addShipment').modal('hide')
@@ -2270,6 +2408,10 @@
                         rmb:response.data.data.rmb,
                         foreign_currency:response.data.data.foreign_currency,
                         foreign_currency_type:response.data.data.foreign_currency_type,
+                        invoice_no:response.data.data.invoice_no,
+                        delivery_date:response.data.data.delivery_date,
+                        invoice_date:response.data.data.invoice_date,
+                        shipping_ate:response.data.data.shipping_ate,
                     }
 
                     let shipping_method = this.inArray(response.data.data.shipping_method, [
@@ -2521,10 +2663,18 @@
     }
 
     .ll-warning{
+        text-align: center;
+        color: #FFFFFF;
+        border-radius: 2px;
+        font-weight: bold;
         background-color: #f39c12 !important;
     }
 
     .ll-danger{
+        text-align: center;
+        color: #FFFFFF;
+        border-radius: 2px;
+        font-weight: bold;
         background-color: #dd4b39 !important;
     }
 </style>

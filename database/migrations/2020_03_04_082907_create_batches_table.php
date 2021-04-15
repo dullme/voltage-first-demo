@@ -48,6 +48,10 @@ class CreateBatchesTable extends Migration
             $table->integer('foreign_currency_type')->nullable()->comment('外币类型');
             $table->string('port_of_departure')->nullable()->comment('启运港口');
             $table->string('destination_port')->nullable()->comment('目的地港口');
+            $table->string('invoice_no')->nullable();
+            $table->date('delivery_date')->nullable();
+            $table->date('invoice_date')->nullable();
+            $table->date('shipping_ate')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

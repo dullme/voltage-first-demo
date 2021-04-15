@@ -72,6 +72,48 @@ class ProjectController extends AdminController
             return "<a href='{$url}'>{$name}</a>";
         });
 
+        $grid->column('State tip')->display(function () {
+            $finished = true;
+            $batches = Batch::where('project_id', $this->id)->get();
+            $null = 0;
+            $equal = 0;
+            $down = 0;
+            $up = 0;
+            foreach ($batches as $batch){
+                if($batch->status != 2){
+                    $finished = false;
+                }
+                $warning = Carbon::parse($batch->eta_port)->addDays(7)->diffInDays(Carbon::parse($batch->delivery_date), false);
+                if(is_null($batch->delivery_date)){
+                    $null ++;
+                }else if($warning == 0){
+                    $equal ++;
+                }else if($warning > 0){
+                    $up ++;
+                }else if($warning < 0){
+                    $down ++;
+                }
+            }
+            $res = "";
+            if($batches->count() > 0 && $finished){
+                return $res;
+            }
+            if($null > 0){
+                $res .= "<span class='label label-danger'><i class='fa fa-info-circle'></i> * {$null}</span>&nbsp;";
+            }
+            if($equal > 0){
+                $res .= "<span class='label label-info'><i class='fa fa-check-circle-o'></i> * {$equal}</span>&nbsp;";
+            }
+            if($down > 0){
+                $res .= "<span class='label label-danger'><i class='fa fa-thumbs-o-down'></i> * {$down}</span>&nbsp;";
+            }
+            if($up > 0){
+                $res .= "<span class='label label-success'><i class='fa fa-thumbs-o-up'></i> * {$up}</span>";
+            }
+
+            return $res;
+        });
+
         $grid->column('no', __('Project No.'));
 
         $grid->column('tip')->display(function () {
@@ -105,7 +147,7 @@ class ProjectController extends AdminController
         $grid->author()->name('Author');
 
         $grid->column('created_at', __('Created at'))->sortable();
-        $grid->column('updated_at', __('Updated at'))->sortable();
+//        $grid->column('updated_at', __('Updated at'))->sortable();
 
         return $grid;
     }
@@ -141,14 +183,28 @@ EOF
                     $batch['etd_color'] = getWarning($batch->etd_port, $batch->atd_port);
                     $batch['eta_color'] = getWarning($batch->eta_port, $batch->ata_port);
                     $batch['eta_job_site_color'] = getWarning($batch->eta_job_site, $batch->ata_job_site);
+                    if(is_null($batch->delivery_date)){
+                        $batch['warning'] = 'unknown';//表示未填写 交货日期 需要提醒
+                    }else{
+                        $batch['warning'] = Carbon::parse($batch->eta_port)->addDays(7)->diffInDays(Carbon::parse($batch->delivery_date), false);
+
+//                        if(Carbon::parse($batch->eta_port)->addDays(7)->toDateString() > $batch->delivery_date ){//满足预计到达的时间
+//                            $batch['warning'] = 2;//满足 不需要提示
+//                        }else if(Carbon::parse($batch->eta_port)->addDays(7)->toDateString() == $batch->delivery_date){ //和预计到达的时间相符
+//                            $batch['warning'] = 7;//刚好满足 提示
+//                        }else{ //不满足预计到达的时间相符
+//                            $batch['warning'] = 4;//不满足 重点提示
+//                        }
+                    }
+
                     return $batch;
                 });
                 return $po;
-            });
+            })->toArray();
             return $item;
         });
         $project->setAttribute('po_clients', $poClients);
-
+//dd($project->toArray());
         return view('admin.project.detail', compact('project'));
     }
 

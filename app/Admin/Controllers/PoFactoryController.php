@@ -141,7 +141,10 @@ class PoFactoryController extends ResponseController
             'ata_port'                        => 'nullable|date',
             'apc_remarks'                     => 'nullable',
             'atd_remarks'                     => 'nullable',
-            'ata_remarks'                     => 'nullable',
+            'invoice_no'                      => 'nullable',
+            'delivery_date'                   => 'nullable|date',
+            'invoice_date'                    => 'nullable|date',
+            'shipping_ate'                    => 'nullable|date',
         ], [
             'name.required' => 'The sequence field is required.',
         ]);
@@ -324,6 +327,10 @@ class PoFactoryController extends ResponseController
             'apc_remarks'                     => 'nullable',
             'atd_remarks'                     => 'nullable',
             'ata_remarks'                     => 'nullable',
+            'invoice_no'                      => 'nullable',
+            'delivery_date'                   => 'nullable|date',
+            'invoice_date'                    => 'nullable|date',
+            'shipping_ate'                    => 'nullable|date',
         ], [
             'name.required' => 'The sequence field is required.',
         ]);
