@@ -18,6 +18,15 @@
                             </button>
                         </div>
 
+                        <div class="btn-group pull-right" style="margin-right: 5px">
+                            <select style="height: 30px;padding: 0 10px" v-model="po_status">
+                                <option value="Unset">Unset</option>
+                                <option value="0">InProduction</option>
+                                <option value="1">Shipping</option>
+                                <option value="2">Finished</option>
+                            </select>
+                        </div>
+
                     </div>
                 </div>
                 <!-- /.box-header -->
@@ -175,7 +184,7 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr v-if="po_factory.batches.length"
+                                                    <tr v-if="po_factory.batches.length && po_status =='Unset' ? true : (batch.status == po_status)"
                                                         v-for="(batch, batch_index) in po_factory.batches">
                                                         <td>{{ batch.updated_at }}</td>
                                                         <td>
@@ -267,7 +276,7 @@
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <label style="font-size: 18px;" class="text-danger" v-if="batch.warning == 'unknown'"><i class="fa fa-info-circle"></i></label>
+                                                            <label style="font-size: 18px;" class="text-warning" v-if="batch.warning == 'unknown'"><i class="fa fa-info-circle"></i></label>
                                                             <label style="font-size: 12px;" v-else-if="batch.warning == 0"><i class="fa fa-check-circle-o"></i></label>
                                                             <label style="font-size: 12px;" class="text-success" v-else-if="batch.warning > 0"><i class="fa fa-thumbs-o-up"></i> {{ batch.warning}} Days</label>
                                                             <label style="font-size: 18px;" class="text-danger" v-else-if="batch.warning < 0"><i class="fa fa-thumbs-o-down"></i> {{ batch.warning }} Days</label>
@@ -1640,6 +1649,7 @@
     export default {
         data() {
             return {
+                po_status:'Unset',
                 author:[],
                 search:{
                     po_client : '',

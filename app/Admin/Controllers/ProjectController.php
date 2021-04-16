@@ -83,15 +83,32 @@ class ProjectController extends AdminController
                 if($batch->status != 2){
                     $finished = false;
                 }
-                $warning = Carbon::parse($batch->eta_port)->addDays(7)->diffInDays(Carbon::parse($batch->delivery_date), false);
+
+
                 if(is_null($batch->delivery_date)){
                     $null ++;
-                }else if($warning == 0){
-                    $equal ++;
-                }else if($warning > 0){
-                    $up ++;
-                }else if($warning < 0){
-                    $down ++;
+                }else{
+                    if(!is_null($batch->ata_job_site)){
+                        $warning = Carbon::parse($batch->ata_job_site)->diffInDays(Carbon::parse($batch->delivery_date), false);
+                        if($warning == 0){
+                            $equal ++;
+                        }else if($warning > 0){
+                            $up ++;
+                        }else if($warning < 0){
+                            $down ++;
+                        }
+                    }elseif(is_null($batch->eta_port)){
+                        $null ++;
+                    }else{
+                        $warning = Carbon::parse($batch->eta_port)->addDays(7)->diffInDays(Carbon::parse($batch->delivery_date), false);
+                        if($warning == 0){
+                            $equal ++;
+                        }else if($warning > 0){
+                            $up ++;
+                        }else if($warning < 0){
+                            $down ++;
+                        }
+                    }
                 }
             }
             $res = "";
@@ -99,16 +116,16 @@ class ProjectController extends AdminController
                 return $res;
             }
             if($null > 0){
-                $res .= "<span class='label label-danger'><i class='fa fa-info-circle'></i> * {$null}</span>&nbsp;";
+                $res .= "<span class='label label-warning'><i class='fa fa-info-circle'></i> {$null}</span>&nbsp;";
             }
             if($equal > 0){
-                $res .= "<span class='label label-info'><i class='fa fa-check-circle-o'></i> * {$equal}</span>&nbsp;";
+                $res .= "<span class='label label-info'><i class='fa fa-check-circle-o'></i> {$equal}</span>&nbsp;";
             }
             if($down > 0){
-                $res .= "<span class='label label-danger'><i class='fa fa-thumbs-o-down'></i> * {$down}</span>&nbsp;";
+                $res .= "<span class='label label-danger'><i class='fa fa-thumbs-o-down'></i> {$down}</span>&nbsp;";
             }
             if($up > 0){
-                $res .= "<span class='label label-success'><i class='fa fa-thumbs-o-up'></i> * {$up}</span>";
+                $res .= "<span class='label label-success'><i class='fa fa-thumbs-o-up'></i> {$up}</span>";
             }
 
             return $res;
@@ -183,18 +200,15 @@ EOF
                     $batch['etd_color'] = getWarning($batch->etd_port, $batch->atd_port);
                     $batch['eta_color'] = getWarning($batch->eta_port, $batch->ata_port);
                     $batch['eta_job_site_color'] = getWarning($batch->eta_job_site, $batch->ata_job_site);
+
                     if(is_null($batch->delivery_date)){
                         $batch['warning'] = 'unknown';//表示未填写 交货日期 需要提醒
+                    }elseif (!is_null($batch->ata_job_site)){
+                        $batch['warning'] = Carbon::parse($batch->ata_job_site)->diffInDays(Carbon::parse($batch->delivery_date), false);
+                    }elseif(is_null($batch->eta_port)){
+                        $batch['warning'] = 'unknown';
                     }else{
                         $batch['warning'] = Carbon::parse($batch->eta_port)->addDays(7)->diffInDays(Carbon::parse($batch->delivery_date), false);
-
-//                        if(Carbon::parse($batch->eta_port)->addDays(7)->toDateString() > $batch->delivery_date ){//满足预计到达的时间
-//                            $batch['warning'] = 2;//满足 不需要提示
-//                        }else if(Carbon::parse($batch->eta_port)->addDays(7)->toDateString() == $batch->delivery_date){ //和预计到达的时间相符
-//                            $batch['warning'] = 7;//刚好满足 提示
-//                        }else{ //不满足预计到达的时间相符
-//                            $batch['warning'] = 4;//不满足 重点提示
-//                        }
                     }
 
                     return $batch;
