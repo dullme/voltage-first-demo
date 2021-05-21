@@ -62,9 +62,14 @@ class BatchController extends AdminController
 
         });
 
-        $grid->column('name', __('Name'))->display(function ($name) {
-            return $name ? getSequence($this->sequence) . ' - ' . $name : getSequence($this->sequence);
+        $grid->project('Project Name')->display(function ($project){
+            $url = '/admin/projects/'.$project['id'];
+            return "<a style='display: block' href='{$url}'>{$project['name']}</a>";
         });
+
+//        $grid->column('name', __('Name'))->display(function ($name) {
+//            return $name ? getSequence($this->sequence) . ' - ' . $name : getSequence($this->sequence);
+//        });
 
         $grid->containers(__('Container No'))->display(function ($containers) {
             $res = '';
