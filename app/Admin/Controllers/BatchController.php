@@ -58,6 +58,7 @@ class BatchController extends AdminController
                 $filter->equal('port_of_departure', 'Port Of Departure')->select($port_of_departure);
                 $filter->equal('destination_port', 'Destination Port')->select($destination_port);
                 $filter->equal('carrier', 'Carrier')->select($carrier);
+                $filter->equal('project_id', 'Project')->select(Project::pluck('name', 'id'));
             });
 
         });
