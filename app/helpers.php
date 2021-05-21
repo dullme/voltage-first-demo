@@ -75,3 +75,23 @@ function getBox(){
         '40GP/40HQ'=>'40GP/40HQ',
     ];
 }
+
+/**
+ * 把柜子转换成 Tue
+ */
+function translateBoxToTue(array $boxes){
+    $tue = 0;
+    foreach ($boxes as $box){
+        if($box != null){
+            if($box == '20GP'){
+                $tue += 1;
+            }else if($box == '40HQ' || $box == '40GP'){
+                $tue += 2;
+            }else{
+                throw new Exception('柜子尺寸有误');
+            }
+        }
+    }
+
+    return $tue;
+}

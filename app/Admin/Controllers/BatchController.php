@@ -39,8 +39,27 @@ class BatchController extends AdminController
 
         $grid->filter(function ($filter) {
             $filter->disableIdFilter();
-            $filter->like('containers.no', 'Container No');
-            $filter->like('b_l', 'B/L');
+
+
+            $batches = Batch::select('carrier', 'port_of_departure', 'destination_port')->get();
+
+            $port_of_departure = $batches->where('port_of_departure', '!=', null)->pluck('port_of_departure', 'port_of_departure')->unique();
+            $destination_port = $batches->where('destination_port', '!=', null)->pluck('destination_port', 'destination_port')->unique();
+            $carrier = $batches->where('carrier', '!=', null)->pluck('carrier', 'carrier')->unique();
+
+            $filter->column(1/2, function ($filter){
+                $filter->like('containers.no', 'Container No');
+                $filter->like('b_l', 'B/L');
+                $filter->between('atd_port' ,'ATD Port')->date();
+                $filter->between('etd_port' ,'ETD Port')->date();
+            });
+
+            $filter->column(1/2, function ($filter) use ($port_of_departure, $destination_port, $carrier) {
+                $filter->equal('port_of_departure', 'Port Of Departure')->select($port_of_departure);
+                $filter->equal('destination_port', 'Destination Port')->select($destination_port);
+                $filter->equal('carrier', 'Carrier')->select($carrier);
+            });
+
         });
 
         $grid->column('name', __('Name'))->display(function ($name) {
@@ -57,14 +76,28 @@ class BatchController extends AdminController
             return $res;
         });
 
-        $grid->column('sequence', __('Sequence'));
+        $grid->column(__('TUE'))->display(function () {
+            $tue = translateBoxToTue(collect($this->containers)->pluck('type')->toArray());
+            return $tue == 0 ? '' : $tue.' TUE';
+        })->label();
+
+        $grid->column('port_of_departure', __('Port Of Departure'));
+        $grid->column('destination_port', __('Destination Port'));
         $grid->column('carrier', __('Carrier'));
-        $grid->column('ocean_forwarder', __('Ocean forwarder'));
-        $grid->column('inland_forwarder', __('Inland forwarder'));
-        $grid->column('china_inland_forwarder', __('China inland forwarder'));
+//        $grid->column('sequence', __('Sequence'));
+//        $grid->column('ocean_forwarder', __('Ocean forwarder'));
+//        $grid->column('inland_forwarder', __('Inland forwarder'));
+//        $grid->column('china_inland_forwarder', __('China inland forwarder'));
         $grid->column('b_l', __('B/L'));
         $grid->column('vessel', __('Vessel'));
-        $grid->column('remarks', __('Remarks'));
+        $grid->column('etd_port', __('ETD Port'));
+        $grid->column('atd_port', __('ATD Port'));
+//        $grid->column('remarks', __('Remarks'));
+
+        $grid->header(function ($query) {
+            $tue = translateBoxToTue($query->get()->pluck('containers')->flatten()->pluck('type')->toArray());
+            return "<label class='label label-success'>当前共有 {$tue} TUE</label>";
+        });
 
         return $grid;
     }
