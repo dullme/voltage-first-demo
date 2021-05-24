@@ -74,7 +74,7 @@ Route::group([
 
     $router->resource('batches', BatchController::class);
     $router->get('batches-export', 'BatchController@export');
-
-
     $router->resource('transports', TransportController::class);
+
+    $router->get('download', 'HomeController@download');
 });

@@ -48,6 +48,7 @@ class Batch extends Model
         'delivery_date',
         'invoice_date',
         'shipping_ate',
+        'file',
     ];
 
     protected $dates = [

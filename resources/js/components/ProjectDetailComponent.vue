@@ -180,6 +180,7 @@
                                                         <th><span data-toggle="tooltip" data-placement="top"
                                                                   data-original-title="Shipping method">S-method</span>
                                                         </th>
+                                                        <th>Download</th>
                                                         <th>Action</th>
                                                     </tr>
                                                     </thead>
@@ -286,6 +287,9 @@
                                                         <td>{{ batch.vessel }}</td>
                                                         <td>{{ batch.remarks }}</td>
                                                         <td>{{ batch.shipping_method }}</td>
+                                                        <td>
+                                                            <a v-if="batch.file" :href="'/admin/download?file='+batch.file" target="_blank"><i class="fa fa-download"></i></a>
+                                                        </td>
                                                         <td style="vertical-align: middle">
                                                             <div class="grid-dropdown-actions dropdown">
                                                                 <a href="#" style="padding: 0 10px;"

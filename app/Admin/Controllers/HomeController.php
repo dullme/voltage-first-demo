@@ -17,4 +17,10 @@ class HomeController extends Controller
             ->description('Description...')
             ->row(view('admin.title'));
     }
+
+    public function download()
+    {
+
+        return response()->download(public_path('uploads/'.request()->get('file')));
+    }
 }

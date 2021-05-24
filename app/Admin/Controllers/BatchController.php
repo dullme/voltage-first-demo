@@ -3,6 +3,9 @@
 namespace App\Admin\Controllers;
 
 use App\Exports\BatchesExport;
+use App\Forwarder;
+use App\ForwarderContact;
+use App\PoFactory;
 use App\Project;
 use Carbon\Carbon;
 use Excel;
@@ -12,6 +15,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
 
 class BatchController extends AdminController
 {
@@ -52,6 +56,14 @@ class BatchController extends AdminController
                 $filter->like('b_l', 'B/L');
                 $filter->between('atd_port' ,'ATD Port')->date();
                 $filter->between('etd_port' ,'ETD Port')->date();
+
+                $filter->where(function ($query) {
+                    $forwarder_contact = ForwarderContact::where('forwarder_id', $this->input)->pluck('id');
+                    $query->whereIn('china_inland_forwarder', $forwarder_contact);
+                }, 'CIF')->select(Forwarder::pluck('name', 'id'));
+
+
+//                $filter->equal('china_inland_forwarder.id', __('CIF'))->select(Forwarder::pluck('name', 'id'));
             });
 
             $filter->column(1/2, function ($filter) use ($port_of_departure, $destination_port, $carrier) {
@@ -98,6 +110,20 @@ class BatchController extends AdminController
         $grid->column('vessel', __('Vessel'));
         $grid->column('etd_port', __('ETD Port'));
         $grid->column('atd_port', __('ATD Port'));
+        $grid->column('CIF')->display(function (){
+            return optional(optional($this->chinaInlandForwarder)->forwarder)->name;
+        });
+        $grid->column('foreign_currency', __('Foreign Currency'))->display(function ($curr){
+            if($this->foreign_currency_type == 1){
+                $type = '$';
+            }elseif ($this->foreign_currency_type == 2){
+                $type = 'A$';
+            }else{
+                $type = 'Unknown';
+            }
+
+            return $curr ? $type . ' ' . $curr : '-';
+        });
 //        $grid->column('remarks', __('Remarks'));
 
         $grid->header(function ($query) {
@@ -162,35 +188,56 @@ class BatchController extends AdminController
     protected function form()
     {
         $form = new Form(new Batch());
+        $form->tools(function (Form\Tools $tools) {
 
-        $form->number('po_factory_id', __('Po factory id'));
-        $form->text('name', __('Name'));
-        $form->number('sequence', __('Sequence'));
-        $form->number('status', __('Status'));
-        $form->datetime('estimated_production_completion', __('Estimated production completion'))->default(date('Y-m-d H:i:s'));
-        $form->datetime('etd_port', __('Etd port'))->default(date('Y-m-d H:i:s'));
-        $form->datetime('eta_port', __('Eta port'))->default(date('Y-m-d H:i:s'));
-        $form->datetime('eta_job_site', __('Eta job site'))->default(date('Y-m-d H:i:s'));
-        $form->datetime('actual_production_completion', __('Actual production completion'))->default(date('Y-m-d H:i:s'));
-        $form->datetime('atd_port', __('Atd port'))->default(date('Y-m-d H:i:s'));
-        $form->datetime('ata_port', __('Ata port'))->default(date('Y-m-d H:i:s'));
-        $form->datetime('ata_job_site', __('Ata job site'))->default(date('Y-m-d H:i:s'));
-        $form->text('carrier', __('Carrier'));
-        $form->number('ocean_forwarder', __('Ocean forwarder'));
-        $form->number('inland_forwarder', __('Inland forwarder'));
-        $form->number('china_inland_forwarder', __('China inland forwarder'));
-        $form->text('b_l', __('B l'));
-        $form->text('vessel', __('Vessel'));
-        $form->text('remarks', __('Remarks'));
-        $form->text('shipping_method', __('Shipping method'));
-        $form->decimal('rmb', __('Rmb'));
-        $form->decimal('foreign_currency', __('Foreign currency'));
-        $form->number('foreign_currency_type', __('Foreign currency type'));
-        $form->text('port_of_departure', __('Port of departure'));
-        $form->text('destination_port', __('Destination port'));
-        $form->textarea('epc_history', __('Epc history'));
-        $form->textarea('etd_port_history', __('Etd port history'));
-        $form->textarea('eta_port_history', __('Eta port history'));
+        // 去掉`列表`按钮
+        $tools->disableList();
+
+        // 去掉`删除`按钮
+        $tools->disableDelete();
+
+        // 去掉`查看`按钮
+        $tools->disableView();
+        // 添加一个按钮, 参数可以是字符串, 或者实现了Renderable或Htmlable接口的对象实例
+        $tools->add('<a class="btn btn-sm btn-default" href="'.url('/admin/batch/show/'.request()->route()->parameters()['batch']).'"><i class="fa fa-mail-reply"></i>&nbsp;&nbsp;Back</a>');
+    });
+
+        $form->display('po_factory_id', __('Po client no'))->with(function ($value) {
+            return PoFactory::with('poClient')->findOrFail($value)->poClient->no;
+        });
+        $form->display('name', __('Name'));
+//        $form->number('sequence', __('Sequence'));
+//        $form->number('status', __('Status'));
+//        $form->datetime('estimated_production_completion', __('Estimated production completion'))->default(date('Y-m-d H:i:s'));
+//        $form->datetime('etd_port', __('Etd port'))->default(date('Y-m-d H:i:s'));
+//        $form->datetime('eta_port', __('Eta port'))->default(date('Y-m-d H:i:s'));
+//        $form->datetime('eta_job_site', __('Eta job site'))->default(date('Y-m-d H:i:s'));
+//        $form->datetime('actual_production_completion', __('Actual production completion'))->default(date('Y-m-d H:i:s'));
+//        $form->datetime('atd_port', __('Atd port'))->default(date('Y-m-d H:i:s'));
+//        $form->datetime('ata_port', __('Ata port'))->default(date('Y-m-d H:i:s'));
+//        $form->datetime('ata_job_site', __('Ata job site'))->default(date('Y-m-d H:i:s'));
+//        $form->text('carrier', __('Carrier'));
+//        $form->number('ocean_forwarder', __('Ocean forwarder'));
+//        $form->number('inland_forwarder', __('Inland forwarder'));
+//        $form->number('china_inland_forwarder', __('China inland forwarder'));
+//        $form->text('b_l', __('B l'));
+//        $form->text('vessel', __('Vessel'));
+//        $form->text('remarks', __('Remarks'));
+//        $form->text('shipping_method', __('Shipping method'));
+//        $form->decimal('rmb', __('Rmb'));
+//        $form->decimal('foreign_currency', __('Foreign currency'));
+//        $form->number('foreign_currency_type', __('Foreign currency type'));
+//        $form->text('port_of_departure', __('Port of departure'));
+//        $form->text('destination_port', __('Destination port'));
+//        $form->textarea('epc_history', __('Epc history'));
+//        $form->textarea('etd_port_history', __('Etd port history'));
+//        $form->textarea('eta_port_history', __('Eta port history'));
+        $form->file('file')->move('/shipment');
+
+        $form->saved(function (Form $form) {
+            admin_toastr('SUCCESS', 'success');
+            return redirect(url('/admin/batch/show/'.$form->model()->id));
+        });
 
         return $form;
     }

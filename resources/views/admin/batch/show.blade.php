@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title">Detail <span class="label label-info" style="margin-left: 10px">{{ optional($batch->poFactory->poClient->project->author)->name }}</span></h3>
+                <h3 class="box-title">Detail <span class="label label-info" style="margin-left: 10px">{{ optional($batch->poFactory->poClient->project->author)->name }}</span><span style="margin-left: 10px"><a href="{{ url('/admin/download?file='.$batch->file) }}" target="_blank"><i class="fa fa-download"></i></a></span></h3>
 
                 <div class="box-tools">
                     <div class="btn-group pull-right" style="margin-right: 5px">
@@ -10,7 +10,11 @@
                             <i class="fa fa-mail-reply"></i><span class="hidden-xs"> Back</span>
                         </a>
                     </div>
-
+                    <div class="btn-group pull-right" style="margin-right: 5px">
+                        <a class="btn btn-sm btn-info" href="{{ url('/admin/batches/'.$batch->id.'/edit') }}">
+                            <i class="fa fa-plus"></i><span class="hidden-xs">&nbsp;&nbsp;Upload File</span>
+                        </a>
+                    </div>
                     @if(!$batch->ata_port)
                     <div class="btn-group pull-right" style="margin-right: 5px">
                         <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#myModal">
