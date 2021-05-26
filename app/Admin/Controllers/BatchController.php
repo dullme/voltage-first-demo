@@ -232,7 +232,7 @@ class BatchController extends AdminController
 //        $form->textarea('epc_history', __('Epc history'));
 //        $form->textarea('etd_port_history', __('Etd port history'));
 //        $form->textarea('eta_port_history', __('Eta port history'));
-        $form->file('file')->move('/shipment');
+        $form->file('file')->move('/shipment')->removable();
 
         $form->saved(function (Form $form) {
             admin_toastr('SUCCESS', 'success');
