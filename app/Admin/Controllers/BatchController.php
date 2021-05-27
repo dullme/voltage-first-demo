@@ -59,8 +59,8 @@ class BatchController extends AdminController
 
                 $filter->where(function ($query) {
                     $forwarder_contact = ForwarderContact::where('forwarder_id', $this->input)->pluck('id');
-                    $query->whereIn('china_inland_forwarder', $forwarder_contact);
-                }, 'CIF')->select(Forwarder::pluck('name', 'id'));
+                    $query->whereIn('ocean_forwarder', $forwarder_contact);
+                }, 'O/AF')->select(Forwarder::pluck('name', 'id'));
 
 
 //                $filter->equal('china_inland_forwarder.id', __('CIF'))->select(Forwarder::pluck('name', 'id'));
