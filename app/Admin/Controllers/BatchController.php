@@ -110,8 +110,8 @@ class BatchController extends AdminController
         $grid->column('vessel', __('Vessel'));
         $grid->column('etd_port', __('ETD Port'));
         $grid->column('atd_port', __('ATD Port'));
-        $grid->column('CIF')->display(function (){
-            return optional(optional($this->chinaInlandForwarder)->forwarder)->name;
+        $grid->column('O/AF')->display(function (){
+            return optional(optional($this->oceanForwarder)->forwarder)->name;
         });
         $grid->column('foreign_currency', __('Foreign Currency'))->display(function ($curr){
             if($this->foreign_currency_type == 1){
