@@ -26,6 +26,20 @@ Route::get('/update-batches', function () {
 
 });
 
+
+Route::get('/dingding', function () {
+
+    $AppKey = 'dingajvdwkiiw06emu1o';
+    $AppSecret = 'v-ceLdxfoXsoHZ6axSGPlgqqsCudG7SoUuLkpoIIYOFKHeNXWbZK5VJxTrqLfPBh';
+    $url = "https://oapi.dingtalk.com/gettoken?appkey=".$AppKey."&appsecret=".$AppSecret;
+    $re = file_get_contents($url);
+    $obj=json_decode($re);
+    dump($obj);
+    $access_token = $obj->access_token;
+
+    dd($access_token);
+});
+
 Route::get('/', function () {
     return redirect('/admin');
 //    return view('welcome');
