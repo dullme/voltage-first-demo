@@ -34,7 +34,7 @@
                             <div class="col-lg-6">
                                 <p>Sequence：{{ getSequence($batch->sequence) }}</p>
                                 <p>Carrier：{{ $batch->carrier }}</p>
-                                <p>Ocean Forwarder：{{ $batch->oceanForwarder? optional($batch->oceanForwarder)->forwarder->name : '' }} : {{ $batch->oceanForwarder ? optional($batch->oceanForwarder)->name : '' }}</p>
+                                <p>Ocean Forwarder：{{ $batch->oceanForwarder? optional(optional($batch->oceanForwarder)->forwarder)->name : '' }} : {{ $batch->oceanForwarder ? optional($batch->oceanForwarder)->name : '' }}</p>
                                 <p>B/L：{{ $batch->b_l }}</p>
                                 <p>RMB：{{ $batch->rmb }}</p>
                                 <p>Port Of Departure：{{ $batch->port_of_departure }}</p>
@@ -44,8 +44,8 @@
                             <div class="col-lg-6">
                                 <p>Shipment #：{{ $batch->name }}</p>
                                 <p>Vessel：{{ $batch->vessel }}</p>
-                                <p>Inland Forwarder：{{ $batch->inlandForwarder ? optional($batch->inlandForwarder)->forwarder->name : '' }} : {{ $batch->inlandForwarder ? optional($batch->inlandForwarder)->name : '' }}</p>
-                                <p>China Inland Forwarder：{{ $batch->chinaInlandForwarder ? optional($batch->chinaInlandForwarder)->forwarder->name : '' }} : {{ $batch->chinaInlandForwarder ? optional($batch->chinaInlandForwarder)->name : '' }}</p>
+                                <p>Inland Forwarder：{{ $batch->inlandForwarder ? optional(optional($batch->inlandForwarder)->forwarder)->name : '' }} : {{ $batch->inlandForwarder ? optional($batch->inlandForwarder)->name : '' }}</p>
+                                <p>China Inland Forwarder：{{ $batch->chinaInlandForwarder ? optional(optional($batch->chinaInlandForwarder)->forwarder)->name : '' }} : {{ $batch->chinaInlandForwarder ? optional($batch->chinaInlandForwarder)->name : '' }}</p>
                                 <p>Foreign Currency：{{ $batch->foreign_currency }}/{{ getForeignCurrencyType($batch->foreign_currency_type) }}</p>
                                 <p>Destination Port：{{ $batch->destination_port }}</p>
                                 <p>Remarks：{{ $batch->remarks }}</p>
