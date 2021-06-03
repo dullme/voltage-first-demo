@@ -8,6 +8,7 @@ use App\ForwarderContact;
 use App\PoFactory;
 use App\Project;
 use Carbon\Carbon;
+use Encore\Admin\Facades\Admin;
 use Excel;
 use App\Batch;
 use Encore\Admin\Controllers\AdminController;
@@ -60,7 +61,7 @@ class BatchController extends AdminController
                 $filter->where(function ($query) {
                     $forwarder_contact = ForwarderContact::where('forwarder_id', $this->input)->pluck('id');
                     $query->whereIn('ocean_forwarder', $forwarder_contact);
-                }, 'O/AF')->select(Forwarder::pluck('name', 'id'));
+                }, 'O/AF')->select(Admin::user()->language == 'cn'? Forwarder::pluck('cn_name', 'id') : Forwarder::pluck('name', 'id'));
 
 
 //                $filter->equal('china_inland_forwarder.id', __('CIF'))->select(Forwarder::pluck('name', 'id'));
@@ -111,7 +112,8 @@ class BatchController extends AdminController
         $grid->column('etd_port', __('ETD Port'));
         $grid->column('atd_port', __('ATD Port'));
         $grid->column('O/AF')->display(function (){
-            return optional(optional($this->oceanForwarder)->forwarder)->name;
+
+            return Admin::user()->language == 'cn'? optional(optional($this->oceanForwarder)->forwarder)->cn_name : optional(optional($this->oceanForwarder)->forwarder)->name;
         });
         $grid->column('foreign_currency', __('Foreign Currency'))->display(function ($curr){
             if($this->foreign_currency_type == 1){

@@ -38,6 +38,7 @@ Route::group([
     $router->resource('forwarders', ForwarderController::class);
     $router->resource('forwarder-contacts', ForwarderContactController::class);
     $router->get('forwarder-contact-list', 'ForwarderContactController@getForwarderContacts');
+    $router->get('forwarder-list', 'ForwarderController@getForwarders');
 
     //项目
     $router->resource('projects', ProjectController::class);

@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Forwarder;
 use App\ForwarderContact;
 use Encore\Admin\Controllers\AdminController;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
@@ -41,7 +42,9 @@ class ForwarderContactController extends AdminController
 //        $grid->column('id', __('Id'));
         $grid->forwarder()->name(__('Forwarder name'));
         $grid->column('name', __('Name'));
+        $grid->column('cn_name', __('CN Name'));
         $grid->column('position', __('Position'));
+        $grid->column('cn_position', __('CN Position'));
         $grid->column('tel', __('Tel'));
         $grid->column('email', __('Email'));
         $grid->column('created_at', __('Created at'));
@@ -63,7 +66,8 @@ class ForwarderContactController extends AdminController
         $show->field('id', __('Id'));
         $show->field('forwarder_id', __('Forwarder id'));
         $show->field('name', __('Name'));
-        $show->field('position', __('Position'));
+        $show->field('cn_name', __('CN Name'));
+        $show->field('cn_position', __('CN Position'));
         $show->field('tel', __('Tel'));
         $show->field('email', __('Email'));
         $show->field('created_at', __('Created at'));
@@ -84,7 +88,9 @@ class ForwarderContactController extends AdminController
         $forwarders = Forwarder::pluck('name', 'id');
         $form->select('forwarder_id', 'Forwarder')->options($forwarders)->required();
         $form->text('name', __('Name'))->required();
+        $form->text('cn_name', __('CN Name'))->required();
         $form->text('position', __('Position'));
+        $form->text('cn_position', __('CN Position'));
         $form->text('tel', __('Tel'));
         $form->email('email', __('Email'));
 
@@ -111,12 +117,23 @@ class ForwarderContactController extends AdminController
     {
         $data = ForwarderContact::with('forwarder')->orderBy('forwarder_id', 'DESC')->get();
 
-        $data = $data->map(function ($item){
-            return [
-                'id' => $item['id'],
-                'text' => "{$item['forwarder']['name']}：{$item['name']}",
-            ];
-        });
+        if(Admin::user()->language == 'cn'){
+            $data = $data->map(function ($item){
+                return [
+                    'id' => $item['id'],
+                    'text' => "{$item['forwarder']['cn_name']}：{$item['cn_name']}",
+                ];
+            });
+        }else{
+            $data = $data->map(function ($item){
+                return [
+                    'id' => $item['id'],
+                    'text' => "{$item['forwarder']['name']}：{$item['name']}",
+                ];
+            });
+        }
+
+
 
         return $data;
     }

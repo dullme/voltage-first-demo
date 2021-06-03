@@ -17,7 +17,9 @@ class CreateForwarderContactsTable extends Migration
             $table->id();
             $table->integer('forwarder_id')->unsigned();
             $table->string('name')->comment('姓名');
-            $table->string('position')->nullable()->comment('职位');
+            $table->string('cn_name')->comment('中文姓名');
+            $table->string('position')->nullable()->comment('中文职位');
+            $table->string('cn_position')->nullable()->comment('中文职位');
             $table->string('tel')->nullable()->comment('电话');
             $table->string('email')->nullable()->comment('邮箱');
             $table->timestamps();
