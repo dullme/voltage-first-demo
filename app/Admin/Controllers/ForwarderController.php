@@ -38,6 +38,7 @@ class ForwarderController extends AdminController
         $grid->column('cn_name', __('CN Name'));
         $grid->column('agent_name', __('Agent name'));
         $grid->column('cn_agent_name', __('CN Agent name'));
+        $grid->column('address', __('Address'));
         $grid->column('cn_address', __('CN Address'));
 //        $grid->column('created_at', __('Created at'));
 
@@ -57,7 +58,9 @@ class ForwarderController extends AdminController
         $show->field('id', __('Id'));
         $show->field('name', __('Name'));
         $show->field('cn_name', __('CN Name'));
+        $show->field('agent_name', __('Agent name'));
         $show->field('cn_agent_name', __('CN Agent name'));
+        $show->field('address', __('Address'));
         $show->field('cn_address', __('CN Address'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
