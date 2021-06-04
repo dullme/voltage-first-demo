@@ -289,19 +289,18 @@
                                                         <td>{{ batch.shipping_method }}</td>
                                                         <td>
                                                             <div v-if="batch.shipment_file">
-                                                                <span>Shipment:</span>
                                                                 <a :href="'/admin/download?file='+batch.shipment_file" target="_blank"><i class="fa fa-download"></i></a>
                                                             </div>
 
-                                                            <div v-if="batch.freight_file">
-                                                                <span>Freight:</span>
-                                                                <a :href="'/admin/download?file='+batch.freight_file" target="_blank"><i class="fa fa-download"></i></a>
-                                                            </div>
+<!--                                                            <div v-if="batch.freight_file">-->
+<!--                                                                <span>Freight:</span>-->
+<!--                                                                <a :href="'/admin/download?file='+batch.freight_file" target="_blank"><i class="fa fa-download"></i></a>-->
+<!--                                                            </div>-->
 
-                                                            <div v-if="batch.tariff_file">
-                                                                <span>Tariff:</span>
-                                                                <a :href="'/admin/download?file='+batch.tariff_file" target="_blank"><i class="fa fa-download"></i></a>
-                                                            </div>
+<!--                                                            <div v-if="batch.tariff_file">-->
+<!--                                                                <span>Tariff:</span>-->
+<!--                                                                <a :href="'/admin/download?file='+batch.tariff_file" target="_blank"><i class="fa fa-download"></i></a>-->
+<!--                                                            </div>-->
 
                                                         </td>
                                                         <td style="vertical-align: middle">

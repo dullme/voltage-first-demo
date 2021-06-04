@@ -1,0 +1,1 @@
+http://api.currencylayer.com/live?access_key=3322148d44669a295496f68f479a9fcf&format=1&currencies=CNY

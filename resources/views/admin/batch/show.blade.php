@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title">Detail <span class="label label-info" style="margin-left: 10px">{{ optional($batch->poFactory->poClient->project->author)->name }}</span><span style="margin-left: 10px"><a href="{{ url('/admin/download?file='.$batch->file) }}" target="_blank"><i class="fa fa-download"></i></a></span></h3>
+                <h3 class="box-title">Detail <span class="label label-info" style="margin-left: 10px">{{ optional($batch->poFactory->poClient->project->author)->name }}</span><span style="margin-left: 10px"></span></h3>
 
                 <div class="box-tools">
                     <div class="btn-group pull-right" style="margin-right: 5px">
@@ -39,6 +39,26 @@
                                 <p>RMB：{{ $batch->rmb }}</p>
                                 <p>Port Of Departure：{{ $batch->port_of_departure }}</p>
                                 <p>S-method：{{ $batch->shipping_method }}</p>
+
+                                <p>AN：
+                                    @if($batch->shipment_file)
+                                    <a href="{{ url('/admin/download?file='.$batch->shipment_file) }}" target="_blank"><i class="fa fa-download"></i></a>
+                                    @endif
+                                </p>
+
+                                <p>Freight：
+                                    @if($batch->freight_file)
+                                    <a href="{{ url('/admin/download?file='.$batch->freight_file) }}" target="_blank"><i class="fa fa-download"></i></a>
+                                    @endif
+                                </p>
+
+
+                                <p>Tariff：
+                                    @if($batch->tariff_file)
+                                    <a href="{{ url('/admin/download?file='.$batch->tariff_file) }}" target="_blank"><i class="fa fa-download"></i></a>
+                                    @endif
+                                </p>
+
                             </div>
 
                             <div class="col-lg-6">

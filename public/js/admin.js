@@ -3569,7 +3569,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 // import Common from '../util'
 __webpack_require__(/*! ../../../public/vendor/date-js/date-zh-CN */ "./public/vendor/date-js/date-zh-CN.js");
 
@@ -24358,12 +24357,6 @@ var render = function() {
                                                     _c("td", [
                                                       batch.shipment_file
                                                         ? _c("div", [
-                                                            _c("span", [
-                                                              _vm._v(
-                                                                "Shipment:"
-                                                              )
-                                                            ]),
-                                                            _vm._v(" "),
                                                             _c(
                                                               "a",
                                                               {
@@ -24371,60 +24364,6 @@ var render = function() {
                                                                   href:
                                                                     "/admin/download?file=" +
                                                                     batch.shipment_file,
-                                                                  target:
-                                                                    "_blank"
-                                                                }
-                                                              },
-                                                              [
-                                                                _c("i", {
-                                                                  staticClass:
-                                                                    "fa fa-download"
-                                                                })
-                                                              ]
-                                                            )
-                                                          ])
-                                                        : _vm._e(),
-                                                      _vm._v(" "),
-                                                      batch.freight_file
-                                                        ? _c("div", [
-                                                            _c("span", [
-                                                              _vm._v("Freight:")
-                                                            ]),
-                                                            _vm._v(" "),
-                                                            _c(
-                                                              "a",
-                                                              {
-                                                                attrs: {
-                                                                  href:
-                                                                    "/admin/download?file=" +
-                                                                    batch.freight_file,
-                                                                  target:
-                                                                    "_blank"
-                                                                }
-                                                              },
-                                                              [
-                                                                _c("i", {
-                                                                  staticClass:
-                                                                    "fa fa-download"
-                                                                })
-                                                              ]
-                                                            )
-                                                          ])
-                                                        : _vm._e(),
-                                                      _vm._v(" "),
-                                                      batch.tariff_file
-                                                        ? _c("div", [
-                                                            _c("span", [
-                                                              _vm._v("Tariff:")
-                                                            ]),
-                                                            _vm._v(" "),
-                                                            _c(
-                                                              "a",
-                                                              {
-                                                                attrs: {
-                                                                  href:
-                                                                    "/admin/download?file=" +
-                                                                    batch.tariff_file,
                                                                   target:
                                                                     "_blank"
                                                                 }
