@@ -288,7 +288,21 @@
                                                         <td>{{ batch.remarks }}</td>
                                                         <td>{{ batch.shipping_method }}</td>
                                                         <td>
-                                                            <a v-if="batch.file" :href="'/admin/download?file='+batch.file" target="_blank"><i class="fa fa-download"></i></a>
+                                                            <div v-if="batch.shipment_file">
+                                                                <span>Shipment:</span>
+                                                                <a :href="'/admin/download?file='+batch.shipment_file" target="_blank"><i class="fa fa-download"></i></a>
+                                                            </div>
+
+                                                            <div v-if="batch.freight_file">
+                                                                <span>Freight:</span>
+                                                                <a :href="'/admin/download?file='+batch.freight_file" target="_blank"><i class="fa fa-download"></i></a>
+                                                            </div>
+
+                                                            <div v-if="batch.tariff_file">
+                                                                <span>Tariff:</span>
+                                                                <a :href="'/admin/download?file='+batch.tariff_file" target="_blank"><i class="fa fa-download"></i></a>
+                                                            </div>
+
                                                         </td>
                                                         <td style="vertical-align: middle">
                                                             <div class="grid-dropdown-actions dropdown">
@@ -307,6 +321,7 @@
                                                                         <a href="javascript:void(0);"
                                                                            v-on:click="deleteShipment(po_client_index,index,batch_index, batch.id)">Delete</a>
                                                                     </li>
+                                                                    <li><a :href="'/admin/batches/'+batch.id+'/edit'" target="_blank">Upload</a></li>
                                                                 </ul>
                                                             </div>
                                                         </td>

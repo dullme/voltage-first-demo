@@ -208,33 +208,15 @@ class BatchController extends AdminController
             return PoFactory::with('poClient')->findOrFail($value)->poClient->no;
         });
         $form->display('name', __('Name'));
-//        $form->number('sequence', __('Sequence'));
-//        $form->number('status', __('Status'));
-//        $form->datetime('estimated_production_completion', __('Estimated production completion'))->default(date('Y-m-d H:i:s'));
-//        $form->datetime('etd_port', __('Etd port'))->default(date('Y-m-d H:i:s'));
-//        $form->datetime('eta_port', __('Eta port'))->default(date('Y-m-d H:i:s'));
-//        $form->datetime('eta_job_site', __('Eta job site'))->default(date('Y-m-d H:i:s'));
-//        $form->datetime('actual_production_completion', __('Actual production completion'))->default(date('Y-m-d H:i:s'));
-//        $form->datetime('atd_port', __('Atd port'))->default(date('Y-m-d H:i:s'));
-//        $form->datetime('ata_port', __('Ata port'))->default(date('Y-m-d H:i:s'));
-//        $form->datetime('ata_job_site', __('Ata job site'))->default(date('Y-m-d H:i:s'));
-//        $form->text('carrier', __('Carrier'));
-//        $form->number('ocean_forwarder', __('Ocean forwarder'));
-//        $form->number('inland_forwarder', __('Inland forwarder'));
-//        $form->number('china_inland_forwarder', __('China inland forwarder'));
-//        $form->text('b_l', __('B l'));
-//        $form->text('vessel', __('Vessel'));
-//        $form->text('remarks', __('Remarks'));
-//        $form->text('shipping_method', __('Shipping method'));
-//        $form->decimal('rmb', __('Rmb'));
-//        $form->decimal('foreign_currency', __('Foreign currency'));
-//        $form->number('foreign_currency_type', __('Foreign currency type'));
-//        $form->text('port_of_departure', __('Port of departure'));
-//        $form->text('destination_port', __('Destination port'));
-//        $form->textarea('epc_history', __('Epc history'));
-//        $form->textarea('etd_port_history', __('Etd port history'));
-//        $form->textarea('eta_port_history', __('Eta port history'));
-        $form->file('file')->move('/shipment')->removable();
+        $form->file('shipment_file')->uniqueName()->move('/shipment')->removable();
+        $form->divider('下面是关于发票的信息');
+        $form->text('invoice_no');
+        $form->file('freight_file')->uniqueName()->move('/freight')->removable();
+        $form->decimal('freight_amount')->icon('fa-dollar');
+        $form->file('tariff_file')->uniqueName()->move('/tariff')->removable();
+        $form->decimal('tariff_amount')->icon('fa-dollar');
+        $form->text('invoice_remark');
+
 
         $form->saved(function (Form $form) {
             admin_toastr('SUCCESS', 'success');

@@ -88,6 +88,11 @@ class Batch extends Model
         return $this->hasMany(Container::class);
     }
 
+    public function author()
+    {
+        return $this->belongsTo(AdminUser::class);
+    }
+
     public function project()
     {
         return $this->belongsTo(Project::class);
