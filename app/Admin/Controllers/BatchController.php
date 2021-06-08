@@ -210,7 +210,8 @@ class BatchController extends AdminController
         $form->display('name', __('Name'));
         $form->file('shipment_file')->uniqueName()->move('/shipment')->removable();
         $form->divider('下面是关于发票的信息');
-        $form->text('invoice_no');
+        $form->text('invoice_no', __('Ocean Freight and Port Sur-charges NO'));
+        $form->text('invoice_no2', __('Tariff and other charges NO'));
         $form->file('freight_file')->uniqueName()->move('/freight')->removable();
         $form->decimal('freight_amount')->icon('fa-dollar');
         $form->file('tariff_file')->uniqueName()->move('/tariff')->removable();

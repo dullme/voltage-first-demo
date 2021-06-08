@@ -277,6 +277,7 @@
                                                             </div>
                                                         </td>
                                                         <td>
+                                                            <i class="fa fa-spinner fa-spin"></i>
                                                             <label style="font-size: 18px;" class="text-warning" v-if="batch.warning == 'unknown'"><i class="fa fa-info-circle"></i></label>
                                                             <label style="font-size: 12px;" v-else-if="batch.warning == 0"><i class="fa fa-check-circle-o"></i></label>
                                                             <label style="font-size: 12px;" class="text-success" v-else-if="batch.warning > 0"><i class="fa fa-thumbs-o-up"></i> {{ batch.warning}} Days</label>
@@ -831,16 +832,6 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group">
-                                                        <label class="col-sm-4 control-label">Invoice No.</label>
-                                                        <div class="col-sm-7">
-                                                            <div class="input-group">
-                                                                <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
-                                                                <input type="text" class="form-control" v-model="shipment_form.invoice_no">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
                                                     <div class="form-group"
                                                          v-if="shipment_form.shipping_method == 'Customize'">
                                                         <label class="col-sm-4 control-label">Customize</label>
@@ -864,6 +855,18 @@
                                                                 <input type="text" v-model="shipment_form.remarks"
                                                                        class="form-control" placeholder="Input Remarks">
                                                             </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Invoice Display</label>
+                                                        <div class="form-check" style="display: inline-block;padding: 10px">
+                                                            <input class="form-check-input" type="radio" name="invoice_display" id="radio1">
+                                                            <label class="form-check-label" for="radio1">ON</label>
+                                                        </div>
+                                                        <div class="form-check" style="display: inline-block;padding: 10px">
+                                                            <input class="form-check-input" type="radio" name="invoice_display" id="radio2">
+                                                            <label class="form-check-label" for="radio2">OFF</label>
                                                         </div>
                                                     </div>
                                                     <!-- 左边 -->
@@ -955,20 +958,6 @@
                                                                        placeholder="Shipping Date"
                                                                        class="form-control datetime-picker"
                                                                        v-model="shipment_form.shipping_ate">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label class="col-sm-4 control-label">Invoice Date</label>
-                                                        <div class="col-sm-7">
-                                                            <div class="input-group">
-                                                            <span class="input-group-addon"><i
-                                                                class="fa fa-calendar"></i></span>
-                                                                <input type="text" name="invoice_date"
-                                                                       placeholder="Invoice Date"
-                                                                       class="form-control datetime-picker"
-                                                                       v-model="shipment_form.invoice_date">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1271,16 +1260,6 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group">
-                                                        <label class="col-sm-4 control-label">Invoice No.</label>
-                                                        <div class="col-sm-7">
-                                                            <div class="input-group">
-                                                                <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
-                                                                <input type="text" class="form-control" v-model="shipment_edit_form.invoice_no">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
                                                     <div class="form-group"
                                                          v-if="shipment_edit_form.shipping_method == 'Customize'">
                                                         <label class="col-sm-4 control-label">Customize</label>
@@ -1304,6 +1283,18 @@
                                                                 <input type="text" v-model="shipment_edit_form.remarks"
                                                                        class="form-control" placeholder="Input Remarks">
                                                             </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Invoice Display</label>
+                                                        <div class="form-check" style="display: inline-block;padding: 10px">
+                                                            <input class="form-check-input" type="radio" name="invoice_display" id="radio1_edit">
+                                                            <label class="form-check-label" for="radio1_edit">ON</label>
+                                                        </div>
+                                                        <div class="form-check" style="display: inline-block;padding: 10px">
+                                                            <input class="form-check-input" type="radio" name="invoice_display" id="radio2_edit">
+                                                            <label class="form-check-label" for="radio2_edit">OFF</label>
                                                         </div>
                                                     </div>
 
@@ -1394,20 +1385,6 @@
                                                                        placeholder="Shipping Date"
                                                                        class="form-control datetime-picker"
                                                                        v-model="shipment_edit_form.shipping_ate">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label class="col-sm-4 control-label">Invoice Date</label>
-                                                        <div class="col-sm-7">
-                                                            <div class="input-group">
-                                                            <span class="input-group-addon"><i
-                                                                class="fa fa-calendar"></i></span>
-                                                                <input type="text" name="invoice_date"
-                                                                       placeholder="Invoice Date"
-                                                                       class="form-control datetime-picker"
-                                                                       v-model="shipment_edit_form.invoice_date">
                                                             </div>
                                                         </div>
                                                     </div>

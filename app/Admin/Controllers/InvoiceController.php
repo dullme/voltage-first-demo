@@ -44,7 +44,6 @@ class InvoiceController extends AdminController
         $grid->filter(function ($filter) {
             $filter->disableIdFilter();
             $filter->where(function ($query) {
-                $day = Carbon::parse($this->input)->day;
                 $date = Carbon::parse($this->input)->subMonth(3);
                 $query->whereBetween('atd_port', [$date->startOfMonth()->toDateString(), $date->endOfMonth()->toDateString()]);
             }, 'Payment Date')->date();
@@ -65,14 +64,19 @@ class InvoiceController extends AdminController
             return $this->poFactory->poClient->voltage_no;
         })->width(100);
 
+        $grid->column('b_l', __('B/L'))->display(function ($b_l){
+            $url = '/admin/batch/show/'.$this->id;
+            return "<a style='display: block' href='{$url}'>{$b_l}</a>";
+        });
+
         $grid->column('atd_port', __('Ship Date'))->width(85);
         $grid->column('O/AF', __('Shipping Firm'))->display(function (){
 
             return Admin::user()->language == 'cn'? optional(optional($this->oceanForwarder)->forwarder)->cn_name : optional(optional($this->oceanForwarder)->forwarder)->name;
         })->width(200);
 
-        $grid->column('invoice_no', __('Invoice NO.'));
-        $grid->column('b_l', __('B/L'));
+        $grid->column('invoice_no', 'NO1');
+        $grid->column('invoice_no2', 'NO2');
         $grid->column('freight_amount', __('Freight Amount(USD)'))->width(110);
         $grid->column('tariff_amount', __('Tariff Amount(USD)'))->width(110);
         $grid->column('payment_date', __('Payment Date'))->display(function (){
