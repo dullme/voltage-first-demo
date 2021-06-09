@@ -331,6 +331,7 @@ class PoFactoryController extends ResponseController
             'delivery_date'                   => 'nullable|date',
             'invoice_date'                    => 'nullable|date',
             'shipping_ate'                    => 'nullable|date',
+            'invoice_display'                 => 'required|boolean',
         ], [
             'name.required' => 'The sequence field is required.',
         ]);

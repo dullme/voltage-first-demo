@@ -172,7 +172,8 @@
                                                         <th style="min-width: 100px">PO Status</th>
                                                         <th style="min-width: 200px">Estimated</th>
                                                         <th style="min-width: 200px">Actual</th>
-                                                        <th style="min-width: 100px">Status</th>
+                                                        <th style="min-width: 100px"><span data-toggle="tooltip" data-placement="top"
+                                                                                           data-original-title="An animated icon means that this line is not displayed on the invoice">Status</span></th>
                                                         <th>Carrier</th>
                                                         <th>B/L</th>
                                                         <th>Vessel</th>
@@ -277,11 +278,32 @@
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <i class="fa fa-spinner fa-spin"></i>
-                                                            <label style="font-size: 18px;" class="text-warning" v-if="batch.warning == 'unknown'"><i class="fa fa-info-circle"></i></label>
-                                                            <label style="font-size: 12px;" v-else-if="batch.warning == 0"><i class="fa fa-check-circle-o"></i></label>
-                                                            <label style="font-size: 12px;" class="text-success" v-else-if="batch.warning > 0"><i class="fa fa-thumbs-o-up"></i> {{ batch.warning}} Days</label>
-                                                            <label style="font-size: 18px;" class="text-danger" v-else-if="batch.warning < 0"><i class="fa fa-thumbs-o-down"></i> {{ batch.warning }} Days</label>
+
+
+                                                            <label style="font-size: 18px;" class="text-warning" v-if="batch.warning == 'unknown'">
+                                                                <span class="fa-stack fa-lg">
+                                                                    <i class="fa fa-info-circle"></i>
+                                                                    <i class="fa fa-spinner fa-spin text-warning" v-if="!batch.invoice_display"></i>
+                                                                </span>
+                                                            </label>
+                                                            <label style="font-size: 12px;" v-else-if="batch.warning == 0">
+                                                                <span class="fa-stack fa-lg">
+                                                                    <i class="fa fa-check-circle-o"></i>
+                                                                    <i class="fa fa-spinner fa-spin text-warning" v-if="!batch.invoice_display"></i>
+                                                                </span>
+                                                            </label>
+                                                            <label style="font-size: 12px;" class="text-success" v-else-if="batch.warning > 0">
+                                                                <span class="fa-stack fa-lg">
+                                                                    <i class="fa fa-thumbs-o-up"></i>
+                                                                    <i class="fa fa-spinner fa-spin text-warning" v-if="!batch.invoice_display"></i>
+                                                                </span> {{ batch.warning}} Days
+                                                            </label>
+                                                            <label style="font-size: 18px;" class="text-danger" v-else-if="batch.warning < 0">
+                                                                <span class="fa-stack fa-lg">
+                                                                    <i class="fa fa-thumbs-o-down"></i>
+                                                                    <i class="fa fa-spinner fa-spin text-warning" v-if="!batch.invoice_display"></i>
+                                                                </span> {{ batch.warning}} Days
+                                                            </label>
                                                         </td>
                                                         <td>{{ batch.carrier }}</td>
                                                         <td>{{ batch.b_l }}</td>
@@ -861,11 +883,11 @@
                                                     <div class="form-group">
                                                         <label class="col-sm-4 control-label">Invoice Display</label>
                                                         <div class="form-check" style="display: inline-block;padding: 10px">
-                                                            <input class="form-check-input" type="radio" name="invoice_display" id="radio1">
+                                                            <input class="form-check-input" type="radio" name="invoice_display" id="radio1" value="1" v-model="shipment_form.invoice_display">
                                                             <label class="form-check-label" for="radio1">ON</label>
                                                         </div>
                                                         <div class="form-check" style="display: inline-block;padding: 10px">
-                                                            <input class="form-check-input" type="radio" name="invoice_display" id="radio2">
+                                                            <input class="form-check-input" type="radio" name="invoice_display" id="radio2" value="0" v-model="shipment_form.invoice_display">
                                                             <label class="form-check-label" for="radio2">OFF</label>
                                                         </div>
                                                     </div>
@@ -1289,11 +1311,11 @@
                                                     <div class="form-group">
                                                         <label class="col-sm-4 control-label">Invoice Display</label>
                                                         <div class="form-check" style="display: inline-block;padding: 10px">
-                                                            <input class="form-check-input" type="radio" name="invoice_display" id="radio1_edit">
+                                                            <input class="form-check-input" type="radio" name="invoice_display" id="radio1_edit" value="1" v-model="shipment_edit_form.invoice_display">
                                                             <label class="form-check-label" for="radio1_edit">ON</label>
                                                         </div>
                                                         <div class="form-check" style="display: inline-block;padding: 10px">
-                                                            <input class="form-check-input" type="radio" name="invoice_display" id="radio2_edit">
+                                                            <input class="form-check-input" type="radio" name="invoice_display" id="radio2_edit" value="0" v-model="shipment_edit_form.invoice_display">
                                                             <label class="form-check-label" for="radio2_edit">OFF</label>
                                                         </div>
                                                     </div>
@@ -1747,6 +1769,7 @@
                     delivery_date:'',
                     invoice_date:'',
                     shipping_ate:'',
+                    invoice_display: 1
                 },
                 shipment_edit_form: {
                     id: '',
@@ -1779,6 +1802,7 @@
                     delivery_date:'',
                     invoice_date:'',
                     shipping_ate:'',
+                    invoice_display:''
                 }
             }
         },
@@ -2417,6 +2441,7 @@
                         delivery_date:response.data.data.delivery_date,
                         invoice_date:response.data.data.invoice_date,
                         shipping_ate:response.data.data.shipping_ate,
+                        invoice_display:response.data.data.invoice_display,
                     }
 
                     let shipping_method = this.inArray(response.data.data.shipping_method, [
