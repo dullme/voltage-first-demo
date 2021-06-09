@@ -47,6 +47,10 @@ class InvoiceController extends AdminController
                 $date = Carbon::parse($this->input)->subMonth(3);
                 $query->whereBetween('atd_port', [$date->startOfMonth()->toDateString(), $date->endOfMonth()->toDateString()]);
             }, 'Payment Date')->date();
+            $filter->where(function ($query) {
+                $forwarder_contact = ForwarderContact::where('forwarder_id', $this->input)->pluck('id');
+                $query->whereIn('ocean_forwarder', $forwarder_contact);
+            }, 'O/AF')->select(Admin::user()->language == 'cn'? Forwarder::pluck('cn_name', 'id') : Forwarder::pluck('name', 'id'));
 
         });
 
