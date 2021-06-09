@@ -173,7 +173,7 @@
                                                         <th style="min-width: 200px">Estimated</th>
                                                         <th style="min-width: 200px">Actual</th>
                                                         <th style="min-width: 100px"><span data-toggle="tooltip" data-placement="top"
-                                                                                           data-original-title="An animated icon means that this line is not displayed on the invoice">Status</span></th>
+                                                                                           data-original-title="If there is an airplane that means not to show this line on the invoice">Status</span></th>
                                                         <th>Carrier</th>
                                                         <th>B/L</th>
                                                         <th>Vessel</th>
@@ -283,25 +283,25 @@
                                                             <label style="font-size: 18px;" class="text-warning" v-if="batch.warning == 'unknown'">
                                                                 <span class="fa-stack fa-lg">
                                                                     <i class="fa fa-info-circle"></i>
-                                                                    <i class="fa fa-spinner fa-spin text-warning" v-if="!batch.invoice_display"></i>
+                                                                    <i class="fa fa-plane text-gray" v-if="!batch.invoice_display"></i>
                                                                 </span>
                                                             </label>
                                                             <label style="font-size: 12px;" v-else-if="batch.warning == 0">
                                                                 <span class="fa-stack fa-lg">
                                                                     <i class="fa fa-check-circle-o"></i>
-                                                                    <i class="fa fa-spinner fa-spin text-warning" v-if="!batch.invoice_display"></i>
+                                                                    <i class="fa fa-plane text-gray" v-if="!batch.invoice_display"></i>
                                                                 </span>
                                                             </label>
                                                             <label style="font-size: 12px;" class="text-success" v-else-if="batch.warning > 0">
                                                                 <span class="fa-stack fa-lg">
                                                                     <i class="fa fa-thumbs-o-up"></i>
-                                                                    <i class="fa fa-spinner fa-spin text-warning" v-if="!batch.invoice_display"></i>
+                                                                    <i class="fa fa-plane text-gray" v-if="!batch.invoice_display"></i>
                                                                 </span> {{ batch.warning}} Days
                                                             </label>
                                                             <label style="font-size: 18px;" class="text-danger" v-else-if="batch.warning < 0">
                                                                 <span class="fa-stack fa-lg">
                                                                     <i class="fa fa-thumbs-o-down"></i>
-                                                                    <i class="fa fa-spinner fa-spin text-warning" v-if="!batch.invoice_display"></i>
+                                                                    <i class="fa fa-plane text-gray" v-if="!batch.invoice_display"></i>
                                                                 </span> {{ batch.warning}} Days
                                                             </label>
                                                         </td>
