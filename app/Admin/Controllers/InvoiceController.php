@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\InvoicesExporter;
 use App\Exports\BatchesExport;
 use App\Forwarder;
 use App\ForwarderContact;
@@ -36,8 +37,7 @@ class InvoiceController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Batch());
-
-        $grid->disableExport();
+        $grid->exporter(new InvoicesExporter());
         $grid->disableRowSelector();
         $grid->disableActions();
         $grid->disableCreateButton();
@@ -58,9 +58,9 @@ class InvoiceController extends AdminController
             return $this->project->author->username;
         });
 
-        $grid->project('Project Name')->display(function ($project){
-            $url = '/admin/projects/'.$project['id'];
-            return "<a style='display: block' href='{$url}'>{$project['name']}</a>";
+        $grid->column('project_name', 'Project Name')->display(function (){
+            $url = '/admin/projects/'.$this->project->id;
+            return "<a style='display: block' href='{$url}'>{$this->project->name}</a>";
         })->width(150);
 
 
@@ -84,7 +84,7 @@ class InvoiceController extends AdminController
         $grid->column('freight_amount', __('Freight Amount(USD)'))->width(110);
         $grid->column('tariff_amount', __('Tariff Amount(USD)'))->width(110);
         $grid->column('payment_date', __('Payment Date'))->display(function (){
-            return substr($this->atd_port->startOfMonth()->addMonth(3)->toDateString(), 0, 8) . '15';
+//            return substr($this->atd_port->startOfMonth()->addMonth(3)->toDateString(), 0, 8) . '15';
         });
 
         $grid->containers( __('Containers'))->display(function ($containers) {
@@ -107,6 +107,7 @@ class InvoiceController extends AdminController
         });
 
         $grid->column('invoice_remark', __('Remarks'));
+
 
         return $grid;
     }
