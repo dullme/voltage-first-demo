@@ -84,7 +84,7 @@ class InvoiceController extends AdminController
         $grid->column('freight_amount', __('Freight Amount(USD)'))->width(110);
         $grid->column('tariff_amount', __('Tariff Amount(USD)'))->width(110);
         $grid->column('payment_date', __('Payment Date'))->display(function (){
-//            return substr($this->atd_port->startOfMonth()->addMonth(3)->toDateString(), 0, 8) . '15';
+            return substr($this->atd_port->startOfMonth()->addMonth(3)->toDateString(), 0, 8) . '15';
         });
 
         $grid->containers( __('Containers'))->display(function ($containers) {

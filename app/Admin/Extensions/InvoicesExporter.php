@@ -44,7 +44,7 @@ class InvoicesExporter extends ExcelExporter implements WithMapping
             $batches->invoice_no2,
             $batches->freight_amount,
             $batches->tariff_amount,
-            $batches->payment_date,
+            substr(Carbon::parse($batches->atd_port)->startOfMonth()->addMonth(3)->toDateString(), 0, 8) . '15',
             $this->getContainers($batches->id),
             $batches->invoice_remark,
         ];
