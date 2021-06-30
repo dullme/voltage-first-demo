@@ -37,6 +37,9 @@ class InvoiceController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Batch());
+
+        $grid->model()->where('invoice_display', '!=', 0);
+
         $grid->exporter(new InvoicesExporter());
         $grid->disableRowSelector();
         $grid->disableActions();
