@@ -280,25 +280,33 @@
                                                         <td>
 
 
-                                                            <label style="font-size: 18px;" class="text-warning" v-if="batch.warning == 'unknown'">
+                                                            <label style="font-size: 18px;" class="text-warning" v-if="batch.warning == 'unknown'" data-toggle="tooltip"
+                                                                   data-placement="top" title=""
+                                                                   data-original-title="Delivery Date 没有填写/没有 ATA Job Site 且 ETA Port 也没填写">
                                                                 <span class="fa-stack fa-lg">
                                                                     <i class="fa fa-info-circle"></i>
                                                                     <i class="fa fa-plane text-gray" v-if="!batch.invoice_display"></i>
                                                                 </span>
                                                             </label>
-                                                            <label style="font-size: 12px;" v-else-if="batch.warning == 0">
+                                                            <label style="font-size: 12px;" v-else-if="batch.warning == 0" data-toggle="tooltip"
+                                                                   data-placement="top" title=""
+                                                                   data-original-title="ATA Job Site 和 Delivery Date 时间相同（当ATA Job Site不存在时，该结果为ETA Port加7天与Delivery Date相同）">
                                                                 <span class="fa-stack fa-lg">
                                                                     <i class="fa fa-check-circle-o"></i>
                                                                     <i class="fa fa-plane text-gray" v-if="!batch.invoice_display"></i>
                                                                 </span>
                                                             </label>
-                                                            <label style="font-size: 12px;" class="text-success" v-else-if="batch.warning > 0">
+                                                            <label style="font-size: 12px;" class="text-success" v-else-if="batch.warning > 0" data-toggle="tooltip"
+                                                                   data-placement="top" title=""
+                                                                   :data-original-title="'ATA Job Site 比 Delivery Date 早'+batch.warning+'天（当ATA Job Site不存在时，该结果为ETA Port加7天与Delivery Date比较后早'+batch.warning+'天）'">
                                                                 <span class="fa-stack fa-lg">
                                                                     <i class="fa fa-thumbs-o-up"></i>
                                                                     <i class="fa fa-plane text-gray" v-if="!batch.invoice_display"></i>
                                                                 </span> {{ batch.warning}} Days
                                                             </label>
-                                                            <label style="font-size: 18px;" class="text-danger" v-else-if="batch.warning < 0">
+                                                            <label style="font-size: 18px;" class="text-danger" v-else-if="batch.warning < 0" data-toggle="tooltip"
+                                                                   data-placement="top" title=""
+                                                                   :data-original-title="'ATA Job Site 比 Delivery Date 晚'+batch.warning+'天(当ATA Job Site不存在时，该结果为ETA Port加7天与Delivery Date比较后晚'+batch.warning+'天)'">
                                                                 <span class="fa-stack fa-lg">
                                                                     <i class="fa fa-thumbs-o-down"></i>
                                                                     <i class="fa fa-plane text-gray" v-if="!batch.invoice_display"></i>

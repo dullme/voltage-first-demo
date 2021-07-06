@@ -187,7 +187,9 @@ EOF
         $project = Project::with(['author:id,name', 'client.contacts', 'poClients' => function ($query) {
             $query->with(['poFactories' => function ($query) {
                 $query->with(['poFactoryFactories.factory', 'batches' => function ($query) {
-                    $query->orderBy('sequence', 'ASC');
+                    $query->with(['containers' => function($query){
+                        $query->orderBy('ata_job_site', 'DESC');
+                    }])->orderBy('sequence', 'ASC');
                 }]);
             }]);
         }])->findOrFail($id);
@@ -201,11 +203,12 @@ EOF
                     $batch['eta_color'] = getWarning($batch->eta_port, $batch->ata_port);
                     $batch['eta_job_site_color'] = getWarning($batch->eta_job_site, $batch->ata_job_site);
 
-                    if(is_null($batch->delivery_date)){
-                        $batch['warning'] = 'unknown';//表示未填写 交货日期 需要提醒
-                    }elseif (!is_null($batch->ata_job_site)){
-                        $batch['warning'] = Carbon::parse($batch->ata_job_site)->diffInDays(Carbon::parse($batch->delivery_date), false);
-                    }elseif(is_null($batch->eta_port)){
+
+                    if(is_null($batch->delivery_date)){ //如果没有 delivery_date 则会显示 【一个黄色感叹号】
+                        $batch['warning'] = 'unknown';
+                    }elseif (!is_null($batch->containers->first())){ //存在 ata job site
+                        $batch['warning'] = Carbon::parse($batch->containers->first()->ata_job_site)->diffInDays(Carbon::parse($batch->delivery_date), false);
+                    }elseif(is_null($batch->eta_port)){ //如果没有 ata job site 并且 eta port 也没有 则会显示 【一个黄色感叹号】
                         $batch['warning'] = 'unknown';
                     }else{
                         $batch['warning'] = Carbon::parse($batch->eta_port)->addDays(7)->diffInDays(Carbon::parse($batch->delivery_date), false);

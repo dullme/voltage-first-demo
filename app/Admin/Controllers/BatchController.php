@@ -57,6 +57,9 @@ class BatchController extends AdminController
                 $filter->like('b_l', 'B/L');
                 $filter->between('atd_port' ,'ATD Port')->date();
                 $filter->between('etd_port' ,'ETD Port')->date();
+                $filter->where(function ($query) {
+                    $query->where('eta_port', '>=', "{$this->input}")->where('etd_port', '!=', NULL);
+                }, 'ETA Port')->date();
 
                 $filter->where(function ($query) {
                     $forwarder_contact = ForwarderContact::where('forwarder_id', $this->input)->pluck('id');
@@ -109,8 +112,9 @@ class BatchController extends AdminController
 //        $grid->column('china_inland_forwarder', __('China inland forwarder'));
         $grid->column('b_l', __('B/L'));
         $grid->column('vessel', __('Vessel'));
-        $grid->column('etd_port', __('ETD Port'));
-        $grid->column('atd_port', __('ATD Port'));
+        $grid->column('etd_port', __('ETD Port'))->width(85);
+        $grid->column('atd_port', __('ATD Port'))->width(85);
+        $grid->column('eta_port', __('ETA Port'))->width(85);
         $grid->column('O/AF')->display(function (){
 
             return Admin::user()->language == 'cn'? optional(optional($this->oceanForwarder)->forwarder)->cn_name : optional(optional($this->oceanForwarder)->forwarder)->name;

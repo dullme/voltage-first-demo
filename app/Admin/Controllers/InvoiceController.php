@@ -76,7 +76,7 @@ class InvoiceController extends AdminController
             return "<a style='display: block' href='{$url}'>{$b_l}</a>";
         });
 
-        $grid->column('atd_port', __('Ship Date'))->width(85);
+        $grid->column('atd_port', __('Ship Date'))->width(95)->sortable();
         $grid->column('O/AF', __('Shipping Firm'))->display(function (){
 
             return Admin::user()->language == 'cn'? optional(optional($this->oceanForwarder)->forwarder)->cn_name : optional(optional($this->oceanForwarder)->forwarder)->name;
@@ -84,11 +84,11 @@ class InvoiceController extends AdminController
 
         $grid->column('invoice_no', 'NO1');
         $grid->column('invoice_no2', 'NO2');
-        $grid->column('freight_amount', __('Freight Amount(USD)'))->width(110);
-        $grid->column('tariff_amount', __('Tariff Amount(USD)'))->width(110);
+        $grid->column('freight_amount', __('Freight Amount(USD)'))->width(110)->totalRow();
+        $grid->column('tariff_amount', __('Tariff Amount(USD)'))->width(110)->totalRow();
         $grid->column('payment_date', __('Payment Date'))->display(function (){
-            return substr($this->atd_port->startOfMonth()->addMonth(3)->toDateString(), 0, 8) . '15';
-        });
+            return $this->atd_port ? substr($this->atd_port->startOfMonth()->addMonth(3)->toDateString(), 0, 8) . '15' : '';
+        })->width(85);
 
         $grid->containers( __('Containers'))->display(function ($containers) {
             $containers = collect($containers)->where('type', '!=', '')->groupBy('type');
@@ -110,7 +110,6 @@ class InvoiceController extends AdminController
         });
 
         $grid->column('invoice_remark', __('Remarks'));
-
 
         return $grid;
     }
