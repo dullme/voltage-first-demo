@@ -35,7 +35,7 @@ class ProjectController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Project());
-        $grid->model()->with('poClients.poFactories.batches')->orderByDesc('id');
+        $grid->model()->with('poClients.poFactories.batches.containers')->orderByDesc('id');
         $grid->disableExport();
 //        $grid->disableFilter();
 //        $grid->disableRowSelector();
@@ -88,8 +88,8 @@ class ProjectController extends AdminController
                 if(is_null($batch->delivery_date)){
                     $null ++;
                 }else{
-                    if(!is_null($batch->ata_job_site)){
-                        $warning = Carbon::parse($batch->ata_job_site)->diffInDays(Carbon::parse($batch->delivery_date), false);
+                    if(!is_null($batch->containers->first())){
+                        $warning = Carbon::parse($batch->containers->first()->ata_job_site)->diffInDays(Carbon::parse($batch->delivery_date), false);
                         if($warning == 0){
                             $equal ++;
                         }else if($warning > 0){
