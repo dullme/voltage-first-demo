@@ -88,8 +88,8 @@ class ProjectController extends AdminController
                 if(is_null($batch->delivery_date)){
                     $null ++;
                 }else{
-                    if(!is_null($batch->containers->first())){
-                        $warning = Carbon::parse($batch->containers->first()->ata_job_site)->diffInDays(Carbon::parse($batch->delivery_date), false);
+                    if(!is_null($batch->containers->where('ata_job_site', '!=', NULL)->first())){
+                        $warning = Carbon::parse($batch->containers->where('ata_job_site', '!=', NULL)->first()->ata_job_site)->diffInDays(Carbon::parse($batch->delivery_date), false);
                         if($warning == 0){
                             $equal ++;
                         }else if($warning > 0){
@@ -202,12 +202,10 @@ EOF
                     $batch['etd_color'] = getWarning($batch->etd_port, $batch->atd_port);
                     $batch['eta_color'] = getWarning($batch->eta_port, $batch->ata_port);
                     $batch['eta_job_site_color'] = getWarning($batch->eta_job_site, $batch->ata_job_site);
-
-
                     if(is_null($batch->delivery_date)){ //如果没有 delivery_date 则会显示 【一个黄色感叹号】
                         $batch['warning'] = 'unknown';
-                    }elseif (!is_null($batch->containers->first())){ //存在 ata job site
-                        $batch['warning'] = Carbon::parse($batch->containers->first()->ata_job_site)->diffInDays(Carbon::parse($batch->delivery_date), false);
+                    }elseif (!is_null($batch->containers->where('ata_job_site', '!=', NULL)->first())){ //存在 ata job site
+                        $batch['warning'] = Carbon::parse($batch->containers->where('ata_job_site', '!=', NULL)->first()->ata_job_site)->diffInDays(Carbon::parse($batch->delivery_date), false);
                     }elseif(is_null($batch->eta_port)){ //如果没有 ata job site 并且 eta port 也没有 则会显示 【一个黄色感叹号】
                         $batch['warning'] = 'unknown';
                     }else{
