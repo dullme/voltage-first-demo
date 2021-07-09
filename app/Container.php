@@ -12,6 +12,8 @@ class Container extends Model
         'batch_id',
         'no',
         'type',
+        'u_s_carriers_id',
+        'amount',
         'remarks',
         'eta_job_site',
         'eta_job_site_history',
@@ -45,5 +47,10 @@ class Container extends Model
     public function batch()
     {
         return $this->belongsTo(Batch::class);
+    }
+
+    public function uSCarriers()
+    {
+        return $this->belongsTo(USCarriers::class);
     }
 }

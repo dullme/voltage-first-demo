@@ -123,6 +123,8 @@
                                             <th style="min-width: 200px">ETA Job Site</th>
                                             <th style="min-width: 200px">ATA Job Site</th>
                                             <th>Link</th>
+                                            <th>Amount</th>
+                                            <th>US Carriers</th>
                                             <th>Remarks</th>
                                             <th>Action</th>
                                         </tr>
@@ -191,6 +193,8 @@
                                                         @endforeach
                                                     @endif
                                                 </td>
+                                                <td>{{ $container->amount }}</td>
+                                                <td>{{ optional($container->uSCarriers)->name }}</td>
                                                 <td>{{ $container->remarks }}</td>
                                                 <td>
                                                     <div class="grid-dropdown-actions dropdown">
@@ -261,6 +265,25 @@
                                         <option value="40HQ">40HQ</option>
                                     </select>
                                 </div>
+                            </div>
+
+                            <div class="form-group ">
+                                <label class="">US Carrier</label>
+                                <div class="input-group">
+                                                    <span class="input-group-addon"><i
+                                                            class="fa fa-pencil fa-fw"></i></span>
+                                    <select class="form-control" id="u_s_carriers_id">
+                                        <option value="">Please choose</option>
+                                        @foreach($us_carriers as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group ">
+                                <label class="">Amount</label>
+                                <input class="form-control" id="amount"/>
                             </div>
 
                             <div class="form-group ">
@@ -413,6 +436,25 @@
                                         <option value="40HQ">40HQ</option>
                                     </select>
                                 </div>
+                            </div>
+
+                            <div class="form-group ">
+                                <label class="">US Carrier</label>
+                                <div class="input-group">
+                                                    <span class="input-group-addon"><i
+                                                            class="fa fa-pencil fa-fw"></i></span>
+                                    <select class="form-control" id="edit_u_s_carriers_id">
+                                        <option value="">Please choose</option>
+                                        @foreach($us_carriers as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group ">
+                                <label class="">Amount</label>
+                                <input class="form-control" id="edit_amount"/>
                             </div>
 
                             <div class="form-group ">
@@ -594,6 +636,8 @@
                     'batch_id': '{{ $batch->id }}',
                     'no': $('#no').val(),
                     'type': $('#type').val(),
+                    'amount': $('#amount').val(),
+                    'u_s_carriers_id': $('#u_s_carriers_id').val(),
                     'remarks': $('#remarks').val(),
                     'eta_job_site': $('#eta_job_site').val(),
                     'ata_job_site': $('#ata_job_site').val(),
@@ -664,6 +708,8 @@
                 $("#edit_no").val(response.data.data.no)
                 $("#edit_type").val(response.data.data.type)
                 $("#edit_remarks").val(response.data.data.remarks)
+                $("#edit_u_s_carriers_id").val(response.data.data.u_s_carriers_id)
+                $("#edit_amount").val(response.data.data.amount)
 
                 @if($batch->eta_port)
                 $('#edit_eta_job_site').datetimepicker({
@@ -708,6 +754,8 @@
                 data: {
                     'no': $("#edit_no").val(),
                     'type': $("#edit_type").val(),
+                    'amount': $('#edit_amount').val(),
+                    'u_s_carriers_id': $('#edit_u_s_carriers_id').val(),
                     'remarks': $("#edit_remarks").val(),
                     'eta_job_site': $("#edit_eta_job_site").val(),
                     'ata_job_site': $("#edit_ata_job_site").val(),

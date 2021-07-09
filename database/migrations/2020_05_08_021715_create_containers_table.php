@@ -16,6 +16,8 @@ class CreateContainersTable extends Migration
         Schema::create('containers', function (Blueprint $table) {
             $table->id();
             $table->integer('batch_id')->unsigned();
+            $table->integer('u_s_carriers_id')->unsigned()->nullable();
+            $table->decimal('amount')->nullable();
             $table->string('no');
             $table->string('type')->nullable();
             $table->timestamp('eta_job_site')->nullable()->comment('预计到项目点时间');

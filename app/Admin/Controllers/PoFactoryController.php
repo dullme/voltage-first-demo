@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 
 use App\Container;
 use App\Project;
+use App\USCarriers;
 use Carbon\Carbon;
 use DB;
 use App\Batch;
@@ -271,7 +272,7 @@ class PoFactoryController extends ResponseController
 
     public function showBatch($id, Content $content)
     {
-        $batch = Batch::with('poFactory.poClient.project.author', 'containers', 'oceanForwarder.forwarder', 'inlandForwarder.forwarder', 'chinaInlandForwarder.forwarder')->findOrFail($id);
+        $batch = Batch::with('poFactory.poClient.project.author', 'containers.uSCarriers', 'oceanForwarder.forwarder', 'inlandForwarder.forwarder', 'chinaInlandForwarder.forwarder')->findOrFail($id);
 
         $url = url('/admin/projects/' . $batch->poFactory->poClient->project->id);
         $text = "<a href='{$url}' >{$batch->poFactory->poClient->project->name}</a>";
@@ -291,10 +292,12 @@ class PoFactoryController extends ResponseController
 
         $batch->setAttribute('containers', $containers);
 
+        $us_carriers = USCarriers::all();
+
         return $content
             ->title($text)
             ->description(getSequence($batch->sequence) . ' : ' . $batch->name)
-            ->row(view('admin.batch.show', compact('batch')));
+            ->row(view('admin.batch.show', compact('batch', 'us_carriers')));
     }
 
     public function editBatch(Request $request, $id)
@@ -436,12 +439,14 @@ class PoFactoryController extends ResponseController
     public function addContainer(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'batch_id'     => 'required|integer',
-            'no'           => 'required',
-            'type'         => 'nullable',
-            'remarks'      => 'nullable',
-            'eta_job_site' => 'nullable|date',
-            'ata_job_site' => 'nullable|date',
+            'batch_id'        => 'required|integer',
+            'no'              => 'required',
+            'type'            => 'nullable',
+            'u_s_carriers_id' => 'nullable|integer',
+            'amount'          => 'nullable',
+            'remarks'         => 'nullable',
+            'eta_job_site'    => 'nullable|date',
+            'ata_job_site'    => 'nullable|date',
         ], [
             'no.required' => 'The No. field is required.',
         ]);
@@ -531,11 +536,13 @@ class PoFactoryController extends ResponseController
     public function editContainer(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'no'           => 'required',
-            'type'         => 'nullable',
-            'remarks'      => 'nullable',
-            'eta_job_site' => 'nullable|date',
-            'ata_job_site' => 'nullable|date',
+            'no'              => 'required',
+            'type'            => 'nullable',
+            'u_s_carriers_id' => 'nullable|integer',
+            'amount'          => 'nullable',
+            'remarks'         => 'nullable',
+            'eta_job_site'    => 'nullable|date',
+            'ata_job_site'    => 'nullable|date',
         ], [
             'no.required' => 'The No. field is required.',
         ]);

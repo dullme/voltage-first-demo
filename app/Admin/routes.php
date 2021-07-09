@@ -77,6 +77,7 @@ Route::group([
     $router->resource('invoice', InvoiceController::class);
     $router->get('batches-export', 'BatchController@export');
     $router->resource('transports', TransportController::class);
+    $router->resource('u-s-carriers', USCarriersController::class);
 
     $router->get('download', 'HomeController@download');
 });
